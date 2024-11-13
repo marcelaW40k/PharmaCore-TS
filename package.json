@@ -1,0 +1,19 @@
+{
+  "name": "pharmacore-ts",
+  "version": "1.0.0",
+  "description": "PharmaCore es una aplicación robusta diseñada para gestionar eficientemente recetas médicas, perfiles de pacientes, inventario de medicamentos y ventas, asegurando la integridad y la seguridad de los datos de salud.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -e ts,json --exec 'ts-node index.ts' ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}

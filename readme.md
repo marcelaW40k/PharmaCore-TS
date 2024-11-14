@@ -6,11 +6,11 @@ PharmaCore es una aplicación robusta diseñada para gestionar eficientemente re
 
 1. Diagrama UML
 
-![Texto alternativo](./imagenes/Diagrama_UML.jpeg)
+![Texto alternativo](./images/Diagrama_UML.jpg)
 
 2. Diagrama Entidad Relacion
 
-![Texto alternativo](./imagenes/Diagrama_Entidad_Relacion.png)
+![Texto alternativo](./images/Diagrama_Entidad_Relacion.jpeg)
 
 3. Creacion de bases de datos (mysql o postgresql)
 ```sql

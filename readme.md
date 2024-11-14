@@ -18,93 +18,123 @@ CREATE DATABASE `quickpharma`;
 
 -- quickpharma.medicamentos definition
 
-CREATE TABLE `medicamentos` (
-  `id_medicamento` int NOT NULL,
-  `nombre_medicamento` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
-  `froma` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
-  `prescripcion` binary(1) NOT NULL,
-  `cantidad_stock` int NOT NULL,
-  `costo_unidad` int NOT NULL,
-  PRIMARY KEY (`id_medicamento`)
-) 
+-- quickpharma.doctors definition
 
--- quickpharma.medicos definition
+CREATE TABLE `doctors` (
+  `id_doctor` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_persian_ci NOT NULL,
+  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_persian_ci NOT NULL,
+  PRIMARY KEY (`id_doctor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
-CREATE TABLE `medicos` (
-  `id_medico` int NOT NULL,
-  `nombre_medico` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
-  `apellido_medico` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
-  PRIMARY KEY (`id_medico`)
-) 
 
--- quickpharma.pacientes definition
+-- quickpharma.medicines definition
 
-CREATE TABLE `pacientes` (
-  `id_paciente` int NOT NULL,
-  `nombre` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
-  `apellido` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
-  `fecha_nacimiento` datetime NOT NULL,
-  `alergias_conocidas` varchar(200) COLLATE utf8mb4_persian_ci NOT NULL,
-  `numero_seguro` int DEFAULT NULL,
-  PRIMARY KEY (`id_paciente`)
-)
+CREATE TABLE `medicines` (
+  `id_medicine` int NOT NULL AUTO_INCREMENT,
+  `name_medicine` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_persian_ci NOT NULL,
+  `form` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_persian_ci NOT NULL,
+  `prescription` binary(1) NOT NULL,
+  `quantity_stock` int NOT NULL,
+  `unit_cost` int NOT NULL,
+  PRIMARY KEY (`id_medicine`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
--- quickpharma.recetas definition
 
-CREATE TABLE `recetas` (
-  `id_recetas` int NOT NULL,
-  `id_paciente` int NOT NULL,
-  `id_medico` int NOT NULL,
-  `fecha_emision` datetime NOT NULL,
-  PRIMARY KEY (`id_recetas`),
-  KEY `recetas_pacientes_FK` (`id_paciente`),
-  KEY `recetas_medicos_FK` (`id_medico`),
-  CONSTRAINT `recetas_medicos_FK` FOREIGN KEY (`id_medico`) REFERENCES `medicos` (`id_medico`),
-  CONSTRAINT `recetas_pacientes_FK` FOREIGN KEY (`id_paciente`) REFERENCES `pacientes` (`id_paciente`)
-) 
+-- quickpharma.patients definition
 
--- quickpharma.ventas definition
+CREATE TABLE `patients` (
+  `id_patient` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_persian_ci NOT NULL,
+  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_persian_ci NOT NULL,
+  `birth_date` datetime NOT NULL,
+  `known_allergies` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_persian_ci NOT NULL,
+  `insurance_number` int DEFAULT NULL,
+  PRIMARY KEY (`id_patient`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
-CREATE TABLE `ventas` (
-  `id_ventas` int NOT NULL,
-  `id_pacientes` int NOT NULL,
-  `fecha_hora` date NOT NULL,
-  `costo_total_venta` double NOT NULL,
-  PRIMARY KEY (`id_ventas`),
-  KEY `ventas_pacientes_FK` (`id_pacientes`),
-  CONSTRAINT `ventas_pacientes_FK` FOREIGN KEY (`id_pacientes`) REFERENCES `pacientes` (`id_paciente`)
-)
 
--- quickpharma.detalle_receta definition
+-- quickpharma.roles definition
 
-CREATE TABLE `detalle_receta` (
-  `id_detalle_receta` int NOT NULL AUTO_INCREMENT,
-  `id_receta` int NOT NULL,
-  `id_medicamento` int NOT NULL,
-  `cantidad` int NOT NULL,
-  `instrucciones_uso` varchar(300) COLLATE utf8mb4_persian_ci NOT NULL,
-  PRIMARY KEY (`id_detalle_receta`),
-  KEY `detalle_receta_recetas_FK` (`id_receta`),
-  KEY `detalle_receta_medicamentos_FK` (`id_medicamento`),
-  CONSTRAINT `detalle_receta_medicamentos_FK` FOREIGN KEY (`id_medicamento`) REFERENCES `medicamentos` (`id_medicamento`),
-  CONSTRAINT `detalle_receta_recetas_FK` FOREIGN KEY (`id_receta`) REFERENCES `recetas` (`id_recetas`)
-) 
+CREATE TABLE `roles` (
+  `id_role` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
+  `description` varchar(200) COLLATE utf8mb4_persian_ci DEFAULT NULL,
+  PRIMARY KEY (`id_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
--- quickpharma.detalle_venta definition
 
-CREATE TABLE `detalle_venta` (
-  `id_detalle_venta` int NOT NULL AUTO_INCREMENT,
-  `id_venta` int NOT NULL,
-  `id_medicamento` int NOT NULL,
-  `cantidad` int NOT NULL,
-  `costo_total_medicamento` double NOT NULL,
-  PRIMARY KEY (`id_detalle_venta`),
-  KEY `detalle_venta_ventas_FK` (`id_venta`),
-  KEY `detalle_venta_medicamentos_FK` (`id_medicamento`),
-  CONSTRAINT `detalle_venta_medicamentos_FK` FOREIGN KEY (`id_medicamento`) REFERENCES `medicamentos` (`id_medicamento`),
-  CONSTRAINT `detalle_venta_ventas_FK` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id_ventas`)
-) 
+-- quickpharma.prescriptions definition
 
+CREATE TABLE `prescriptions` (
+  `id_prescription` int NOT NULL AUTO_INCREMENT,
+  `id_patient` int NOT NULL,
+  `id_doctor` int NOT NULL,
+  `issue_date` datetime NOT NULL,
+  PRIMARY KEY (`id_prescription`),
+  KEY `recetas_pacientes_FK` (`id_patient`),
+  KEY `recetas_medicos_FK` (`id_doctor`),
+  CONSTRAINT `recetas_medicos_FK` FOREIGN KEY (`id_doctor`) REFERENCES `doctors` (`id_doctor`),
+  CONSTRAINT `recetas_pacientes_FK` FOREIGN KEY (`id_patient`) REFERENCES `patients` (`id_patient`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+
+-- quickpharma.sales definition
+
+CREATE TABLE `sales` (
+  `id_sale` int NOT NULL AUTO_INCREMENT,
+  `id_patient` int NOT NULL,
+  `date_time` date NOT NULL,
+  `sale_total_cost` double NOT NULL,
+  PRIMARY KEY (`id_sale`),
+  KEY `ventas_pacientes_FK` (`id_patient`),
+  CONSTRAINT `ventas_pacientes_FK` FOREIGN KEY (`id_patient`) REFERENCES `patients` (`id_patient`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+
+-- quickpharma.users definition
+
+CREATE TABLE `users` (
+  `id_user` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8mb4_persian_ci NOT NULL,
+  `id_role` int NOT NULL,
+  PRIMARY KEY (`id_user`),
+  KEY `users_roles_FK` (`id_role`),
+  CONSTRAINT `users_roles_FK` FOREIGN KEY (`id_role`) REFERENCES `roles` (`id_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+
+-- quickpharma.item_prescriptions definition
+
+CREATE TABLE `item_prescriptions` (
+  `id_item` int NOT NULL AUTO_INCREMENT,
+  `id_prescription` int NOT NULL,
+  `id_medicine` int NOT NULL,
+  `quantity` int NOT NULL,
+  `usage_instructions` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_persian_ci NOT NULL,
+  PRIMARY KEY (`id_item`),
+  KEY `item_prescriptions_prescriptions_FK` (`id_prescription`),
+  KEY `item_prescriptions_medicines_FK` (`id_medicine`),
+  CONSTRAINT `item_prescriptions_medicines_FK` FOREIGN KEY (`id_medicine`) REFERENCES `medicines` (`id_medicine`),
+  CONSTRAINT `item_prescriptions_prescriptions_FK` FOREIGN KEY (`id_prescription`) REFERENCES `prescriptions` (`id_prescription`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+
+-- quickpharma.item_sales definition
+
+CREATE TABLE `item_sales` (
+  `id_item` int NOT NULL AUTO_INCREMENT,
+  `id_sale` int NOT NULL,
+  `id_medicine` int NOT NULL,
+  `quantity` int NOT NULL,
+  `total_cost_item` double NOT NULL,
+  PRIMARY KEY (`id_item`),
+  KEY `item_sales_sales_FK` (`id_sale`),
+  KEY `item_sales_medicines_FK` (`id_medicine`),
+  CONSTRAINT `item_sales_medicines_FK` FOREIGN KEY (`id_medicine`) REFERENCES `medicines` (`id_medicine`),
+  CONSTRAINT `item_sales_sales_FK` FOREIGN KEY (`id_sale`) REFERENCES `sales` (`id_sale`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 ```
 4. Bases de datos desplegada en render.com 
 

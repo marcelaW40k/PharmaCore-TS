@@ -6,7 +6,7 @@ import { getPoolConnection } from "../../../infrastructure/repositories/config/d
 export class UserRepository implements Imanageable<user> {
   async create(user: user): Promise<ResultSetHeader> {
     const connection = getPoolConnection();
-    const querySql: string = `insert  into users (idUser,name,description) values (?,?,?)`;
+    const querySql: string = `insert  into users (idUser,email,password) values (?,?,?)`;
     const values: Array<string | number> = [
       user.idUser,
       user.name,
@@ -29,7 +29,7 @@ export class UserRepository implements Imanageable<user> {
 
   async searcheById(id: number): Promise<RowDataPacket[]> {
     const connection = getPoolConnection();
-    const querySql = `select  * from users where id = ?`;
+    const querySql = `SELECT   * FROM users where id = ?`;
     const values = [id];
     const queryResult = await connection.query<RowDataPacket[]>(
       querySql,

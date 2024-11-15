@@ -21,7 +21,7 @@ export class PatientController {
             };
             const result = await this.patientRepository.create(patient);
             if (result.affectedRows == 1) {
-                console.log(`Paciente agregado con el id: ${result.insertId}`);
+                console.log(`EL paciente ${patient.name} fue agregado con el id: ${result.insertId}`);
             } else {
                 console.log("El paciente no se agregó");
             }
@@ -37,7 +37,7 @@ export class PatientController {
             const result = await this.patientRepository.read();
             
             if (result && result.length > 0) {
-                console.log(`Se encontraron ${result.length} pacientes.`);
+                console.log(`Se encontraron ${result.length} pacientes: `, result);
             } else {
                 console.log("No se encontraron pacientes.");
             }
@@ -47,20 +47,57 @@ export class PatientController {
             return error;
         }
     }
+
+    async searchById(id_patient: number): Promise<any> {
+        try {
+            const result = await this.patientRepository.searcheById(id_patient);
+            if (result) {
+                console.log('Paciente encontrado:', result);
+            } else {
+                console.log("No se encontró el paciente.");
+            }
+            return result;
+        } catch (error: any) {
+            console.log("Ha ocurrido un error al buscar el paciente por ID.", error?.message);
+            throw new Error(error.message);
+        }
+    }
     
-
-    async searcheById(id: number): Promise<any> {
-        return await this.patientRepository.searcheById(id);
-    }
-
     async update(patient: Patient): Promise<any> {
-        return await this.patientRepository.update(patient);
+        try {
+            const updatedPatient = {
+                id_patient: patient.id_patient,
+                name: patient.name,
+                last_name: patient.last_name,
+                birth_date: patient.birth_date,
+                known_allergies: patient.known_allergies,
+                insurance_number: patient.insurance_number
+            };
+            const result = await this.patientRepository.update(updatedPatient);
+            if (result.affectedRows == 1) {
+                console.log(`Paciente actualizado con éxito: ${updatedPatient.id_patient}`);
+            } else {
+                console.log("No se pudo actualizar el paciente.");
+            }
+            return result;
+        } catch (error: any) {
+            console.log("Ha ocurrido un error al actualizar el paciente.");
+            throw new Error(error?.message);
+        }
     }
 
-    async delete(id: number): Promise<any> {
-        return await this.patientRepository.delete(id);
-
+    async delete(id_patient: number): Promise<any> {
+        try {
+            const result = await this.patientRepository.delete(id_patient);
+            if (result.affectedRows == 1) {
+                console.log(`Paciente eliminado con éxito: ${id_patient}`);
+            } else {
+                console.log("No se pudo eliminar el paciente.");
+            }
+            return result;
+        } catch (error: any) {
+            console.log("Ha ocurrido un error al eliminar el paciente.");
+            throw new Error(error?.message);
+        }
     }
-
-
 }

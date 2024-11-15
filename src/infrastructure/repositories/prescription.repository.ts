@@ -41,7 +41,7 @@ export class PrescriptionRepository implements Imanageable<Prescription> {
         return result[0];
     }
 
-    async detete(id: any): Promise<ResultSetHeader> {
+    async delete(id: number): Promise<ResultSetHeader> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `DELETE FROM prescriptions WHERE id_prescription = ?`;
         const values = [id];
@@ -49,7 +49,7 @@ export class PrescriptionRepository implements Imanageable<Prescription> {
         return result[0];
     }
 
-    async searcheById(id: any): Promise<RowDataPacket[]> {
+    async searcheById(id: number): Promise<RowDataPacket[]> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `SELECT * FROM prescriptions WHERE id_prescription = ?`;
         const values = [id];

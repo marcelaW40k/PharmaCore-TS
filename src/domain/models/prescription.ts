@@ -1,11 +1,11 @@
 export class Prescription {
-    id_prescription?: number;
+    id_prescription?: number | null;
     id_patient: number;
     id_doctor: number;
     issue_date: Date;   
 
     constructor(infoPrescription: {
-        id_prescription?: number,
+        id_prescription?: number | null,
         id_patient: number,
         id_doctor: number,
         issue_date: Date

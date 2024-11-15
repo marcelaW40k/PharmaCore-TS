@@ -3,7 +3,7 @@ export class SaleItem {
     id_sale: number;
     id_medicine: number;
     quantity: number;
-    total_cost_item: number;
+    item_total_cost: number;
 
 
     constructor(infoSaleItem:
@@ -13,12 +13,12 @@ export class SaleItem {
             id_sale: number;
             id_medicine: number;
             quantity: number;
-            total_cost_item: number;
+            item_total_cost: number;
         }) {
         this.id_item = infoSaleItem.id_item;
         this.id_sale = infoSaleItem.id_sale;
         this.id_medicine = infoSaleItem.id_medicine;
         this.quantity = infoSaleItem.quantity;
-        this.total_cost_item = infoSaleItem.total_cost_item;
+        this.item_total_cost = infoSaleItem.item_total_cost;
     }
 }

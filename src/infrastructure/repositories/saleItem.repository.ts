@@ -1,27 +1,27 @@
-import { Sale } from "../../domain/models/sale";
+import { SaleItem } from "../../domain/models/saleItem";
 import { FieldPacket, Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { Imanageable } from "../../domain/models/Imanager/interface";
 import { getPoolConnection } from "./config/data.source";
 
-export class SaleRepository implements Imanageable<any> {
-    async create(body: Sale): Promise<any> {
+export class SaleItemRepository implements Imanageable<any> {
+    async create(body: SaleItem): Promise<any> {
         const connection: Pool = getPoolConnection();
-        const querySale = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?,?)';
-        const values: Array<string | number | Date> = [body.id_patient, body.date_time, body.sale_total_cost];
+        const querySale = 'INSERT INTO item_sales (id_sale, id_medicine, quantity, total_cost_item) VALUES (?,?,?,?)';
+        const values: Array<string | number | Date> = [body.id_sale, body.id_medicine, body.quantity, body.item_total_cost];
         const Result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySale, values);
         return Result[0];
     }
 
     async read(): Promise<any> {
         const connection = getPoolConnection();
-        const querySql = `SELECT * FROM sales`;
+        const querySql = `SELECT * FROM item_sales`;
         const result = await connection.query<RowDataPacket[]>(querySql);
         return result[0];
     }
 
     async searcheById(id: number): Promise<any> {
         const connection = getPoolConnection();
-        const querySql = `SELECT * FROM sales WHERE id_sale =?`;
+        const querySql = `SELECT * FROM item_sales WHERE id_item = ?`;
         const values = [id]
         const result = await connection.query<RowDataPacket[]>(querySql, values);
         return result[0];
@@ -30,7 +30,7 @@ export class SaleRepository implements Imanageable<any> {
 
     async delete(id: number): Promise<any> {
         const connection = getPoolConnection();
-        const querySql = `DELETE FROM sales WHERE id_sale =?`;
+        const querySql = `DELETE FROM item_sales WHERE id_item =?`;
         const values = [id]
         const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
         return result[0];
@@ -38,14 +38,14 @@ export class SaleRepository implements Imanageable<any> {
     }
 
 
-    async update(body: Sale): Promise<any> {
+    async update(body: SaleItem): Promise<any> {
         const connection = getPoolConnection();
-        const querySql = `UPDATE sales SET id_patient= ?, date_time = ?, sale_total_cost = ? WHERE id_sale = ?`;
+        const querySql = `UPDATE item_sales SET id_sale= ?, id_medicine = ?, quantity = ?, item_total_cost =?, WHERE id_item = ?`;
         const values = [
-            body.id_patient,
-            body.date_time,
-            body.sale_total_cost,
             body.id_sale,
+            body.id_medicine,
+            body.quantity,
+            body.item_total_cost,
         ];
         const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
         return result[0];

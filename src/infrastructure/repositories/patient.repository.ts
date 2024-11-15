@@ -1,68 +1,65 @@
-import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 import { Imanageable } from "../../domain/models/Imanager/interface";
 import { Patient } from "../../domain/models/patient";
 import { getPoolConnection } from "./config/data.source";
+import { Pool } from "mysql2/typings/mysql/lib/Pool";
+
 
 
 export class PatientRepository implements Imanageable<Patient> {
-    async create(body: Patient): Promise<ResultSetHeader> {
-         const sql = `INSERT INTO patients (name, last_name, birth_date, known_allergies, insurance_number) VALUES (?, ?, ?, ?, ?)`; 
-         const values = [body.name, body.last_name, body.birth_date, body.known_allergies, body.insurance_number];
-          try { 
-            const [result] = await getPoolConnection().query(sql, values) as [ResultSetHeader, any]; 
-            return result; 
-        } catch (error: any) {
-             throw new Error(error); } 
-        }
-        
-    read(): Promise<RowDataPacket[]> {
-        throw new Error("Method not implemented.");
+
+
+  async create(patient: Patient): Promise<any> {
+    const connection = getPoolConnection();
+    const sql = `INSERT INTO patients (name, last_name, birth_date, known_allergies, insurance_number) VALUES (?, ?, ?, ?, ?)`;
+    // porque el uso del tipo de Date es necesario
+    const values: Array<string | number | Date> = [
+      patient.name,
+      patient.last_name,
+      patient.birth_date,
+      patient.known_allergies,
+      patient.insurance_number,
+    ];
+    const result: [ResultSetHeader, FieldPacket[]] = await connection.query(sql, values);
+    return result[0];
+  }
+
+  async read(): Promise<any> {
+      const connection = getPoolConnection();
+      const sql = `SELECT * FROM patients`;
+      const result = await connection.query(sql);
+      return result[0];
     }
-    searcheById(id: number): Array<any> {
-        throw new Error("Method not implemented.");
+
+    async searcheById(id: number): Promise<any> {
+        const connection = getPoolConnection();
+        const sql = `SELECT * FROM patients WHERE id_patient = ?`;
+        const values = [id];
+        const result = await connection.query(sql, values);
+        return result[0];
     }
-    delet(id: any): Promise<ResultSetHeader> {
-        throw new Error("Method not implemented.");
+
+    async update(patient: Patient): Promise<any> {
+      const connection = getPoolConnection();
+      const sql = `UPDATE patients SET name = ?, last_name = ?, birth_date = ?, known_allergies = ?, insurance_number = ? WHERE id_patient = ?`;
+      const values = [
+        patient.name,
+        patient.last_name,
+        patient.birth_date,
+        patient.known_allergies,
+        patient.insurance_number,
+        patient.id_patient,
+      ];
+      const result = await connection.query(sql, values);
+      return result[0];
     }
-    update(body: Patient): Promise<ResultSetHeader> {
-        throw new Error("Method not implemented.");
-    }
+
+  async delete(id: number): Promise<any> {
+    const connection = getPoolConnection();
+    const sql = `DELETE FROM patients WHERE id_patient = ?`;
+    const values = [id];
+    const result: [ResultSetHeader, FieldPacket[]] = await connection.query(sql, values);
+    return result[0];
+  }
+
 }
-    
-   /* private poolConnection: any;
-    constructor() {
-        this.poolConnection = getPoolConnection();
-    }
-
-    async create(patient: Patient): Promise<Patient> {
-        const sql = `INSERT INTO patients (name, last_name, birth_date, known_allergies, insurance_number) VALUES (?, ?, ?, ?, ?)`;
-        const values = [patient.name, patient.last_name, patient.birth_date, patient.known_allergies, patient.insurance_number];
-        try {
-            const result = await this.poolConnection.query(sql, values);
-            return result;
-        } catch (error: any) {
-            throw new Error(error);
-        }
-    }
-
-    async read(): Promise<Patient[]> {
-        const sql = `SELECT * FROM patients`;
-        try {
-            const result = await this.poolConnection.query(sql);
-            return result;
-        } catch (error: any) {
-            throw new Error(error);
-        }
-    }
-
-    async update(patient: Patient): Promise<Patient> {
-        const sql = `UPDATE patients SET name = ?, last_name = ?, birth_date = ?, known_allergies = ?, insurance_number = ? WHERE id_patient = ?`;
-        const values = [patient.name, patient.last_name, patient.birth_date, patient.known_allergies, patient.insurance_number, patient.id_patient];
-        try {
-            const result = await this.poolConnection.query(sql, values);
-            return result;
-        } catch (error: any) {
-            throw new Error(error);
-        }
-    }
-} */

@@ -5,7 +5,7 @@ import { Imanageable } from "../../domain/models/Imanager/interface";
 import { getPoolConnection } from "./config/data.source";
 
 export class SaleRepository implements Imanageable<Sale> {
-    async create(body: Sale): Promise<ResultSetHeader> {
+    async create(body: Sale): Promise<Sale> {
         const connection: Pool = getPoolConnection();
         const querySale = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?,?)';
         const values: Array<string | number | Date> = [body.id_patient, body.date_time, body.sale_total_cost];

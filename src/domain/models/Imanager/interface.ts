@@ -1,11 +1,10 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
-
 export interface Imanageable<T> {
-    create(body: T): Promise<any>;
-    read(): Promise<any>;
-    searcheById(id: number): Promise<any>;
-    delete(id: number): Promise<any>;
-    update(body: T): Promise<any>;
+    create(body: T): Promise<T[]>;
+    read(): Promise<T[]>;
+    searcheById(id: number): Promise<T[]>;
+    delete(id: number): Promise<T[]>;
+    update(body: T): Promise<T[]>;
 }
 
 

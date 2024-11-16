@@ -1,8 +1,9 @@
+
 {
-    "HOST": "localhost",
-    "PORT": 3306,
-    "USER": "root",
-    "DB_TYPE":"mysql",
-    "PASSWORD": "1820", 
-    "DATABASE": "quickPharma"
-  }
+  "HOST": "autorack.proxy.rlwy.net",
+  "PORT": 43649,
+  "USER": "root",
+  "DB_TYPE":"mysql",
+  "PASSWORD": "SbpJEbXHerebmsLCHUWiqfYpZWdJnuSj", 
+  "DATABASE": "PharmaCore"
+}

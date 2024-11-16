@@ -1,18 +1,21 @@
-export class user {
-    idUser :  number;
-    name:  string;
-    description : string;
+export class User {
+  idUser: number;
+  email: string;
+  password: string;
+  idRole: number;
 
-    /**
-     *
-     */
-    constructor(infoUser:{
-        idUser :  number;
-        name:  string;
-        description : string;
-    }) {
-        this.idUser = infoUser.idUser
-        this.name = infoUser.name
-        this.description = infoUser.description    
-    }
+  /**
+   *
+   */
+  constructor(infoUser: {
+    idUser: number;
+    email: string;
+    password: string;
+    idRole: number;
+  }) {
+    this.idUser = infoUser.idUser;
+    this.email = infoUser.email;
+    this.password= infoUser.password;
+    this.idRole = infoUser.idRole
+  }
 }

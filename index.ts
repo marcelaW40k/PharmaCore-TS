@@ -17,7 +17,7 @@ const main = () => {
       res.send({ message: "Bienvenido a la API " });
     });
 
-    app.use(routes())
+    app.use("/api/v1/",routes())
 
     const PORT = process.env.PORT || 3000
     app.listen(PORT, () => {

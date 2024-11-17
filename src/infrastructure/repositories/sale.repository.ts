@@ -1,7 +1,7 @@
 import { Sale } from "../../domain/models/sale";
 import { FieldPacket, Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import { Imanageable } from "../../domain/models/Imanager/interface";
 import { getPoolConnection } from "./config/data.source";
+import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 
 export class SaleRepository implements Imanageable<any> {
     async create(body: Sale): Promise<any> {

@@ -1,9 +1,9 @@
 import { SaleItem } from "../../domain/models/saleItem";
 import { FieldPacket, Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import { Imanageable } from "../../domain/models/Imanager/interface";
 import { getPoolConnection } from "./config/data.source";
+import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 
-export class SaleItemRepository implements Imanageable<any> {
+export class SaleItemRepository implements Imanageable<SaleItem> {
     async create(body: SaleItem): Promise<any> {
         const connection: Pool = getPoolConnection();
         const querySale = 'INSERT INTO item_sales (id_sale, id_medicine, quantity, total_cost_item) VALUES (?,?,?,?)';
@@ -28,7 +28,7 @@ export class SaleItemRepository implements Imanageable<any> {
     }
 
 
-    async delete(id: number): Promise<any> {
+    async remove(id: number): Promise<any> {
         const connection = getPoolConnection();
         const querySql = `DELETE FROM item_sales WHERE id_item =?`;
         const values = [id]

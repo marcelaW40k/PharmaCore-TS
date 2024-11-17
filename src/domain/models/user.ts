@@ -1,5 +1,5 @@
 export class User {
-  idUser: number;
+  idUser?: number | null;
   email: string;
   password: string;
   idRole: number;
@@ -8,7 +8,7 @@ export class User {
    *
    */
   constructor(infoUser: {
-    idUser: number;
+    idUser?: number|null;
     email: string;
     password: string;
     idRole: number;

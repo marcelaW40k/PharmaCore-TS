@@ -2,25 +2,25 @@
 import { Imanageable } from "../../../domain/models/Imanager/Imanageable";
 import { User } from "../../../domain/models/user";
 import { getPoolConnection } from "../../../infrastructure/repositories/config/data.source";
+import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 
 export class UserRepository implements Imanageable<User> {
 
-  // async create(user: User): Promise<any> {
-  //   const connection = getPoolConnection();
-  //   const querySql: string = `INSERT  INTO users (idUser,email,password,idRole) values (?,?,?,?)`;
-  //   const values: Array<string | number> = [
-  //     user.idUser,
-  //     user.email,
-  //     user.password,
-  //     user.idRole
-  //   ];
-  //   const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
-  //     querySql,
-  //     values
-  //   );
-
-  //   return result[0] ;
-  // }
+  async create(body: User): Promise<User|null> {
+    const connection = getPoolConnection();
+    const querySql: string = `INSERT  INTO users (email,password,idRole) values (?,?,?)`;
+    const values: Array<string | number> = [
+      body.email,
+      body.password,
+      body.idRole
+    ];
+    const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
+      querySql,
+      values
+    );
+    body.idUser = result[0].insertId;
+    return result[0].affectedRows == 1? body:null;
+  }
 
   async read(): Promise<User[]> {
     const connection = getPoolConnection();
@@ -29,36 +29,39 @@ export class UserRepository implements Imanageable<User> {
     return result[0] as User[]
   }
 
-  // async searcheById(id: number): Promise<any> {
-  //   const connection = getPoolConnection();
-  //   const querySql = `SELECT   * FROM users WHERE id = ?`;
-  //   const values = [id];
-  //   const queryResult = await connection.query<RowDataPacket[]>(
-  //     querySql,
-  //     values
-  //   );
-  //   return queryResult[0] ;
-  // }
 
-  // async delete(id: number): Promise<any> {
-  //   const connection = getPoolConnection();
-  //   const querySql = ` DELETE FROM users WHERE id = ?`;
-  //   const values = [id];
-  //   const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
-  //     querySql,
-  //     values
-  //   );
+  async searcheById(id: number): Promise<User | null> {
+    const connection = getPoolConnection();
+    const querySql: string = `SELECT   * FROM users WHERE id = ?`;
+    const values = [id];
+    const result: [RowDataPacket[], FieldPacket[]] = await connection.query(querySql, values);
+    return result[0].length > 0 ? result[0][0] as User : null; 
+  }
 
-  //   return result[0];
-  // }
+  
 
-  // async update(user: User): Promise<any> {
-  //   const connection = getPoolConnection();
-  //   const querySql = `UPDATE users SET idUser = , email = ? , password = ?, idRole = ?`;
-  //   const values = [user.idUser, user.email, user.password, user.idRole];
-  //   const result = await connection.query<ResultSetHeader>(querySql, values);
+  async remove(id: number): Promise<boolean> {
+    const connection = getPoolConnection();
+    const querySql = ` DELETE FROM users WHERE id = ?`;
+    const values = [id];
+    const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
+      querySql,
+      values
+    );
 
-  //   return result[0];
-  // }
+    return result[0].affectedRows == 1? true:false;
+  }
+
+  async update(body: User): Promise<User|null> {
+    const connection = getPoolConnection();
+    const querySql = `UPDATE users SET idUser = , email = ? , password = ?, idRole = ?`;
+    const values = [body.idUser, body.email, body.password, body.idRole];
+    const result = await connection.query<ResultSetHeader>(querySql, values);
+
+    body.idUser = result[0].insertId;
+    return result[0].affectedRows == 1? body:null;
+
+    
+  }
 }
 

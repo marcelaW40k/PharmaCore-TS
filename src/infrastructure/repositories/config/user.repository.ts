@@ -12,13 +12,13 @@ export class UserRepository implements Imanageable<User> {
     const values: Array<string | number> = [
       body.email,
       body.password,
-      body.idRole
+      body.id_role
     ];
     const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
       querySql,
       values
     );
-    body.idUser = result[0].insertId;
+    body.id_user = result[0].insertId;
     return result[0].affectedRows == 1? body:null;
   }
 
@@ -55,10 +55,10 @@ export class UserRepository implements Imanageable<User> {
   async update(body: User): Promise<User|null> {
     const connection = getPoolConnection();
     const querySql = `UPDATE users SET idUser = , email = ? , password = ?, idRole = ?`;
-    const values = [body.idUser, body.email, body.password, body.idRole];
+    const values = [body.id_user, body.email, body.password, body.id_role];
     const result = await connection.query<ResultSetHeader>(querySql, values);
 
-    body.idUser = result[0].insertId;
+    body.id_user = result[0].insertId;
     return result[0].affectedRows == 1? body:null;
 
     

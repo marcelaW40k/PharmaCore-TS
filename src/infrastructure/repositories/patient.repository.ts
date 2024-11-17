@@ -1,5 +1,5 @@
 import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
-import { Imanageable } from "../../domain/models/Imanager/interface";
+import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 import { Patient } from "../../domain/models/patient";
 import { getPoolConnection } from "./config/data.source";
 import { Pool } from "mysql2/typings/mysql/lib/Pool";
@@ -7,7 +7,6 @@ import { Pool } from "mysql2/typings/mysql/lib/Pool";
 
 
 export class PatientRepository implements Imanageable<Patient> {
-
 
   async create(patient: Patient): Promise<any> {
     const connection = getPoolConnection();
@@ -31,12 +30,20 @@ export class PatientRepository implements Imanageable<Patient> {
       return result[0];
     }
 
-    async searcheById(id: number): Promise<any> {
+    async searchById(id: number): Promise<any> {
         const connection = getPoolConnection();
         const sql = `SELECT * FROM patients WHERE id_patient = ?`;
         const values = [id];
         const result = await connection.query(sql, values);
         return result[0];
+    }
+
+    async remove(id: number): Promise<any> {
+      const connection = getPoolConnection();
+      const sql = `DELETE FROM patients WHERE id_patient = ?`;
+      const values = [id];
+      const result: [ResultSetHeader, FieldPacket[]] = await connection.query(sql, values);
+      return result[0];
     }
 
     async update(patient: Patient): Promise<any> {
@@ -53,13 +60,4 @@ export class PatientRepository implements Imanageable<Patient> {
       const result = await connection.query(sql, values);
       return result[0];
     }
-
-  async delete(id: number): Promise<any> {
-    const connection = getPoolConnection();
-    const sql = `DELETE FROM patients WHERE id_patient = ?`;
-    const values = [id];
-    const result: [ResultSetHeader, FieldPacket[]] = await connection.query(sql, values);
-    return result[0];
-  }
-
 }

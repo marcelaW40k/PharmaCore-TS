@@ -50,7 +50,7 @@ export class PatientController {
 
     async searchById(id_patient: number): Promise<any> {
         try {
-            const result = await this.patientRepository.searcheById(id_patient);
+            const result = await this.patientRepository.searchById(id_patient);
             if (result) {
                 console.log('Paciente encontrado:', result);
             } else {
@@ -88,7 +88,7 @@ export class PatientController {
 
     async delete(id_patient: number): Promise<any> {
         try {
-            const result = await this.patientRepository.delete(id_patient);
+            const result = await this.patientRepository.remove(id_patient);
             if (result.affectedRows == 1) {
                 console.log(`Paciente eliminado con éxito: ${id_patient}`);
             } else {

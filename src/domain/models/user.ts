@@ -1,21 +1,21 @@
-export class User {
-  idUser: number;
-  email: string;
-  password: string;
-  idRole: number;
+export class Doctor {
+  id_doctor: number;
+  name: string;
+  last_name: string;
+  
 
   /**
    *
    */
   constructor(infoUser: {
-    idUser: number;
-    email: string;
-    password: string;
-    idRole: number;
+    id_doctor: number;
+    name: string;
+    last_name: string;
+    
   }) {
-    this.idUser = infoUser.idUser;
-    this.email = infoUser.email;
-    this.password= infoUser.password;
-    this.idRole = infoUser.idRole
+    this.id_doctor = infoUser.id_doctor;
+    this.name = infoUser.name;
+    this.last_name= infoUser.last_name;
+    
   }
 }

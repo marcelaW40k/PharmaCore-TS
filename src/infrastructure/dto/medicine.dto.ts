@@ -1,4 +1,4 @@
-import { isBoolean, IsNumber, IsString, Length, validate } from "class-validator";
+import { IsBoolean, IsNumber, IsString, Length, validate } from "class-validator";
 
 export class MedicineDto {
   @IsString()
@@ -7,7 +7,7 @@ export class MedicineDto {
   @IsString()
   form: string;
 
-  @isBoolean()
+  @IsBoolean()
   prescription: boolean
 
   @IsNumber()

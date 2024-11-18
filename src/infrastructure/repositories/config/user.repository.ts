@@ -30,7 +30,7 @@ export class UserRepository implements Imanageable<User> {
   }
 
 
-  async searcheById(id: number): Promise<User | null> {
+  async searchById(id: number): Promise<User | null> {
     const connection = getPoolConnection();
     const querySql: string = `SELECT   * FROM users WHERE id = ?`;
     const values = [id];

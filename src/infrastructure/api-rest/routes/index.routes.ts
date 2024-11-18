@@ -1,5 +1,5 @@
 import Express from "express";
-import { userRoutes } from "./user.routes";
+import { userRoutes } from "./doctor.routes";
 
 export const routes = () => {
     const router = Express.Router();

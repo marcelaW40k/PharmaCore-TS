@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
-import { User } from "../domain/models/user";
-import { UserRepository } from "../infrastructure/repositories/config/user.repository";
+import { User } from "../domain/models/doctor";
+import { UserRepository } from "../infrastructure/repositories/config/doctor.repository";
 import { error } from "console";
 
 export class UserController  { // agregar la interface

@@ -14,6 +14,7 @@ export class Sale {
             id_sale?: number
             id_patient: number,
             date_time: Date,
+            sale_total_cost: number;
             items: Array<SaleItem>
         }) {
         this.id_sale = infoSale.id_sale

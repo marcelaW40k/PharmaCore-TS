@@ -1,11 +1,17 @@
 import { IsNumber, validate } from "class-validator";
 
-export class saleItemDto {
+export class SaleItemDto {
 
     @IsNumber()
     id_sale: number;
+
+    @IsNumber()
     id_medicine: number;
+
+    @IsNumber()
     quantity: number;
+
+    @IsNumber()
     item_total_cost: number;
 
 
@@ -33,7 +39,7 @@ export class saleItemDto {
 
 }
 
-export class updateDto extends saleItemDto {
+export class updateDto extends SaleItemDto {
 
     @IsNumber()
     id_item: number;

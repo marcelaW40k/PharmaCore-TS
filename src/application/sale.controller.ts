@@ -42,7 +42,7 @@ export class SaleController implements Imanageable<any> {
     read(): Promise<any> {
         throw new Error("Method not implemented.");
     }
-    searcheById(id: number): Promise<any> {
+    searchById(id: number): Promise<any> {
         throw new Error("Method not implemented.");
     }
     remove(id: number): Promise<any> {

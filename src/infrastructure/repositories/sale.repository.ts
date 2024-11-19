@@ -2,6 +2,7 @@ import { Sale } from "../../domain/models/sale";
 import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
+import { SaleItemRepository } from "./saleItem.repository";
 
 
 
@@ -24,18 +25,25 @@ export class SaleRepository implements Imanageable<Sale> {
         body.calculateTotalCost();
 
 
-        const querySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?,?)';
-        const values: Array<string | number | undefined | Date> =
+        const salequerySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?,?)';
+        const salevalues: Array<string | number | undefined | Date> =
             [body.id_patient,
             body.date_time,
             body.sale_total_cost];
         ;
-        const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
-            querySql,
-            values
+        const saleresult: [ResultSetHeader, FieldPacket[]] = await connection.query(
+            salequerySql,
+            salevalues
         );
-        body.id_sale = result[0].insertId;
-        return result[0].affectedRows == 1 ? body : null;
+        body.id_sale = saleresult[0].insertId;
+
+        const saleItemRepository = new SaleItemRepository()
+        for (const item of body.items) {
+            item.id_sale = body.id_sale;
+            await saleItemRepository.create(item)
+
+        }
+        return saleresult[0].affectedRows == 1 ? body : null;
     }
 
     async read(): Promise<Sale[]> {
@@ -74,9 +82,7 @@ export class SaleRepository implements Imanageable<Sale> {
         try {
             body.calculateTotalCost();
             const querySales = `
-                UPDATE sales 
-                SET id_patient = ?, date_time = ?, sale_total_cost = ? 
-                WHERE id_sale = ?`;
+                UPDATE sales SET id_patient = ?, date_time = ?, sale_total_cost = ? WHERE id_sale = ?`;
             const salesValues = [
                 body.id_patient,
                 body.date_time,
@@ -91,9 +97,7 @@ export class SaleRepository implements Imanageable<Sale> {
             const deleteItemsQuery = `DELETE FROM sale_items WHERE id_sale = ?`;
             await connection.query(deleteItemsQuery, [body.id_sale]);
 
-            const insertItemsQuery = `
-                INSERT INTO sale_items (id_sale, id_medicine, quantity, item_total_cost) 
-                VALUES (?, ?, ?, ?)`;
+            const insertItemsQuery = `INSERT INTO sale_items (id_sale, id_medicine, quantity, item_total_cost) VALUES (?, ?, ?, ?)`;
             for (const item of body.items) {
                 const itemValues = [
                     body.id_sale,

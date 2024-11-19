@@ -1,42 +1,44 @@
+import { Imanageable } from "../domain/models/Imanager/Imanageable";
 import { Patient } from "../domain/models/patient";
+import { PatientDto } from "../infrastructure/dto/patient.dto";
 import { PatientRepository } from "../infrastructure/repositories/patient.repository";
 
 
-export class PatientController {
+export class PatientController implements Imanageable<Patient> {
     private patientRepository: PatientRepository;
 
     constructor() {
         this.patientRepository = new PatientRepository();
     }
 
-    async create(body: Patient): Promise<any> {
+    async create(body: Patient): Promise<Patient | null> {
         try {
-            const patient = {
-                id_patient: body.id_patient,
-                name: body.name,
-                last_name: body.last_name,
-                birth_date: body.birth_date,
-                known_allergies: body.known_allergies,
-                insurance_number: body.insurance_number
-            };
+            const patientDto = new PatientDto(body);
+            const errors = await patientDto.validateDto();
+            if (errors.length > 0) {
+                console.log('Validación fallida. error: ', errors);
+                return null;
+            }
+            const patient = new Patient(body);
             const result = await this.patientRepository.create(patient);
-            if (result.affectedRows == 1) {
-                console.log(`EL paciente ${patient.name} fue agregado con el id: ${result.insertId}`);
+            if (result && result.id_patient) {
+                console.log(`El paciente ${patientDto.name} fue agregado correctamente.`);
+                return result;
             } else {
                 console.log("El paciente no se agregó");
-            }
-            return result;
+            } return null;
         } catch (error: any) {
-            console.log("Ha ocurrido un error al guardar el paciente.", error?.message);
-            return error;
+            console.error("Ha ocurrido un error al guardar el paciente:", error.message);
+            return null;
         }
+        
     }
 
-    async read(): Promise<any> {
+    async read(): Promise<Patient[]> {
         try {
             const result = await this.patientRepository.read();
-            
-            if (result && result.length > 0) {
+
+            if (result.length > 0) {
                 console.log(`Se encontraron ${result.length} pacientes: `, result);
             } else {
                 console.log("No se encontraron pacientes.");
@@ -48,7 +50,7 @@ export class PatientController {
         }
     }
 
-    async searchById(id_patient: number): Promise<any> {
+    async searchById(id_patient: number): Promise<Patient | null> {
         try {
             const result = await this.patientRepository.searchById(id_patient);
             if (result) {
@@ -62,8 +64,24 @@ export class PatientController {
             throw new Error(error.message);
         }
     }
-    
-    async update(patient: Patient): Promise<any> {
+
+    async remove(id_patient: number): Promise<boolean> {
+        try {
+            const result = await this.patientRepository.remove(id_patient);
+            if (result === true) {
+                console.log(`Paciente eliminado con éxito.`);
+            } else {
+                console.log(`No se pudo eliminar el paciente con id ${id_patient}.`);
+                return false;
+            }
+            return result;
+        } catch (error: any) {
+            console.log("Ha ocurrido un error al eliminar el paciente." + error?.message);
+            return false;
+        }
+    }
+
+    async update(patient: Patient): Promise<Patient | null> {
         try {
             const updatedPatient = {
                 id_patient: patient.id_patient,
@@ -82,21 +100,6 @@ export class PatientController {
             return result;
         } catch (error: any) {
             console.log("Ha ocurrido un error al actualizar el paciente.");
-            throw new Error(error?.message);
-        }
-    }
-
-    async delete(id_patient: number): Promise<any> {
-        try {
-            const result = await this.patientRepository.remove(id_patient);
-            if (result.affectedRows == 1) {
-                console.log(`Paciente eliminado con éxito: ${id_patient}`);
-            } else {
-                console.log("No se pudo eliminar el paciente.");
-            }
-            return result;
-        } catch (error: any) {
-            console.log("Ha ocurrido un error al eliminar el paciente.");
             throw new Error(error?.message);
         }
     }

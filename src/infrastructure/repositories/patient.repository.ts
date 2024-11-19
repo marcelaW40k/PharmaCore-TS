@@ -2,16 +2,12 @@ import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 import { Patient } from "../../domain/models/patient";
 import { getPoolConnection } from "./config/data.source";
-import { Pool } from "mysql2/typings/mysql/lib/Pool";
-
-
 
 export class PatientRepository implements Imanageable<Patient> {
 
-  async create(patient: Patient): Promise<any> {
+  async create(patient: Patient): Promise<Patient | null > {
     const connection = getPoolConnection();
     const sql = `INSERT INTO patients (name, last_name, birth_date, known_allergies, insurance_number) VALUES (?, ?, ?, ?, ?)`;
-    // porque el uso del tipo de Date es necesario
     const values: Array<string | number | Date> = [
       patient.name,
       patient.last_name,
@@ -20,33 +16,35 @@ export class PatientRepository implements Imanageable<Patient> {
       patient.insurance_number,
     ];
     const result: [ResultSetHeader, FieldPacket[]] = await connection.query(sql, values);
-    return result[0];
+    patient.id_patient = result[0].insertId;
+    return result[0].affectedRows == 1? patient:null;
   }
 
-  async read(): Promise<any> {
+
+  async read(): Promise<Patient[]> {
       const connection = getPoolConnection();
       const sql = `SELECT * FROM patients`;
       const result = await connection.query(sql);
-      return result[0];
+      return result[0] as Patient[];
     }
 
-    async searchById(id: number): Promise<any> {
+    async searchById(id: number): Promise<Patient | null> {
         const connection = getPoolConnection();
         const sql = `SELECT * FROM patients WHERE id_patient = ?`;
         const values = [id];
-        const result = await connection.query(sql, values);
-        return result[0];
+        const result: [RowDataPacket[], FieldPacket[]] = await connection.query(sql, values);
+        return result[0].length > 0 ? result[0][0] as Patient : null;;
     }
 
-    async remove(id: number): Promise<any> {
+    async remove(id: number): Promise<boolean> {
       const connection = getPoolConnection();
       const sql = `DELETE FROM patients WHERE id_patient = ?`;
       const values = [id];
       const result: [ResultSetHeader, FieldPacket[]] = await connection.query(sql, values);
-      return result[0];
+      return result[0].affectedRows == 1? true:false;
     }
 
-    async update(patient: Patient): Promise<any> {
+    async update(patient: Patient): Promise<Patient | null | any> {
       const connection = getPoolConnection();
       const sql = `UPDATE patients SET name = ?, last_name = ?, birth_date = ?, known_allergies = ?, insurance_number = ? WHERE id_patient = ?`;
       const values = [
@@ -57,7 +55,10 @@ export class PatientRepository implements Imanageable<Patient> {
         patient.insurance_number,
         patient.id_patient,
       ];
-      const result = await connection.query(sql, values);
-      return result[0];
+      const result = await connection.query<ResultSetHeader>(sql, values);
+
+    patient.id_patient = result[0].insertId;
+    return result[0].affectedRows == 1? patient:null;
+
     }
 }

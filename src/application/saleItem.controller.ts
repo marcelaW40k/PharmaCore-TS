@@ -102,7 +102,6 @@ export class SaleItemController implements Imanageable<SaleItem> {
         id_sale: number,
         id_medicine: number,
         quantity: number,
-        item_total_cost: number
     }
 
     ): Promise<SaleItem | null> {
@@ -115,7 +114,12 @@ export class SaleItemController implements Imanageable<SaleItem> {
                 return null
             }
 
-            const saleItem = new SaleItem(body);
+            const saleItem = new SaleItem({
+                id_item: body.id_item,
+                id_sale: body.id_sale,
+                id_medicine: body.id_medicine,
+                quantity: body.quantity
+            });
             const result = await this.repository.update(saleItem);
             if (result) {
                 console.log(`item actualizado`)

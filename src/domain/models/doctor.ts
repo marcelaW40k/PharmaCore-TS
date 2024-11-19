@@ -1,5 +1,5 @@
 export class Doctor {
-  id_doctor: number;
+  id_doctor?: number | null;
   name: string;
   last_name: string;
   
@@ -8,7 +8,7 @@ export class Doctor {
    *
    */
   constructor(infoUser: {
-    id_doctor: number;
+    id_doctor?: number | null;
     name: string;
     last_name: string;
     

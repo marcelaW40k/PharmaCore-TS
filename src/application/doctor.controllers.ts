@@ -2,9 +2,10 @@
 import { Doctor } from "../domain/models/doctor";
 import { doctorRepository } from "../infrastructure/repositories/config/doctor.repository";
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
+import { updateDtoDoctor } from "../infrastructure/dto/doctor.dto";
 
 
-export class UserController implements Imanageable<Doctor> {
+export class doctorController implements Imanageable<Doctor> {
   // agregar la interface
   private repository: doctorRepository;
 
@@ -70,27 +71,27 @@ export class UserController implements Imanageable<Doctor> {
       return false;
     }
   }
-    //pendiente dto
-  // async update(body: {
-  //   id_doctor: number;
-  //   email: string;
-  //   password: string;
-  //   id_role: number;
-  // }): Promise<Doctor | null> {
-  //   try {
-  //     const update = new updateDto(body);
-  //     const errores = await update.validateDto();
+   
+  async update(body: {
+    id_doctor: number;
+    name: string;
+    last_name: string;
+  
+  }): Promise<Doctor | null> {
+    try {
+      const update = new updateDtoDoctor(body);
+      const errores = await update.validateDto();
 
-  //     if (errores.length > 0) {
-  //       console.log("usuario actualizado");
-  //       throw new Error("Hubo un eror al validar los datos ");
-  //     }
+      if (errores.length > 0) {
+        console.log(" actualizado");
+        throw new Error("Hubo un eror al validar los datos ");
+      }
 
-  //     const user = new Doctor(body);
-  //     const result = await this.repository.update(user);
-  //     return result;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+      const user = new Doctor(body);
+      const result = await this.repository.update(user);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

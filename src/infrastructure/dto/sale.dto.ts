@@ -1,6 +1,7 @@
 import { IsNumber, IsDate, validate, IsArray, ValidateNested, } from "class-validator";
 import { Type } from "class-transformer";
 import { SaleItem } from "../../domain/models/saleItem";
+import 'reflect-metadata';
 
 
 
@@ -14,6 +15,7 @@ export class SaleDto {
     sale_total_cost: number;
 
     @IsDate()
+    @Type(() => Date)
     date_time: Date;
 
     @IsArray()

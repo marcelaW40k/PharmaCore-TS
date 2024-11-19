@@ -6,7 +6,7 @@ import { updateDto } from "../infrastructure/dto/user.dto";
 import { UserRepository } from "../infrastructure/repositories/config/user.repository";
 
 
-export class UserController implements Imanageable<User>  {
+export class UserCtrl implements Imanageable<User>  {
   private repository: UserRepository;
 
   constructor() {
@@ -16,8 +16,9 @@ export class UserController implements Imanageable<User>  {
   async create(body: User): Promise<User | null> {
 
     try {
-      const result:any = await this.repository.create(body)
-      if (result.affectedRows == 1){
+      const user = new User(body)
+      const result = await this.repository.create(user)
+      if (result && result.id_user == 1){
         console.log(`el usuario  se agregó con exito`)
         return result;
       }else{
@@ -35,7 +36,7 @@ export class UserController implements Imanageable<User>  {
   async read(): Promise<User[]> {
 
     const result:User[] = await this.repository.read()
-     if(result.length == 0) {
+     if(result.length == 1) {
       console.log("usuarios obtenidos")
      
       
@@ -49,9 +50,9 @@ export class UserController implements Imanageable<User>  {
 
   async searchById(id: number): Promise<User | null> {
       try {
-        const resultado:any = await this.repository.searchById(id)
-        if(resultado.length == 1) {
-          return resultado[0]
+        const resultado = await this.repository.searchById(id)
+        if(resultado) {
+          return resultado
         }else{
           return null;
         }
@@ -67,7 +68,7 @@ export class UserController implements Imanageable<User>  {
     try {
       const resultado:any = await this.repository.remove(id)
 
-        if (resultado.affectedRows == 1) {
+        if (resultado === true) {
           console.log(`usuario eliminado`)
           return true;
         }else {
@@ -84,28 +85,26 @@ export class UserController implements Imanageable<User>  {
 
   }
   
-  async update(body: User): Promise<User | null> {
+  async update(body:{id_user:number, email:string, password:string, id_role:number}): Promise<User | null> {
+    
+
+   
 
     try {
+      const update = new updateDto(body);
+      const  errores = await update.validateDto();
 
-      if (body.id_user == null) { console.log("El campo 'id_user' es necesario y no puede ser null o undefined"); return null; }
-
-      const dto = new updateDto({
-        id_user: body.id_user, email: body.email, password: body.password, id_role: body.id_role
-
-      })
-      const result:any = await this.repository.update(body)
-
-      if(result.affectedRows == 1){
+      if(errores.length > 0){
         console.log("usuario actualizado")
-        return body;
-      }else {
-        console.log("no se pudo actualizar el usuario")
-        return null;
+        throw new Error("Hubo un eror al validar los datos ")
       }
-    }catch(error:any){
-      console.log("Ha ocurrido un error inesperado", error.message)
-      return null;
+
+      const user = new User(body)
+      const result = await this.repository.update(user)
+      return result;
+
+    }catch(error){
+      throw error;
     }
       
   }  
@@ -113,6 +112,9 @@ export class UserController implements Imanageable<User>  {
 
   }
 
+
+
+  
  
 
   

@@ -39,7 +39,7 @@ export class MedicineRepository implements Imanageable<Medicine> {
   }
 
 
-  async searcheById(id: number): Promise<Medicine | null> { 
+  async searchById(id: number): Promise<Medicine | null> { 
     const connection = getPoolConnection();
     const querySql = `SELECT * FROM medicines WHERE id_medicine =?`;
     const values = [id]

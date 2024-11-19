@@ -2,11 +2,22 @@ import { Sale } from "../../domain/models/sale";
 import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
-import { SaleItem } from "../../domain/models/saleItem";
-import { Pool } from "mysql2/typings/mysql/lib/Pool";
+
 
 
 export class SaleRepository implements Imanageable<Sale> {
+
+    async patientExists(id_patient: number): Promise<boolean> {
+        const connection = getPoolConnection();
+        try {
+            const query = `SELECT EXISTS(SELECT 1 FROM patients WHERE id_patient = ?) AS exists`;
+            const [resultExists] = await connection.query<RowDataPacket[]>(query, [id_patient]);
+            return resultExists[0].exists === 1
+        } catch (error) {
+            console.error("Error verificando la existencia del paciente:", error);
+            return false;
+        }
+    }
 
     async create(body: Sale): Promise<Sale | null> {
         const connection = getPoolConnection();

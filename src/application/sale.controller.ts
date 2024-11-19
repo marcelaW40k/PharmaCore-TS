@@ -19,6 +19,12 @@ export class SaleController implements Imanageable<Sale> {
         }
     ): Promise<Sale | null> {
         try {
+            const patientExists = await this.repository.patientExists(body.id_patient);
+            if (!patientExists) {
+                console.log("Debes crear el paciente antes de proceder con la venta");
+                return null;
+            }
+
             const dto = new SaleDto(body);
             const errores = await dto.validateDto();
             if (errores.length > 0) {

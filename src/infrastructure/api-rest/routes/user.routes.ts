@@ -1,6 +1,6 @@
 import  Express  from "express";
 import { UserCtrl } from "../../../application/user.controller";
-import { User } from "../../../domain/models/user";
+
 export const userRoutes = () => {
     const router = Express.Router();
     
@@ -9,11 +9,9 @@ export const userRoutes = () => {
     router.post("/users", (req,res) => {
         const payload = req.body
         userCrontroller.create(payload).then((result) => {
-            // verifico que result no sea nulo ya que create recibe un body | null
-            const status = result === true ? 200 : 400; // revisar con gpt por que esta mal
+            const status = result  ? 200 : 400; 
             res.status(status).send(result);
-           
-
+     
         })
 
         .catch((error) => {
@@ -37,16 +35,15 @@ export const userRoutes = () => {
           });
     })
 
-    router.get("/users", async ( _, response) => {
+    router.get("/users", async ( _, res) => {
         try {
             const result = await userCrontroller.read();
+            const status = result? 200:400;
+            res.status(status).send(result)
         
-          
-            
         } catch (error) {
-            response.status(500).send(error)
-        
-            
+            res.status(500).send(error)
+         
         }
 
     })

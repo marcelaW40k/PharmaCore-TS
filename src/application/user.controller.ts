@@ -11,7 +11,6 @@ export class UserCtrl implements Imanageable<User> {
   }
    // pendiente vlaidar si esta ok
   async create(body: {
-    id_user: number;
     email: string;
     password: string;
     id_role: number;
@@ -26,14 +25,18 @@ export class UserCtrl implements Imanageable<User> {
 
       const user = new User(body);
       const result = await this.repository.create(user);
-        if (result && result.id_user == 1) {
+        if (result ) {
           console.log(`el usuario  se agregó con exito`);
           return result;
+      }else{
+        console.log ("el usuario no se agregó")
+        return null
       }
     } catch (error: any) {
       console.log("ha ocurrido un erro al agregar.", error.message);
+      return null;
     }
-    return body;
+   
   }
 
   async read(): Promise<User[]> {

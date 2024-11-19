@@ -8,7 +8,7 @@ export class userDto {
   @Length(8, 19)
   password: string;
   @IsNumber()
-  idRole:number;
+  id_role:number;
 
 
 
@@ -20,7 +20,7 @@ export class userDto {
   }) {
     this.email = body.email;
     this.password= body.password;
-    this.idRole = body.id_role
+    this.id_role = body.id_role
    
   }
 

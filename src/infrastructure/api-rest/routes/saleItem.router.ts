@@ -3,9 +3,6 @@ import { SaleItemController } from "../../../application/saleItem.controller";
 
 
 
-
-
-
 export const saleItemRoutes = () => {
     const router = Express.Router();
 

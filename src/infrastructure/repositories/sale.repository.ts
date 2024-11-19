@@ -22,6 +22,8 @@ export class SaleRepository implements Imanageable<Sale> {
     async create(body: Sale): Promise<Sale | null> {
         const connection = getPoolConnection();
         body.calculateTotalCost();
+
+
         const querySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?,?)';
         const values: Array<string | number | undefined | Date> =
             [body.id_patient,

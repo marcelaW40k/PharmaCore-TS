@@ -15,7 +15,6 @@ export class SaleController implements Imanageable<Sale> {
         {
             id_patient: number,
             date_time: Date,
-            sale_total_cost: number;
             items: Array<SaleItem>
         }
     ): Promise<Sale | null> {
@@ -95,11 +94,8 @@ export class SaleController implements Imanageable<Sale> {
         id_sale: number,
         id_patient: number,
         date_time: Date,
-        sale_total_cost: number;
         items: Array<SaleItem>
-    }
-
-    ): Promise<Sale | null> {
+    }): Promise<Sale | null> {
 
         try {
             const dto = new UpdateDto(body);

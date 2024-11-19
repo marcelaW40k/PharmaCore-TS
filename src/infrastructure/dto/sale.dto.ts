@@ -11,8 +11,8 @@ export class SaleDto {
     @IsNumber()
     id_patient: number;
 
-    @IsNumber()
-    sale_total_cost: number;
+
+    sale_total_cost?: number;
 
     @IsDate()
     @Type(() => Date)
@@ -27,13 +27,11 @@ export class SaleDto {
 
         id_patient: number,
         date_time: Date,
-        sale_total_cost: number;
         items: Array<SaleItem>
 
     }) {
         this.id_patient = body.id_patient;
         this.date_time = body.date_time;
-        this.sale_total_cost = body.sale_total_cost;
         this.items = body.items;
 
     }
@@ -56,7 +54,7 @@ export class UpdateDto extends SaleDto {
         id_sale: number
         id_patient: number,
         date_time: Date,
-        sale_total_cost: number;
+        sale_total_cost?: number;
         items: Array<SaleItem>
 
 

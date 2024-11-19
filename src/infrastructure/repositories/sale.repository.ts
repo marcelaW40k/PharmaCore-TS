@@ -1,14 +1,16 @@
 import { Sale } from "../../domain/models/sale";
-import { FieldPacket, Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
+import { SaleItem } from "../../domain/models/saleItem";
 
 export class SaleRepository implements Imanageable<Sale> {
 
     async create(body: Sale): Promise<Sale | null> {
         const connection = getPoolConnection();
+        body.calculateTotalCost();
         const querySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?,?)';
-        const values: Array<string | number | Date> =
+        const values: Array<string | number | undefined | Date> =
             [body.id_patient,
             body.date_time,
             body.sale_total_cost];
@@ -53,16 +55,18 @@ export class SaleRepository implements Imanageable<Sale> {
 
     async update(body: Sale): Promise<Sale | null> {
         const connection = getPoolConnection();
-        const querySql = `UPDATE sale_items SET id_sale= ?, id_medicine = ?, quantity = ?, item_total_cost =?, WHERE id_item = ?`;
+        body.calculateTotalCost();
+        const querySql = `UPDATE sales SET id_patient= ?, date_time = ?, sale_total_cost =?, items = ? WHERE id_sale = ?`;
         const values = [
             body.id_patient,
             body.date_time,
             body.sale_total_cost,
+            body.items,
             body.id_sale];
-        const result = await connection.query<ResultSetHeader>(querySql, values);
+        const resultSales = await connection.query<ResultSetHeader>(querySql, values);
 
-        body.id_sale = result[0].insertId;
-        return result[0].affectedRows == 1 ? body : null;
+
+        return resultSales[0].affectedRows == 1 ? body : null;
 
 
     }

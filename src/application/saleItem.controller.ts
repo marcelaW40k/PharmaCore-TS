@@ -14,7 +14,7 @@ export class SaleItemController implements Imanageable<SaleItem> {
             id_sale: number,
             id_medicine: number,
             quantity: number,
-            item_total_cost: number
+
         }
     ): Promise<SaleItem | null> {
         try {
@@ -25,7 +25,13 @@ export class SaleItemController implements Imanageable<SaleItem> {
                 return null;
             }
 
-            const saleItem = new SaleItem(body);
+            const saleItem = new SaleItem(
+                {
+                    id_sale: body.id_sale,
+                    id_medicine: body.id_medicine,
+                    quantity: body.quantity
+                }
+            );
 
             const result = await this.repository.create(saleItem);
             if (result && result.id_item) {

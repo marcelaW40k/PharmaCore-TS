@@ -1,5 +1,5 @@
 import { SaleItem } from "../../domain/models/saleItem";
-import { FieldPacket, Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 
@@ -7,12 +7,13 @@ export class SaleItemRepository implements Imanageable<SaleItem> {
 
     async create(body: SaleItem): Promise<SaleItem | null> {
         const connection = getPoolConnection();
-        const querySql: string = 'INSERT INTO sale_items (id_sale, id_medicine, quantity, total_cost_item) VALUES (?,?,?,?)';
+        const querySql: string = 'INSERT INTO sale_items (id_sale, id_medicine, quantity, total_cost_item) VALUES (?,?,?,(?*(SELECT unit_cost FROM medicines WHERE id_medicine = ?)))';
         const values: Array<string | number> =
             [body.id_sale,
             body.id_medicine,
             body.quantity,
-            body.item_total_cost];
+            body.quantity,
+            body.id_medicine];
         ;
         const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
             querySql,

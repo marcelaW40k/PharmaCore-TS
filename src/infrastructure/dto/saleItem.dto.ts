@@ -11,8 +11,7 @@ export class SaleItemDto {
     @IsNumber()
     quantity: number;
 
-    @IsNumber()
-    item_total_cost: number;
+    item_total_cost?: number;
 
 
     constructor(body: {
@@ -20,14 +19,12 @@ export class SaleItemDto {
         id_sale: number;
         id_medicine: number;
         quantity: number;
-        item_total_cost: number;
+
 
     }) {
         this.id_sale = body.id_sale;
         this.id_medicine = body.id_medicine;
         this.quantity = body.quantity;
-        this.item_total_cost = body.item_total_cost;
-
     }
 
     async validateDto() {
@@ -49,7 +46,7 @@ export class UpdateDto extends SaleItemDto {
         id_sale: number;
         id_medicine: number;
         quantity: number;
-        item_total_cost: number;
+        item_total_cost?: number;
 
 
 

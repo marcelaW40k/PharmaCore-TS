@@ -1,6 +1,7 @@
 import Express from "express";
 import { userRoutes } from "./user.routes";
-import { saleRoutes } from "./sale.routes";
+import { saleRoutes } from "./sale.router";
+import { saleItemRoutes } from "./saleItem.router";
 
 export const routes = () => {
     const router = Express.Router();
@@ -10,5 +11,6 @@ export const routes = () => {
     })
     router.use(userRoutes())
     router.use(saleRoutes())
+    router.use(saleItemRoutes())
     return router;
 }

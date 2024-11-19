@@ -11,9 +11,9 @@ export class SaleRepository implements Imanageable<Sale> {
     async patientExists(id_patient: number): Promise<boolean> {
         const connection = getPoolConnection();
         try {
-            const query = `SELECT EXISTS(SELECT 1 FROM patients WHERE id_patient = ?) AS exists`;
+            const query = `SELECT EXISTS(SELECT 1 FROM patients WHERE id_patient = ?) AS patient_exists`;
             const [resultExists] = await connection.query<RowDataPacket[]>(query, [id_patient]);
-            return resultExists[0].exists === 1
+            return resultExists[0].patient_exists === 1
         } catch (error) {
             console.error("Error verificando la existencia del paciente:", error);
             return false;

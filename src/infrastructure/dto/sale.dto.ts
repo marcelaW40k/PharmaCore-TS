@@ -1,10 +1,11 @@
 import { IsNumber, IsDate, validate, IsArray, ValidateNested, } from "class-validator";
 import { Type } from "class-transformer";
-import { SaleItemDto } from "./saleItem.dto";
+import { SaleItem } from "../../domain/models/saleItem";
 
 
 
-export class saleDto {
+
+export class SaleDto {
 
     @IsNumber()
     id_patient: number;
@@ -17,15 +18,15 @@ export class saleDto {
 
     @IsArray()
     @ValidateNested({ each: true })
-    @Type(() => SaleItemDto)
-    items: SaleItemDto[];
+    @Type(() => SaleItem)
+    items: SaleItem[];
 
     constructor(body: {
 
         id_patient: number,
         date_time: Date,
         sale_total_cost: number;
-        items: Array<SaleItemDto>
+        items: Array<SaleItem>
 
     }) {
         this.id_patient = body.id_patient;
@@ -44,7 +45,7 @@ export class saleDto {
 
 }
 
-export class UpdateDto extends saleDto {
+export class UpdateDto extends SaleDto {
 
     @IsNumber()
     id_sale: number;
@@ -54,7 +55,7 @@ export class UpdateDto extends saleDto {
         id_patient: number,
         date_time: Date,
         sale_total_cost: number;
-        items: Array<SaleItemDto>
+        items: Array<SaleItem>
 
 
 

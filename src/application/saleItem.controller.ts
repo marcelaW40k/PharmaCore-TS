@@ -32,12 +32,12 @@ export class SaleItemController implements Imanageable<SaleItem> {
                 console.log(`el item se agregó con exito`)
                 return result;
             } else {
-                console.log(`el item pudo ser agregado`)
+                console.log(`el item no pudo ser agregado`)
                 return null;
             }
 
         } catch (error: any) {
-            console.log("ha ocurrido un erro al agregar el item.", error.message)
+            console.log("ha ocurrido un error al agregar el item.", error.message)
             return null
         }
 

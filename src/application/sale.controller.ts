@@ -1,56 +1,127 @@
-import { ResultSetHeader } from "mysql2";
-import { SaleRepository } from "../infrastructure/repositories/sale.repository";
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
-import { SaleItem } from "../domain/models/saleItem";
 import { Sale } from "../domain/models/sale";
+import { SaleItem } from "../domain/models/saleItem";
+import { SaleDto, UpdateDto } from "../infrastructure/dto/sale.dto";
+import { SaleRepository } from "../infrastructure/repositories/sale.repository";
 
-export class SaleController implements Imanageable<any> {
+
+export class SaleController implements Imanageable<Sale> {
     private repository: SaleRepository;
-
     constructor() {
-        this.repository = new SaleRepository()
+        this.repository = new SaleRepository();
     }
-    async create(body: {
-        id_patient: number,
-        date_time: Date,
-        sale_total_cost: number,
-        items: SaleItem[]
 
-    }) {
+    async create(body:
+        {
+            id_patient: number,
+            date_time: Date,
+            sale_total_cost: number;
+            items: Array<SaleItem>
+        }
+    ): Promise<Sale | null> {
         try {
-            const sale = new Sale({
-                id_patient: body.id_patient,
-                date_time: body.date_time,
-                sale_total_cost: body.sale_total_cost,
-                items: body.items
-            });
-            const resultSale = await this.repository.create(sale);
+            const dto = new SaleDto(body);
+            const errores = await dto.validateDto();
+            if (errores.length > 0) {
+                console.log("Existe errores en los datos", errores)
+                return null;
+            }
 
-            sale.items.forEach(item => {
-                //validacion de existencia
-                item.id_sale = resultSale?.id_sale
-                //createrepository de saleitem y lo guardo como atributo de la clase controller
-            });
-            return resultSale;
+            const sale = new Sale(body);
+
+            const result = await this.repository.create(sale);
+            if (result && result.id_sale) {
+                console.log(`la venta se creó con exito`)
+                return result;
+            } else {
+                console.log(`la venta no pudo ser creada`)
+                return null;
+            }
 
         } catch (error: any) {
-            console.error(`Error en el registro de la venta: ${error?.message}`);
-            return error;
+            console.log("ha ocurrido un error al crear la venta.", error.message)
+            return null
+        }
+    }
+
+    async read(): Promise<Sale[]> {
+        const result: Sale[] = await this.repository.read()
+        if (result.length == 1) {
+            console.log("ventas obtenidas")
+
+        } else {
+            console.log("no hay ventas registradas")
+        }
+        return result;
+    }
+
+    async searchById(id: number): Promise<Sale | null> {
+        try {
+            const result = await this.repository.searchById(id)
+            if (result) {
+                return result
+            } else {
+                return null;
+            }
+
+        } catch (error: any) {
+            console.log("Ha ocurrido un error inesperado", error.message)
+            return null;
+        }
+    }
+    async remove(id: number): Promise<boolean> {
+
+        try {
+            const result = await this.repository.remove(id)
+
+            if (result === true) {
+                console.log(`venta eliminada`)
+                return true;
+            } else {
+                console.log(`no se pudo eliminar la venta con id ${id}`)
+                return false;
+            }
         }
 
-    }
-    read(): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
-    searchById(id: number): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
-    remove(id: number): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
-    update(body: any): Promise<any> {
-        throw new Error("Method not implemented.");
+        catch (error) {
+            console.log(`Ocurrio un error inesperado con la venta con id ${id}`)
+            return false;
+
+        };
+
     }
 
+    async update(body: {
+        id_sale: number,
+        id_patient: number,
+        date_time: Date,
+        sale_total_cost: number;
+        items: Array<SaleItem>
+    }
 
+    ): Promise<Sale | null> {
+
+        try {
+            const dto = new UpdateDto(body);
+            const errores = await dto.validateDto();
+            if (errores.length > 0) {
+                console.log("Existe errores en los datos", errores)
+                return null
+            }
+
+            const sale = new Sale(body);
+            const result = await this.repository.update(sale);
+            if (result) {
+                console.log(`venta actualizada`)
+                return result;
+            } else {
+                console.log(`No se pudo actualizar la venta con id ${body.id_sale}`)
+                return null;
+            }
+        } catch (error: any) {
+            console.log("Ha ocurrido un error inesperado", error.message)
+            return null;
+        }
+    }
 }
+

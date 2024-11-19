@@ -3,6 +3,8 @@ import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 import { SaleItem } from "../../domain/models/saleItem";
+import { Pool } from "mysql2/typings/mysql/lib/Pool";
+
 
 export class SaleRepository implements Imanageable<Sale> {
 
@@ -54,20 +56,45 @@ export class SaleRepository implements Imanageable<Sale> {
     }
 
     async update(body: Sale): Promise<Sale | null> {
-        const connection = getPoolConnection();
-        body.calculateTotalCost();
-        const querySql = `UPDATE sales SET id_patient= ?, date_time = ?, sale_total_cost =?, items = ? WHERE id_sale = ?`;
-        const values = [
-            body.id_patient,
-            body.date_time,
-            body.sale_total_cost,
-            body.items,
-            body.id_sale];
-        const resultSales = await connection.query<ResultSetHeader>(querySql, values);
+        const connection = getPoolConnection(); // Obteniendo el pool directamente
 
+        try {
+            body.calculateTotalCost();
+            const querySales = `
+                UPDATE sales 
+                SET id_patient = ?, date_time = ?, sale_total_cost = ? 
+                WHERE id_sale = ?`;
+            const salesValues = [
+                body.id_patient,
+                body.date_time,
+                body.sale_total_cost,
+                body.id_sale
+            ];
+            const resultSales = await connection.query<ResultSetHeader>(querySales, salesValues);
 
-        return resultSales[0].affectedRows == 1 ? body : null;
+            if (resultSales[0].affectedRows === 0) {
+                throw new Error("No se encontró la venta para actualizar.");
+            }
+            const deleteItemsQuery = `DELETE FROM sale_items WHERE id_sale = ?`;
+            await connection.query(deleteItemsQuery, [body.id_sale]);
 
+            const insertItemsQuery = `
+                INSERT INTO sale_items (id_sale, id_medicine, quantity, item_total_cost) 
+                VALUES (?, ?, ?, ?)`;
+            for (const item of body.items) {
+                const itemValues = [
+                    body.id_sale,
+                    item.id_medicine,
+                    item.quantity,
+                    item.item_total_cost
+                ];
+                await connection.query(insertItemsQuery, itemValues);
+            }
 
+            return body;
+        } catch (error) {
+            console.error("Error al actualizar la venta:");
+            return null;
+        }
     }
 }

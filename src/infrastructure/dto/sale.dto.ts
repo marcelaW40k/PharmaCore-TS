@@ -44,7 +44,7 @@ export class saleDto {
 
 }
 
-export class updateDto extends saleDto {
+export class UpdateDto extends saleDto {
 
     @IsNumber()
     id_sale: number;

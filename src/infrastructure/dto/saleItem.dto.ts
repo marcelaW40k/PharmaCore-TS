@@ -39,7 +39,7 @@ export class SaleItemDto {
 
 }
 
-export class updateDto extends SaleItemDto {
+export class UpdateDto extends SaleItemDto {
 
     @IsNumber()
     id_item: number;

@@ -20,14 +20,12 @@ export const userRoutes = () => {
 
     })
 
-    router.put("users/",(req,res) => {
+    router.put("/users",(req,res) => {
         const payload = req.body;
 
         userCrontroller.update(payload).then((result) =>{
             const status = result !== null ? 200: 400;
             res.status(status).send(result)
-
-
         })
 
         .catch((error) => {

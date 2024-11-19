@@ -16,15 +16,18 @@ export class UserCtrl implements Imanageable<User> {
     id_role: number;
   }): Promise<User | null> {
     try {
-      const update = new userDto(body);
-      const errores = await update.validateDto();
+      const create = new userDto(body);
+            
+      const errores = await create.validateDto();
 
       if (errores.length > 0) {
         throw new Error("Hubo un eror al validar los datos "); 
       } 
-
+       
       const user = new User(body);
+
       const result = await this.repository.create(user);
+      console.log(3);
         if (result ) {
           console.log(`el usuario  se agregó con exito`);
           return result;
@@ -33,7 +36,7 @@ export class UserCtrl implements Imanageable<User> {
         return null
       }
     } catch (error: any) {
-      console.log("ha ocurrido un erro al agregar.", error.message);
+      console.log("ha ocurrido un erro", error.message);
       return null;
     }
    

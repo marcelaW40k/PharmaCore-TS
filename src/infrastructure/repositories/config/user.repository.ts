@@ -8,7 +8,7 @@ export class UserRepository implements Imanageable<User> {
 
   async create(body: User): Promise<User|null> {
     const connection = getPoolConnection();
-    const querySql: string = `INSERT  INTO users (email,password,idRole) values (?,?,?)`;
+    const querySql: string = `INSERT  INTO users (email,password,id_role) values (?,?,?)`;
     const values: Array<string | number> = [
       body.email,
       body.password,
@@ -54,7 +54,7 @@ export class UserRepository implements Imanageable<User> {
 
   async update(body: User): Promise<User|null> {
     const connection = getPoolConnection();
-    const querySql = `UPDATE users SET idUser = , email = ? , password = ?, idRole = ?`;
+    const querySql = `UPDATE users SET idUser = , email = ? , password = ?, id_role = ?`;
     const values = [body.id_user, body.email, body.password, body.id_role];
     const result = await connection.query<ResultSetHeader>(querySql, values);
 

@@ -1,6 +1,6 @@
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
 import { Medicine } from "../domain/models/medicine";
-import { MedicineDto } from "../infrastructure/dto/medicine.dto";
+import { MedicineDto, updateMedicineDto } from "../infrastructure/dto/medicine.dto";
 import { MedicineRepository } from "../infrastructure/repositories/config/medicines.repository";
 
 export class MedicineController implements Imanageable<Medicine> {
@@ -92,28 +92,34 @@ export class MedicineController implements Imanageable<Medicine> {
 
 
     }
-    // async update(body: Medicine): Promise<Medicine | null> {
-
-    //   try {
-  
-    //     if (body.id_medicine == null) { console.log("El campo 'id_medicine' es necesario y no puede ser null o undefined"); return null; }
-  
-    //     const dto = new updateDto({
-    //       id_user: body.id_user, email: body.email, password: body.password, id_role: body.id_role
-  
-    //     })
-    //     const result:any = await this.repository.update(body)
-  
-    //     if(result.affectedRows == 1){
-    //       console.log("usuario actualizado")
-    //       return body;
-    //     }else {
-    //       console.log("no se pudo actualizar el usuario")
-    //       return null;
-    //     }
-    //   }catch(error:any){
-    //     console.log("Ha ocurrido un error inesperado", error.message)
-    //     return null;
-    //   }
-    // }
+    async update(body: { 
+        id_medicine: number;
+        name_medicine: string,
+        form: string,
+        prescription: boolean,
+        quantity_stock: number,
+        unit_cost: number }): Promise<Medicine | null> {
+        try {
+            const updateDto = new updateMedicineDto(body);
+            const errores = await updateDto.validateDto();
+            console.log(errores);
+            if (errores.length > 0) {
+                throw new Error('Error al validar los datos');
+            }
+            const medicine = new Medicine(body);
+            const result = await this.repository.update(medicine);
+            console.log(result);
+            if(result && result.id_medicine){
+                console.log("se actualizo el registro");
+                return result;
+            }
+            else {
+                console.log("no se actualizo el registro");
+                return null;
+            }
+        }
+        catch (error) {
+            throw error;
+        }
+    }
   }

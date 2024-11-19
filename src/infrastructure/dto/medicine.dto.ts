@@ -48,4 +48,6 @@ export class updateMedicineDto extends MedicineDto {
     super(body);
     this.id_medicine = body.id_medicine;
   }
+
+  
 }

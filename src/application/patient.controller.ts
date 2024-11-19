@@ -31,7 +31,7 @@ export class PatientController implements Imanageable<Patient> {
             console.error("Ha ocurrido un error al guardar el paciente:", error.message);
             return null;
         }
-        
+
     }
 
     async read(): Promise<Patient[]> {
@@ -52,6 +52,10 @@ export class PatientController implements Imanageable<Patient> {
 
     async searchById(id_patient: number): Promise<Patient | null> {
         try {
+            if (!id_patient) {
+                console.log("No se ha introducido el id del paciente.");
+                return null;
+            }
             const result = await this.patientRepository.searchById(id_patient);
             if (result) {
                 console.log('Paciente encontrado:', result);
@@ -67,6 +71,10 @@ export class PatientController implements Imanageable<Patient> {
 
     async remove(id_patient: number): Promise<boolean> {
         try {
+            if (!id_patient) {
+                console.log("No se ha introducido el id del paciente.");
+                return false;
+            }
             const result = await this.patientRepository.remove(id_patient);
             if (result === true) {
                 console.log(`Paciente eliminado con éxito.`);
@@ -77,23 +85,24 @@ export class PatientController implements Imanageable<Patient> {
             return result;
         } catch (error: any) {
             console.log("Ha ocurrido un error al eliminar el paciente." + error?.message);
-            return false;
+            return error;
         }
     }
 
     async update(patient: Patient): Promise<Patient | null> {
         try {
-            const updatedPatient = {
-                id_patient: patient.id_patient,
-                name: patient.name,
-                last_name: patient.last_name,
-                birth_date: patient.birth_date,
-                known_allergies: patient.known_allergies,
-                insurance_number: patient.insurance_number
-            };
-            const result = await this.patientRepository.update(updatedPatient);
+            const patientDto = new PatientDto(patient);
+            const errors = await patientDto.validateDto();
+            if (errors.length === 0) {
+                console.log('Validación correcta. error: ', errors);
+            } else {
+                console.log('Validación fallida. error: ', errors);
+                return null;
+            }
+            const patientUp = new Patient(patient);
+            const result = await this.patientRepository.update(patientUp);
             if (result.affectedRows == 1) {
-                console.log(`Paciente actualizado con éxito: ${updatedPatient.id_patient}`);
+                console.log(`Paciente actualizado con éxito: ${patientUp.id_patient}`);
             } else {
                 console.log("No se pudo actualizar el paciente.");
             }

@@ -11,97 +11,68 @@ export const saleRoutes = () => {
 
     const salesCtrl = new SaleController();
 
-    router.post("/sales", (req, res) => {
-
-        const payload = req.body;
-
-        salesCtrl
-            .create(payload)
+    router.post("/sales", (request, response) => {
+        const payload = request.body;
+        salesCtrl.create(payload)
             .then((result) => {
-                const status = result.ok === true ? 200 : 400;
-                res.status(status).send(result);
+                response.status(200).send(result);
             })
             .catch((error) => {
-                res.status(500).send(error);
+                response.status(500).send(error);
             });
-    });
+    })
 
-    router.put("/productos", (req, res) => {
-        // Actualizar un producto
-        const payload = req.body;
-        productosCtrl
-            .actualizar(payload)
-            .then((result) => {
-                const status = result.ok === true ? 200 : 400;
-                res.status(status).send(result);
-            })
-            .catch((error) => {
-                res.status(500).send(error);
-            });
-    });
-
-    router.put("/productos/cantidad", (req, res) => {
-        // Actualizar la cantidad un producto
-        const body = req.body;
-        productosCtrl
-            .actualizarCantidad(body)
-            .then((result) => {
-                const status = result.ok === true ? 200 : 400;
-                res.status(status).send(result);
-            })
-            .catch((error) => {
-                res.status(500).send(error);
-            });
-    });
-
-    // THEN - CATCH
-    // router.get("/productos", (req, res) => {
-    //   productosCtrl
-    //     .obtener()
-    //     .then((result) => {
-    //       res.send(result);
-    //     })
-    //     .catch((error) => {
-    //       res.send({
-    //         message: "Ha ocurrido un error al consultar los productos",
-    //       });
-    //     });
-    // });
-
-    // ASYNC - AWAIT
-    router.get("/productos", async (_, res) => {
+    router.get("/sales", async (_, response) => {
         try {
-            const result = await productosCtrl.obtener();
+            const result = await salesCtrl.read();
+            response.send(result);
+
+        } catch (error) {
+            response.status(500).send(error)
+
+        }
+    })
+
+    router.get("/sales/:id", async (req, res) => {
+
+        const idString = req.params.id;
+        const id = parseInt(idString);
+        try {
+            const result = await salesCtrl.searchById(id);
             res.send(result);
         } catch (error) {
-            res.status(500).send(error);
+            res.status(500).send(error)
         }
-    });
 
-    // parametro dinamico /:id
-    router.get("/productos/:id", async (req, res) => {
-        try {
-            const idStr = req.params.id;
-            const id = parseInt(idStr);
-            const result = await productosCtrl.obtenerPorId(id);
-            const status = result.ok === true ? 200 : 404;
-            res.status(status).send(result);
-        } catch (error) {
-            res.status(500).send(error);
-        }
-    });
+    })
 
-    router.delete("/productos/:id", async (req, res) => {
+    router.delete("/sales/:id", async (req, res) => {
         try {
-            const idStr = req.params.id;
-            const id = parseInt(idStr);
-            const result = await productosCtrl.eliminar(id);
-            const status = result.ok === true ? 200 : 400;
-            res.status(status).send(result);
+            const idString = req.params.id;
+            const id = parseInt(idString);
+            const result = await salesCtrl.remove(id);
+            res.send(result);
+
         } catch (error) {
-            res.status(500).send(error);
+            res.status(500).send(error)
         }
-    });
+    })
+
+
+    router.put("/sales", (req, res) => {
+
+        const payload = req.body;
+        salesCtrl.update(payload)
+            .then((result) => {
+                res.status(200).send(result);
+            })
+            .catch((error) => {
+                res.status(500).send(error);
+            });
+
+    })
+
+
 
     return router;
-};
+}

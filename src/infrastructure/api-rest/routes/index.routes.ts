@@ -1,5 +1,6 @@
 import Express from "express";
 import { userRoutes } from "./user.routes";
+import { saleRoutes } from "./sale.routes";
 
 export const routes = () => {
     const router = Express.Router();
@@ -8,5 +9,6 @@ export const routes = () => {
         res.send("Hello world");
     })
     router.use(userRoutes())
+    router.use(saleRoutes())
     return router;
 }

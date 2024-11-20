@@ -11,7 +11,7 @@ const main = () => {
 
     const app = express()
 
-    // Importante: Middleware para aceptar los json en los request
+ 
     app.use(express.json())
      app.get("/", (req, res) => {
       res.send({ message: "Bienvenido a la API " });

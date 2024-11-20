@@ -71,18 +71,17 @@ export const MedicineRoutes = () => {
         }
     })
 
-    // router.get("/medicine/:name", async (req,res) => {
-    //     try {
-    //         const isdString = req.params.name;
-    //         const id = parseInt(isdString)
-    //         const result = await medicineCtrl.searchByName(name);
-    //         const status = result? 200:404;
-    //         res.status(status).send(result);
+    router.get("/medicine/name/:name", async (req,res) => {
+        try {
+            const name = req.params.name
+            const result = await medicineCtrl.searchByName(name);
+            const status = result? 200:404;
+            res.status(status).send(result);
       
-    //     }catch(error){
-    //         res.status(500).send(error)
-    //     }
-    // })
+        }catch(error){
+            res.status(500).send(error)
+        }
+    })
 
     return router;
 }

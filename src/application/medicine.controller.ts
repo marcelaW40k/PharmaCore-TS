@@ -70,12 +70,24 @@ export class MedicineController implements Imanageable<Medicine> {
             return null;
         }
     }
-    async remove(id: number): Promise<boolean> {
 
+    async searchByName(name: string): Promise<Medicine | null> {        
+        try {
+            const result = await this.repository.searchByName(name)            
+            if (result) {
+                return result
+            } else {
+                return null;
+            }
+        } catch (error: any) {
+            console.log("Ha ocurrido un error inesperado", error.message)
+            return null;
+        }
+    }
+    async remove(id: number): Promise<boolean> {
         try {
             const result = await this.repository.remove(id)
-
-            if (result === true) {
+            if (result === true) {  
                 console.log(`Medicamento eliminado`)
                 return true;
             } else {
@@ -83,9 +95,10 @@ export class MedicineController implements Imanageable<Medicine> {
                 return false;
             }
         }
-
         catch (error) {
-            console.log(`Ocurrio un error inesperado con el medicamento con ${id}`)
+            console.log(`Ocurrio un error inesperado con el medicamento con ${id} `)
+            console.log(error);
+            
             return false;
         };
     }

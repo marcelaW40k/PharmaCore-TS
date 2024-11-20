@@ -47,7 +47,7 @@ export class MedicineRepository implements Imanageable<Medicine> {
     return result[0].length > 0 ? result[0][0] as Medicine : null; 
 }
 
-  async searcheByName(name: string): Promise<Medicine | null> {
+  async searchByName(name: string): Promise<Medicine | null> {
     const connection = getPoolConnection();
     const querySql = `SELECT * FROM medicines WHERE name_medicine = ?`;
     const values = [name]
@@ -64,7 +64,6 @@ export class MedicineRepository implements Imanageable<Medicine> {
       querySql,
       values
     );
-
     return result[0].affectedRows == 1? true:false;
   }
 

@@ -51,7 +51,7 @@ export class SaleController implements Imanageable<Sale> {
 
     async read(): Promise<Sale[]> {
         const result: Sale[] = await this.repository.read()
-        if (result.length == 1) {
+        if (result.length > 0) {
             console.log("ventas obtenidas")
 
         } else {

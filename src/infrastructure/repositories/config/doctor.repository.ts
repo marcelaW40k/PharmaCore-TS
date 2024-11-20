@@ -12,7 +12,7 @@ export class doctorRepository implements Imanageable<Doctor> {
     const connection = getPoolConnection();
     const querySql: string = `INSERT  INTO doctors (id_doctor,name,last_name) values (?,?,?)`;
     const values: Array<string | number> = [
-      body.id_doctor,
+      body.id_doctor ?? 0,
       body.name,
       body.last_name
     ];

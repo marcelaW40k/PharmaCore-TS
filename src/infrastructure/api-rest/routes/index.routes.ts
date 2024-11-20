@@ -10,6 +10,8 @@ export const routes = () => {
         res.send("Hello world");
     })
     router.use(userRoutes())
+
+
     router.use(saleRoutes())
     router.use(saleItemRoutes())
     return router;

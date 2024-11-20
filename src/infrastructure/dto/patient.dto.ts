@@ -1,8 +1,8 @@
 import { IsInt, IsString, IsDate, IsOptional, MaxLength, validate } from 'class-validator';
 
 export class PatientDto {
-    @IsInt()
-    id_patient: number;
+    @IsString()
+    id_patient: string;
 
     @IsString()
     @MaxLength(50)
@@ -23,7 +23,7 @@ export class PatientDto {
     @IsInt()
     insurance_number: number;
 
-    constructor(body: { id_patient: number; name: string; last_name: string; birth_date: Date; known_allergies: string; insurance_number: number }) {
+    constructor(body: { id_patient: string; name: string; last_name: string; birth_date: Date; known_allergies: string; insurance_number: number }) {
         this.id_patient = body.id_patient;
         this.name = body.name;
         this.last_name = body.last_name;

@@ -1,6 +1,6 @@
 
 export class Patient {
-    id_patient: number;
+    id_patient: string;
     name: string;
     last_name: string;
     birth_date: Date;
@@ -8,7 +8,7 @@ export class Patient {
     insurance_number: number;
 
     constructor(infoPatient: {
-        id_patient: number;
+        id_patient: string;
         name: string;
         last_name: string;
         birth_date: Date;

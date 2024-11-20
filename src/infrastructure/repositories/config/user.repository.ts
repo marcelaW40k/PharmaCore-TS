@@ -3,7 +3,7 @@ import { Imanageable } from "../../../domain/models/Imanager/Imanageable";
 import { User } from "../../../domain/models/user";
 import { getPoolConnection } from "../../../infrastructure/repositories/config/data.source";
 
-export class UserRepository implements Imanageable<User> {
+export class UserRepository {
 
   // async create(user: User): Promise<any> {
   //   const connection = getPoolConnection();

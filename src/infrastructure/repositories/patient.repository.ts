@@ -7,8 +7,9 @@ export class PatientRepository implements Imanageable<Patient> {
 
   async create(patient: Patient): Promise<Patient | null > {
     const connection = getPoolConnection();
-    const sql = `INSERT INTO patients (name, last_name, birth_date, known_allergies, insurance_number) VALUES (?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO patients (id_patient, name, last_name, birth_date, known_allergies, insurance_number) VALUES (?, ?, ?, ?, ?, ?)`;
     const values: Array<string | number | Date> = [
+      patient.id_patient,
       patient.name,
       patient.last_name,
       patient.birth_date,
@@ -16,7 +17,7 @@ export class PatientRepository implements Imanageable<Patient> {
       patient.insurance_number,
     ];
     const result: [ResultSetHeader, FieldPacket[]] = await connection.query(sql, values);
-    patient.id_patient = result[0].insertId;
+     result[0].insertId.toString();
     return result[0].affectedRows == 1? patient:null;
   }
 
@@ -24,7 +25,7 @@ export class PatientRepository implements Imanageable<Patient> {
   async read(): Promise<Patient[]> {
       const connection = getPoolConnection();
       const sql = `SELECT * FROM patients`;
-      const result = await connection.query(sql);
+      const result = await connection.query<RowDataPacket[]>(sql);
       return result[0] as Patient[];
     }
 
@@ -57,7 +58,7 @@ export class PatientRepository implements Imanageable<Patient> {
       ];
       const result = await connection.query<ResultSetHeader>(sql, values);
 
-    patient.id_patient = result[0].insertId;
+     result[0].insertId.toString();
     return result[0].affectedRows == 1? patient:null;
 
     }

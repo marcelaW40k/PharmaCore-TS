@@ -13,6 +13,7 @@ export class PatientController implements Imanageable<Patient> {
 
     async create(body: Patient): Promise<Patient | null> {
         try {
+            body.birth_date = new Date(body.birth_date);
             const patientDto = new PatientDto(body);
             const errors = await patientDto.validateDto();
             if (errors.length > 0) {
@@ -21,11 +22,12 @@ export class PatientController implements Imanageable<Patient> {
             }
             const patient = new Patient(body);
             const result = await this.patientRepository.create(patient);
+            console.log(result);
             if (result && result.id_patient) {
                 console.log(`El paciente ${patientDto.name} fue agregado correctamente.`);
                 return result;
             } else {
-                console.log("El paciente no se agregó");
+                console.log("El paciente no se agregó", result);
             } return null;
         } catch (error: any) {
             console.error("Ha ocurrido un error al guardar el paciente:", error.message);

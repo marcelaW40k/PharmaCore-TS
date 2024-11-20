@@ -24,8 +24,6 @@ export class SaleRepository implements Imanageable<Sale> {
         const connection = getPoolConnection();
 
         try {
-            await connection.beginTransaction();
-
 
             const salequerySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?, NULL)';
             const salevalues: Array<string | Date> = [body.id_patient, body.date_time];
@@ -45,7 +43,7 @@ export class SaleRepository implements Imanageable<Sale> {
                         `Stock insuficiente para la medicina con id ${item.id_medicine}. No se pudo completar la venta.`
                     );
                 }
-                const actualizarStockquery = `UPDATE medicines SET quantity_stock = quantity_stock - ? WHERE id_medicine = ?`;
+                const actualizarStockquery = `UPDATE medicines SET quantity_stock = quantity_stock - ? WHERE id_medicine = ?;`
                 const actualizarStockValues = [item.quantity, item.id_medicine];
                 await connection.query<ResultSetHeader>(actualizarStockquery, actualizarStockValues);
 
@@ -57,17 +55,19 @@ export class SaleRepository implements Imanageable<Sale> {
             const totalCostQuery = `UPDATE  sales SET sale_total_cost = (SELECT SUM(total_cost_item) FROM sale_items WHERE id_sale = ?) WHERE id_sale = ?`;
             await connection.query(totalCostQuery, [body.id_sale, body.id_sale]);
 
-            await connection.commit();
+
             return saleresult[0].affectedRows === 1 ? body : null;
 
         } catch (error: any) {
 
-            await connection.rollback(); // Revertir la transacción si ocurre un error
+
             console.error("Error creando la venta:", error.message);
             throw error;
         }
 
     }
+
+
 
     async read(): Promise<Sale[]> {
         const connection = getPoolConnection();

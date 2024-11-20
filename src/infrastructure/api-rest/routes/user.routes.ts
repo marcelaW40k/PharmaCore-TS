@@ -1,5 +1,6 @@
-import  Express  from "express";
+import  Express, { Router }  from "express";
 import { UserCtrl } from "../../../application/user.controller";
+
 
 export const userRoutes = () => {
     const router = Express.Router();
@@ -23,7 +24,7 @@ export const userRoutes = () => {
     router.put("/users",(req,res) => {
         const payload = req.body;
 
-        userCrontroller.update(payload).then((result) =>{
+        userCrontroller.update(payload).then((result) =>{ // ESTE ES EL UPDATE
             const status = result !== null ? 200: 400;
             res.status(status).send(result)
         })
@@ -45,5 +46,37 @@ export const userRoutes = () => {
         }
 
     })
-    return router;
+    
+
+    router.delete("/users/:id", async (req,res) =>{
+        try{
+            const idString = req.params.id; //respuesta recibida con parametros o cuerpo de la solicitud toma el id 
+            const id = parseInt(idString)
+            const result = await userCrontroller.remove(id);
+            const status = result? 200:400;
+            res.status(status).send(result);
+        } catch (error) {
+            res.status(500).send(error)
+        }
+       
+    });
+
+    router.get("/users/:id", async (req,res) => {
+        try {
+            const isdString = req.params.id;
+            const id = parseInt(isdString)
+            const result = await userCrontroller.searchById(id);
+            const status = result? 200:404;
+            res.status(status).send(result);
+      
+        }catch(error){
+            res.status(500).send(error)
+        }
+       
+
+       
+
+    })
+
+    return router
 }

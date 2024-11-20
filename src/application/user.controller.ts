@@ -58,6 +58,7 @@ export class UserCtrl implements Imanageable<User> {
     try {
       const resultado = await this.repository.searchById(id);
       if (resultado) {
+        console.log("busqueda exitosa ")
         return resultado;
       } else {
         return null;
@@ -70,7 +71,7 @@ export class UserCtrl implements Imanageable<User> {
 
   async remove(id: number): Promise<boolean> {
     try {
-      const resultado: any = await this.repository.remove(id);
+      const resultado = await this.repository.remove(id);
 
       if (resultado === true) {
         console.log(`usuario eliminado`);
@@ -80,8 +81,8 @@ export class UserCtrl implements Imanageable<User> {
         return false;
       }
     } catch (error) {
-      console.log(`Ocurrio un error inesperado con ${id}`);
-      return false;
+      throw{ message:"error inesperado", error}
+      
     }
   }
 

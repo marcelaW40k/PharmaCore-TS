@@ -44,7 +44,7 @@ export class UserCtrl implements Imanageable<User> {
 
   async read(): Promise<User[]> {
     const result: User[] = await this.repository.read();
-    if (result.length == 1) {
+    if (result.length > 0) {
       console.log("usuarios obtenidos");
     } else {
       console.log("no se encontró");

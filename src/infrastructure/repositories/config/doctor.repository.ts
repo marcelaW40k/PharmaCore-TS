@@ -34,7 +34,7 @@ export class doctorRepository implements Imanageable<Doctor> {
 
   async searchById(id: number): Promise<Doctor | null> {
     const connection = getPoolConnection();
-    const querySql: string = `SELECT   * FROM doctors WHERE id = ?`;
+    const querySql: string = `SELECT   * FROM doctors WHERE id_doctor = ?`;
     const values = [id];
     const result: [RowDataPacket[], FieldPacket[]] = await connection.query(querySql, values);
     return result[0].length > 0 ? result[0][0] as Doctor : null; 

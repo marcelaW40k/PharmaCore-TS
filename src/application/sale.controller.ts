@@ -66,7 +66,6 @@ export class SaleController implements Imanageable<Sale> {
         }
         return result;
     }
-
     async searchById(id: number): Promise<Sale | null> {
         try {
             const result = await this.repository.searchById(id)
@@ -94,7 +93,6 @@ export class SaleController implements Imanageable<Sale> {
                 return false;
             }
         }
-
         catch (error: any) {
             console.log(`Ocurrio un error inesperado con la venta con id ${id}`, error)
             return false;
@@ -102,7 +100,6 @@ export class SaleController implements Imanageable<Sale> {
         };
 
     }
-
     async update(body: {
         id_sale: number,
         id_patient: string,

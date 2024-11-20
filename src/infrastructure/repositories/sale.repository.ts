@@ -38,16 +38,16 @@ export class SaleRepository implements Imanageable<Sale> {
             await saleItemRepository.create(item)
 
 
-            //const actualizarStockquery = `UPDATE medicines SET quantity_stock = quantity_stock - ? WHERE id_medicine = ? AND quantity_stock >= ?`;
-            //const actualizarStockValues = [item.quantity, item.id_medicine, item.quantity]
-
-            // const [stockResult] = await connection.query<ResultSetHeader>(actualizarStockquery, actualizarStockValues)
-
-            // if (stockResult.affectedRows === 0) {
-            //    throw new Error(
-            //       `Stock insuficiente para la medicina con ID ${item.id_medicine}. No se pudo completar la venta.`
-            //  );
-            // }
+            /* const actualizarStockquery = `UPDATE medicines SET quantity_stock = quantity_stock - ? WHERE id_medicine = ? AND quantity_stock >= ?`;
+             const actualizarStockValues = [item.quantity, item.id_medicine, item.quantity]
+ 
+             const [stockResult] = await connection.query<ResultSetHeader>(actualizarStockquery, actualizarStockValues)
+ 
+             if (stockResult.affectedRows === 0) {
+                 throw new Error(
+                    `Stock insuficiente para la medicina con ID ${item.id_medicine}. No se pudo completar la venta.`
+               );
+              }*/
 
         }
         const totalCostQuery = `UPDATE  sales SET sale_total_cost = (SELECT SUM(total_cost_item) FROM sale_items WHERE id_sale = ?) WHERE id_sale = ?`;

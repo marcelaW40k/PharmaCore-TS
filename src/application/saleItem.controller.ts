@@ -94,7 +94,6 @@ export class SaleItemController implements Imanageable<SaleItem> {
 
         };
 
-
     }
 
     async update(body: {

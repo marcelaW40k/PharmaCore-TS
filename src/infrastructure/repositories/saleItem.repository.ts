@@ -55,7 +55,7 @@ export class SaleItemRepository implements Imanageable<SaleItem> {
 
     async update(body: SaleItem): Promise<SaleItem | null> {
         const connection = getPoolConnection();
-        const querySql = `UPDATE sale_items SET id_sale= ?, id_medicine = ?, quantity = ?, item_total_cost = quantity * (SELECT unit_cost FROM medicines WHERE id_medicine = ?) WHERE id_item = ?`;
+        const querySql = `UPDATE sale_items SET id_sale= ?, id_medicine = ?, quantity = ?, total_cost_item = quantity * (SELECT unit_cost FROM medicines WHERE id_medicine = ?) WHERE id_item = ?`;
         const values = [
             body.id_sale,
             body.id_medicine,

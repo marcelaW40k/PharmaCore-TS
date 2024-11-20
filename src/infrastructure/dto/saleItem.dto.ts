@@ -1,4 +1,4 @@
-import { IsNumber, validate } from "class-validator";
+/*import { IsNumber, validate } from "class-validator";
 
 export class SaleItemDto {
 
@@ -11,7 +11,7 @@ export class SaleItemDto {
     @IsNumber()
     quantity: number;
 
-    item_total_cost?: number;
+    total_cost_item?: number;
 
 
     constructor(body: {
@@ -46,7 +46,7 @@ export class UpdateDto extends SaleItemDto {
         id_sale: number;
         id_medicine: number;
         quantity: number;
-        item_total_cost?: number;
+        total_cost_item?: number;
 
 
 
@@ -55,3 +55,4 @@ export class UpdateDto extends SaleItemDto {
         this.id_item = body.id_item;
     }
 }
+*/

@@ -8,7 +8,7 @@ import { SaleItemRepository } from "./saleItem.repository";
 
 export class SaleRepository implements Imanageable<Sale> {
 
-    async patientExists(id_patient: number): Promise<boolean> {
+    async patientExists(id_patient: string): Promise<boolean> {
         const connection = getPoolConnection();
         try {
             const query = `SELECT EXISTS(SELECT 1 FROM patients WHERE id_patient = ?) AS patient_exists`;
@@ -22,29 +22,24 @@ export class SaleRepository implements Imanageable<Sale> {
 
     async create(body: Sale): Promise<Sale | null> {
         const connection = getPoolConnection();
-        body.calculateTotalCost();
 
 
-        const salequerySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?,?)';
-        const salevalues: Array<string | number | undefined | Date> =
+        const salequerySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?, NULL)';
+        const salevalues: Array<string | Date> =
             [body.id_patient,
-            body.date_time,
-            body.sale_total_cost];
+            body.date_time];
         ;
-        const saleresult: [ResultSetHeader, FieldPacket[]] = await connection.query(
-            salequerySql,
-            salevalues
-        );
+        const saleresult: [ResultSetHeader, FieldPacket[]] = await connection.query(salequerySql, salevalues);
         body.id_sale = saleresult[0].insertId;
 
         const saleItemRepository = new SaleItemRepository()
         for (const item of body.items) {
             item.id_sale = body.id_sale;
             await saleItemRepository.create(item)
-
-
-
         }
+
+        const totalCostQuery = `UPDATE  sales SET sale_total_cost = (SELECT SUM(total_cost_item) FROM sale_items WHERE id_sale = ?) WHERE id_sale = ?`;
+        await connection.query(totalCostQuery, [body.id_sale, body.id_sale]);
         return saleresult[0].affectedRows == 1 ? body : null;
     }
 
@@ -70,25 +65,20 @@ export class SaleRepository implements Imanageable<Sale> {
         const connection = getPoolConnection();
         const querySql = ` DELETE FROM sales WHERE id = ?`;
         const values = [id];
-        const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
-            querySql,
-            values
-        );
+        const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
 
         return result[0].affectedRows == 1 ? true : false;
     }
 
     async update(body: Sale): Promise<Sale | null> {
-        const connection = getPoolConnection(); // Obteniendo el pool directamente
+        const connection = getPoolConnection();
 
         try {
-            body.calculateTotalCost();
-            const querySales = `
-                UPDATE sales SET id_patient = ?, date_time = ?, sale_total_cost = ? WHERE id_sale = ?`;
+
+            const querySales = `UPDATE sales SET id_patient = ?, date_time = ? WHERE id_sale = ?`;
             const salesValues = [
                 body.id_patient,
                 body.date_time,
-                body.sale_total_cost,
                 body.id_sale
             ];
             const resultSales = await connection.query<ResultSetHeader>(querySales, salesValues);
@@ -99,18 +89,17 @@ export class SaleRepository implements Imanageable<Sale> {
             const deleteItemsQuery = `DELETE FROM sale_items WHERE id_sale = ?`;
             await connection.query(deleteItemsQuery, [body.id_sale]);
 
-            const insertItemsQuery = `INSERT INTO sale_items (id_sale, id_medicine, quantity, item_total_cost) VALUES (?, ?, ?, ?)`;
+            const saleItemRepository = new SaleItemRepository();
             for (const item of body.items) {
-                const itemValues = [
-                    body.id_sale,
-                    item.id_medicine,
-                    item.quantity,
-                    item.item_total_cost
-                ];
-                await connection.query(insertItemsQuery, itemValues);
+
+                item.id_sale = body.id_sale ?? 0;
+                await saleItemRepository.create(item);
             }
 
+            const totalCostQuery = `UPDATE sales SET sale_total_cost = (SELECT SUM(total_cost_item) FROM sale_items WHERE id_sale = ?) WHERE id_sale = ?`;
+            await connection.query(totalCostQuery, [body.id_sale, body.id_sale])
             return body;
+
         } catch (error) {
             console.error("Error al actualizar la venta:");
             return null;

@@ -1,4 +1,4 @@
-import { IsNumber, IsDate, validate, IsArray, ValidateNested, } from "class-validator";
+/*import { IsNumber, IsDate, validate, IsArray, ValidateNested, } from "class-validator";
 import { Type } from "class-transformer";
 import { SaleItem } from "../../domain/models/saleItem";
 import 'reflect-metadata';
@@ -14,9 +14,9 @@ export class SaleDto {
 
     sale_total_cost?: number;
 
-    @IsDate()
+    @IsDate({ message: "date_time must be a Date instance" })
     @Type(() => Date)
-    date_time: Date;
+    date_time!: Date;
 
     @IsArray()
     @ValidateNested({ each: true })
@@ -64,5 +64,5 @@ export class UpdateDto extends SaleDto {
         this.id_sale = body.id_sale;
     }
 }
-
+*/
 

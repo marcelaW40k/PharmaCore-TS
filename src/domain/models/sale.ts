@@ -3,7 +3,7 @@ import { SaleItem } from "./saleItem";
 
 export class Sale {
     id_sale?: number | null;
-    id_patient: number;
+    id_patient: string;
     date_time: Date;
     sale_total_cost?: number;
     items: Array<SaleItem>
@@ -12,7 +12,7 @@ export class Sale {
 
         {
             id_sale?: number
-            id_patient: number,
+            id_patient: string,
             date_time: Date,
             sale_total_cost?: number;
             items: Array<SaleItem>
@@ -23,11 +23,6 @@ export class Sale {
         this.sale_total_cost = infoSale.sale_total_cost
         this.items = infoSale.items
 
-        this.calculateTotalCost()
-
-    }
-    calculateTotalCost(): void {
-        this.sale_total_cost = this.items.reduce((total, item) => total + (item.item_total_cost ?? 0), 0) ?? 0;
     }
 
 }

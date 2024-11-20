@@ -1,7 +1,7 @@
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
 import { Sale } from "../domain/models/sale";
 import { SaleItem } from "../domain/models/saleItem";
-import { SaleDto, UpdateDto } from "../infrastructure/dto/sale.dto";
+//import { SaleDto, UpdateDto } from "../infrastructure/dto/sale.dto";
 import { SaleRepository } from "../infrastructure/repositories/sale.repository";
 
 
@@ -13,7 +13,7 @@ export class SaleController implements Imanageable<Sale> {
 
     async create(body:
         {
-            id_patient: number,
+            id_patient: string,
             date_time: Date,
             items: Array<SaleItem>
         }
@@ -25,12 +25,12 @@ export class SaleController implements Imanageable<Sale> {
                 return null;
             }
 
-            const dto = new SaleDto(body);
-            const errores = await dto.validateDto();
-            if (errores.length > 0) {
-                console.log("Existe errores en los datos", errores)
-                return null;
-            }
+            /* const dto = new SaleDto(body);
+             const errores = await dto.validateDto();
+             if (errores.length > 0) {
+                 console.log("Existe errores en los datos", errores)
+                 return null;
+             }*/
 
             const sale = new Sale(body);
 
@@ -98,18 +98,18 @@ export class SaleController implements Imanageable<Sale> {
 
     async update(body: {
         id_sale: number,
-        id_patient: number,
+        id_patient: string,
         date_time: Date,
         items: Array<SaleItem>
     }): Promise<Sale | null> {
 
         try {
-            const dto = new UpdateDto(body);
-            const errores = await dto.validateDto();
-            if (errores.length > 0) {
-                console.log("Existe errores en los datos", errores)
-                return null
-            }
+            /* const dto = new UpdateDto(body);
+             const errores = await dto.validateDto();
+             if (errores.length > 0) {
+                 console.log("Existe errores en los datos", errores)
+                 return null
+             }*/
 
             const sale = new Sale(body);
             const result = await this.repository.update(sale);

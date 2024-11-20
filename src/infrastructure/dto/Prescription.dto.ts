@@ -1,10 +1,10 @@
-import "reflect-metadata";
-import { IsDate, IsNumber, validate } from "class-validator";
+
+import { IsDate, IsNumber, IsString, validate } from "class-validator";
 
 export class PrescriptionDto {
 
-    @IsNumber()
-    id_patient: number;
+    @IsString()
+    id_patient: string;
 
     @IsNumber()
     id_doctor: number;
@@ -12,7 +12,8 @@ export class PrescriptionDto {
     @IsDate()
     issue_date: Date;
 
-    constructor(body: { id_patient: number, id_doctor: number, issue_date: Date }) {
+
+    constructor(body: { id_patient: string, id_doctor: number, issue_date: Date }) {
         this.id_patient = body.id_patient;
         this.id_doctor = body.id_doctor;
         this.issue_date = body.issue_date;
@@ -24,4 +25,29 @@ export class PrescriptionDto {
           });
     }
 
+}
+
+export class updatePrescriptionDto extends PrescriptionDto {
+    @IsNumber()
+    id_prescription: number;
+
+    constructor(body: { 
+        id_prescription: number, 
+        id_patient: string, 
+        id_doctor: number, 
+        issue_date: Date 
+    }) {
+        super({
+            id_patient: body.id_patient,
+            id_doctor: body.id_doctor,
+            issue_date: body.issue_date
+        });
+        this.id_prescription = body.id_prescription;
+    }
+
+    async validateDto() {
+        return await validate(this, {
+            validationError: { target: false, value: false },
+          });
+    }
 }

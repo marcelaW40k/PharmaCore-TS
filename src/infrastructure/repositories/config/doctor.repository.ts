@@ -56,11 +56,11 @@ export class doctorRepository implements Imanageable<Doctor> {
 
   async update(body: Doctor): Promise<Doctor|null> {
     const connection = getPoolConnection();
-    const querySql = `UPDATE doctors SET id_doctor = , name = ? , last_name = ?, `;
-    const values = [body.id_doctor, body.name, body.last_name,];
+    const querySql = `UPDATE doctors SET   name = ? , last_name = ? WHERE id_doctor = ? `;
+    const values = [ body.name, body.last_name, body.id_doctor];
     const result = await connection.query<ResultSetHeader>(querySql, values);
 
-    body.id_doctor = result[0].insertId;
+    result[0].insertId;
     return result[0].affectedRows == 1? body:null;
 
     

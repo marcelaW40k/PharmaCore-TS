@@ -42,6 +42,8 @@ export class SaleRepository implements Imanageable<Sale> {
             item.id_sale = body.id_sale;
             await saleItemRepository.create(item)
 
+
+
         }
         return saleresult[0].affectedRows == 1 ? body : null;
     }

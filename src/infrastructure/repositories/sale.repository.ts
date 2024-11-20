@@ -3,6 +3,7 @@ import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 import { SaleItemRepository } from "./saleItem.repository";
+import { SaleItem } from "../../domain/models/saleItem";
 
 
 
@@ -17,6 +18,24 @@ export class SaleRepository implements Imanageable<Sale> {
         } catch (error) {
             console.error("Error verificando la existencia del paciente:", error);
             return false;
+        }
+    }
+
+    async stockIsSufficient(items: SaleItem[]): Promise<boolean> {
+        const connection = getPoolConnection();
+        try {
+            for (const item of items) {
+                const stockQuery = `SELECT quantity_stock FROM medicines WHERE id_medicine = ?`;
+                const [stockResult] = await connection.query<RowDataPacket[]>(stockQuery, [item.id_medicine]);
+                if (!stockResult.length || stockResult[0].quantity_stock < item.quantity) {
+                    console.error(`Stock insuficiente para la medicina con id ${item.id_medicine}.`);
+                    return false;
+                }
+            }
+            return true;
+        } catch (error) {
+            console.error("Error verificando el stock:", error);
+            throw error;
         }
     }
 

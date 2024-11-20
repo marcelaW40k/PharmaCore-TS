@@ -25,6 +25,12 @@ export class SaleController implements Imanageable<Sale> {
                 return null;
             }
 
+            const stockSufficient = await this.repository.stockIsSufficient(body.items);
+            if (!stockSufficient) {
+                console.log("Stock insuficiente para uno o más ítems de la venta.");
+                return null;
+            }
+
             /* const dto = new SaleDto(body);
              const errores = await dto.validateDto();
              if (errores.length > 0) {

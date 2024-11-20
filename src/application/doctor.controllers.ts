@@ -69,6 +69,7 @@ export class doctorController implements Imanageable<Doctor> {
   }
 
   async remove(id: number): Promise<boolean> {
+    
     try {
       const resultado = await this.repository.remove(id);
 

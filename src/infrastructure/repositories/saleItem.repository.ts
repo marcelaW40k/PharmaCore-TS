@@ -15,10 +15,7 @@ export class SaleItemRepository implements Imanageable<SaleItem> {
             body.quantity,
             body.id_medicine];
         ;
-        const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
-            querySql,
-            values
-        );
+        const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
         body.id_item = result[0].insertId;
         return result[0].affectedRows == 1 ? body : null;
     }

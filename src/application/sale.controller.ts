@@ -44,7 +44,7 @@ export class SaleController implements Imanageable<Sale> {
             }
 
         } catch (error: any) {
-            console.log("ha ocurrido un error al crear la venta.", error.message)
+            console.log("ha ocurrido un error al crear la venta.", error)
             return null
         }
     }

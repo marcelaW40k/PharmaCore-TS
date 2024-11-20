@@ -37,6 +37,7 @@ export class SaleRepository implements Imanageable<Sale> {
             item.id_sale = body.id_sale;
             await saleItemRepository.create(item)
 
+
             const actualizarStockquery = `UPDATE medicines SET quantity_stock = quantity_stock - ? WHERE id_medicine = ? AND quantity_stock >= ?`;
             const actualizarStockValues = [item.quantity, item.id_medicine, item.quantity]
 

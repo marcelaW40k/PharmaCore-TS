@@ -1,6 +1,6 @@
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
 import { SaleItem } from "../domain/models/saleItem";
-//import { SaleItemDto, UpdateDto } from "../infrastructure/dto/saleItem.dto";
+import { SaleItemDto, UpdateItemDto } from "../infrastructure/dto/saleItem.dto";
 import { SaleItemRepository } from "../infrastructure/repositories/saleItem.repository";
 
 export class SaleItemController implements Imanageable<SaleItem> {
@@ -18,12 +18,12 @@ export class SaleItemController implements Imanageable<SaleItem> {
         }
     ): Promise<SaleItem | null> {
         try {
-            /*const dto = new SaleItemDto(body);
-            const errores = await dto.validateDto();
+            const saleItemdto = new SaleItemDto(body);
+            const errores = await saleItemdto.validateDto();
             if (errores.length > 0) {
                 console.log("Existe errores en los datos", errores)
                 return null;
-            }*/
+            }
 
             const saleItem = new SaleItem(
                 {
@@ -106,12 +106,12 @@ export class SaleItemController implements Imanageable<SaleItem> {
     ): Promise<SaleItem | null> {
 
         try {
-            /*const dto = new UpdateDto(body);
-            const errores = await dto.validateDto();
-            if (errores.length > 0) {
-                console.log("Existe errores en los datos", errores)
+            const saleItemDto = new UpdateItemDto(body);
+            const errors = await saleItemDto.validateDto();
+            if (errors.length > 0) {
+                console.log("Existe errores en los datos", errors)
                 return null
-            }*/
+            }
 
             const saleItem = new SaleItem({
                 id_item: body.id_item,

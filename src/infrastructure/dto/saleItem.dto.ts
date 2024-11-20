@@ -1,4 +1,4 @@
-/*import { IsNumber, validate } from "class-validator";
+import { IsNumber, validate } from "class-validator";
 
 export class SaleItemDto {
 
@@ -10,8 +10,6 @@ export class SaleItemDto {
 
     @IsNumber()
     quantity: number;
-
-    total_cost_item?: number;
 
 
     constructor(body: {
@@ -36,7 +34,7 @@ export class SaleItemDto {
 
 }
 
-export class UpdateDto extends SaleItemDto {
+export class UpdateItemDto extends SaleItemDto {
 
     @IsNumber()
     id_item: number;
@@ -46,13 +44,18 @@ export class UpdateDto extends SaleItemDto {
         id_sale: number;
         id_medicine: number;
         quantity: number;
-        total_cost_item?: number;
-
-
 
     }) {
-        super(body);
+        super({
+            id_sale: body.id_sale,
+            id_medicine: body.id_medicine,
+            quantity: body.quantity
+        });
         this.id_item = body.id_item;
     }
+    async validateDto() {
+        return await validate(this, {
+            validationError: { target: false, value: false },
+        });
+    }
 }
-*/

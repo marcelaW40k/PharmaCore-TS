@@ -17,9 +17,9 @@ const main = () => {
       res.send({ message: "Bienvenido a la API " });
     });
 
-    app.use("/api/v1/",routes())
+    app.use("/api/v1",routes())
 
-    const PORT = process.env.PORT || 3000
+    const PORT = process.env.PORT || 3001
     app.listen(PORT, () => {
         console.log(`Servidor Api-Rest ejecutando: http://localhost:${PORT}`);
     })

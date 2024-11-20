@@ -2,6 +2,7 @@ import Express from "express";
 import { userRoutes } from "./user.routes";
 import { patientRoutes } from "./patient.routes";
 
+ 
 export const routes = () => {
     const router = Express.Router();
 // endpoint o URL: http://localhost:3000/api/v1

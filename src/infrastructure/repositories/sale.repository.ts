@@ -48,7 +48,6 @@ export class SaleRepository implements Imanageable<Sale> {
                 );
             }
 
-
         }
         const totalCostQuery = `UPDATE  sales SET sale_total_cost = (SELECT SUM(total_cost_item) FROM sale_items WHERE id_sale = ?) WHERE id_sale = ?`;
         await connection.query(totalCostQuery, [body.id_sale, body.id_sale]);
@@ -65,21 +64,53 @@ export class SaleRepository implements Imanageable<Sale> {
 
     async searchById(id: number): Promise<Sale | null> {
         const connection = getPoolConnection();
-        const querySql: string = `SELECT * FROM sales WHERE id_sale =?`;
+        const querySql: string = `SELECT s.*, si.id_item, si.id_medicine, si.quantity, si.total_cost_item FROM sales s LEFT JOIN sale_items si ON s.id_sale = si.id_sale WHERE s.id_sale = ?`;
         const values = [id];
-        const result: [RowDataPacket[], FieldPacket[]] = await connection.query(querySql, values);
-        return result[0].length > 0 ? result[0][0] as Sale : null;
+        const [result]: [RowDataPacket[], FieldPacket[]] = await connection.query(querySql, values);
+
+        if (result.length === 0) {
+            return null
+        }
+        const sale: Sale = {
+            id_sale: result[0].id_sale,
+            id_patient: result[0].id_patient,
+            date_time: result[0].date_time,
+            sale_total_cost: result[0].sale_total_cost,
+            items: result.map(row => ({
+                id_item: row.id_item,
+                id_sale: row.id_sale,
+                id_medicine: row.id_medicine,
+                quantity: row.quantity,
+                item_total_cost: row.total_cost_item
+            }))
+        }
+
+        return sale
     }
-
-
 
     async remove(id: number): Promise<boolean> {
         const connection = getPoolConnection();
-        const querySql = ` DELETE FROM sales WHERE id = ?`;
-        const values = [id];
-        const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
 
-        return result[0].affectedRows == 1 ? true : false;
+        try {
+            const removeItemsquerySql = ` DELETE FROM sale_items WHERE id_sale = ?`;
+            const itemsValues = [id];
+            await connection.query(removeItemsquerySql, itemsValues);
+        } catch (error) {
+            console.error("Error al eliminar los items asociados a la venta:", error)
+            return false
+        }
+
+        try {
+            const querySql = ` DELETE FROM sales WHERE id_sale = ?`;
+            const values = [id];
+            const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
+
+            return result[0].affectedRows == 1
+
+        } catch (error: any) {
+            console.error("Error al eliminar la venta:", error);
+            return false;
+        }
     }
 
     async update(body: Sale): Promise<Sale | null> {
@@ -112,8 +143,8 @@ export class SaleRepository implements Imanageable<Sale> {
             await connection.query(totalCostQuery, [body.id_sale, body.id_sale])
             return body;
 
-        } catch (error) {
-            console.error("Error al actualizar la venta:");
+        } catch (error: any) {
+            console.error("Error al actualizar la venta:", error);
             return null;
         }
     }

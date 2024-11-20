@@ -88,8 +88,8 @@ export class SaleController implements Imanageable<Sale> {
             }
         }
 
-        catch (error) {
-            console.log(`Ocurrio un error inesperado con la venta con id ${id}`)
+        catch (error: any) {
+            console.log(`Ocurrio un error inesperado con la venta con id ${id}`, error)
             return false;
 
         };

@@ -35,10 +35,12 @@ router.put("/patient",(req,res) => {
     const payload = req.body;
 
     patientController.update(payload).then((result) =>{
-        const status = result !== null ? 200: 400;
-        res.status(status).send(result)
+        if(result){
+            res.status(201).json({message:"paciente actualizado", data: result});
+        } else {
+            res.status(404).send("No se encontro el paciente");
+        }
     })
-
     .catch((error) => {
         res.status(500).send(error);
       });
@@ -49,8 +51,11 @@ router.delete("/patient/:id", async (req,res) =>{
         const idString = req.params.id;
         const id = parseInt(idString)
         const result = await patientController.remove(id);
-        const status = result? 200:400;
-        res.status(status).send(result);
+        if(result){
+            res.status(200).send("paciente eliminado");
+        } else {
+            res.status(404).send("No se encontro el patiente");
+        }
     } catch (error) {
         res.status(500).send(error)
     }

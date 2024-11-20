@@ -45,7 +45,7 @@ export class PatientRepository implements Imanageable<Patient> {
       return result[0].affectedRows == 1? true:false;
     }
 
-    async update(patient: Patient): Promise<Patient | null | any> {
+    async update(patient: Patient): Promise<Patient | null> {
       const connection = getPoolConnection();
       const sql = `UPDATE patients SET name = ?, last_name = ?, birth_date = ?, known_allergies = ?, insurance_number = ? WHERE id_patient = ?`;
       const values = [
@@ -57,8 +57,6 @@ export class PatientRepository implements Imanageable<Patient> {
         patient.id_patient,
       ];
       const result = await connection.query<ResultSetHeader>(sql, values);
-
-     result[0].insertId.toString();
     return result[0].affectedRows == 1? patient:null;
 
     }

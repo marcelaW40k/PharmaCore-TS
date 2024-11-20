@@ -93,6 +93,7 @@ export class PatientController implements Imanageable<Patient> {
 
     async update(patient: Patient): Promise<Patient | null> {
         try {
+            patient.birth_date = new Date(patient.birth_date);
             const patientDto = new PatientDto(patient);
             const errors = await patientDto.validateDto();
             if (errors.length === 0) {
@@ -103,12 +104,13 @@ export class PatientController implements Imanageable<Patient> {
             }
             const patientUp = new Patient(patient);
             const result = await this.patientRepository.update(patientUp);
-            if (result.affectedRows == 1) {
+            if (result && result.id_patient) {
                 console.log(`Paciente actualizado con éxito: ${patientUp.id_patient}`);
+                return result;
             } else {
                 console.log("No se pudo actualizar el paciente.");
+                return null;
             }
-            return result;
         } catch (error: any) {
             console.log("Ha ocurrido un error al actualizar el paciente.");
             throw new Error(error?.message);

@@ -2,7 +2,7 @@
 import { Doctor } from "../domain/models/doctor";
 import { doctorRepository } from "../infrastructure/repositories/config/doctor.repository";
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
-import { updateDtoDoctor } from "../infrastructure/dto/doctor.dto";
+import { DoctorDto, updateDtoDoctor } from "../infrastructure/dto/doctor.dto";
 
 
 export class doctorController implements Imanageable<Doctor> {
@@ -13,26 +13,38 @@ export class doctorController implements Imanageable<Doctor> {
     this.repository = new doctorRepository();
   }
 
-  async create(body: Doctor): Promise<Doctor | null> {
+  async create(body:{
+    name:string;
+    last_name:string;
+
+  }): Promise<Doctor | null> {
     try {
+      const create = new DoctorDto(body)
+      const errores = await create.validateDto();
+      if (errores.length > 0) {
+        throw new Error("Hubo un eror al validar los datos "); 
+        
+      } 
+
       const doctor = new Doctor(body);
       const result = await this.repository.create(doctor);
-      if (result && result.id_doctor == 1) {
+      if(result) {
         console.log(`se agregó con exito`);
         return result;
-      } else {
-        console.log(` no se agregó con exito`);
-        return null;
+      }else {
+        console.log (" no se agregó")
       }
+
+    
     } catch (error: any) {
       console.log("ha ocurrido un erro al agregar.", error.message);
     }
-    return body;
+    return null;
   }
 
   async read(): Promise<Doctor[]> {
     const result: Doctor[] = await this.repository.read();
-    if (result.length == 1) {
+    if (result.length > 0) {
       console.log(" obtenidos");
     } else {
       console.log("no se encontró");
@@ -57,7 +69,7 @@ export class doctorController implements Imanageable<Doctor> {
 
   async remove(id: number): Promise<boolean> {
     try {
-      const resultado: any = await this.repository.remove(id);
+      const resultado = await this.repository.remove(id);
 
       if (resultado === true) {
         console.log(` eliminado`);
@@ -67,8 +79,7 @@ export class doctorController implements Imanageable<Doctor> {
         return false;
       }
     } catch (error) {
-      console.log(`Ocurrio un error inesperado con ${id}`);
-      return false;
+      throw{ message:"error inesperado", error}
     }
   }
    
@@ -87,8 +98,8 @@ export class doctorController implements Imanageable<Doctor> {
         throw new Error("Hubo un eror al validar los datos ");
       }
 
-      const user = new Doctor(body);
-      const result = await this.repository.update(user);
+      const doctor = new Doctor(body);
+      const result = await this.repository.update(doctor);
       return result;
     } catch (error) {
       throw error;

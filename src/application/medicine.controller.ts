@@ -19,6 +19,8 @@ export class MedicineController implements Imanageable<Medicine> {
         }
     ): Promise<Medicine | null> {
         try {
+            console.log(body);
+            
             const dto = new MedicineDto(body);
             const errores = await dto.validateDto();
             if (errores.length > 0) {
@@ -30,10 +32,10 @@ export class MedicineController implements Imanageable<Medicine> {
 
             const result = await this.repository.create(medicine);
             if (result && result.id_medicine) {
-                console.log(`el item se agregó con exito`)
+                console.log(`el medicamento se agregó con exito`)
                 return result;
             } else {
-                console.log(`el item pudo ser agregado`)
+                console.log(`el medicamento pudo ser agregado`)
                 return null;
             }
 
@@ -46,7 +48,7 @@ export class MedicineController implements Imanageable<Medicine> {
 
     async read(): Promise<Medicine[]> {
         const result: Medicine[] = await this.repository.read()
-        if (result.length == 1) {
+        if (result.length > 0) {
             console.log("medicamentos obtenidos")
         } else {
             console.log("no hay medicamentos registrados")
@@ -85,13 +87,9 @@ export class MedicineController implements Imanageable<Medicine> {
         catch (error) {
             console.log(`Ocurrio un error inesperado con el medicamento con ${id}`)
             return false;
-
         };
-
-        
-
-
     }
+
     async update(body: { 
         id_medicine: number;
         name_medicine: string,

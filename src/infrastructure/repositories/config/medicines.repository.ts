@@ -29,7 +29,7 @@ export class MedicineRepository implements Imanageable<Medicine> {
     const result = await connection.query<RowDataPacket[]>(querySql);
     return result[0] as Medicine[];
   }
-
+  
   async getOne(id_medicine: string): Promise<Medicine[]> {
     const connection = getPoolConnection();
     const querySql = `SELECT * FROM medicines WHERE id_medicine = ?`;
@@ -70,17 +70,17 @@ export class MedicineRepository implements Imanageable<Medicine> {
 
   async update(body: Medicine): Promise<Medicine | null> { 
     const connection = getPoolConnection();
-    const querySql = `UPDATE sales SET id_medicine= ?, name_medicine = ?, form = ?, prescription = ?, quantity_stock = ?, unit_cost = ? WHERE id_medicine = ?`;
+    const querySql = `UPDATE medicines SET name_medicine = ?, form = ?, prescription = ?, quantity_stock = ?, unit_cost = ? WHERE id_medicine = ?`;
     const values = [
-      body.id_medicine,
       body.name_medicine,
       body.form,
       body.prescription,
       body.quantity_stock,
       body.unit_cost,
+      body.id_medicine,
     ];
     const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
-    body.id_medicine = result[0].insertId;
+    result[0].insertId;
     return result[0].affectedRows == 1? body:null;
-  }
+  } 
 }

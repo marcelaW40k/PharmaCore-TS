@@ -2,7 +2,7 @@ import  Express  from "express";
 import { doctorController } from "../../../application/doctor.controllers";
 import { error } from "console";
 import { stat } from "fs";
-export const doctorsRoutes = () => {
+export const doctorRoutes = () => {
     const router = Express.Router();
     
     const doctorCtrl = new doctorController();

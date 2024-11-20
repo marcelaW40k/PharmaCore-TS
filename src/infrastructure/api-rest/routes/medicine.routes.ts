@@ -58,6 +58,19 @@ export const MedicineRoutes = () => {
        
     });
 
+    router.delete("/medicine/stock/:id", async (req,res) =>{
+        try{
+            const idString = req.params.id;
+            const id = parseInt(idString)
+            const result = await medicineCtrl.removeStock(id);
+            const status = result? 200:400;
+            res.status(status).send(result);
+        } catch (error) {
+            res.status(500).send(error)
+        }
+       
+    });
+
     router.get("/medicine/:id", async (req,res) => {
         try {
             const isdString = req.params.id;

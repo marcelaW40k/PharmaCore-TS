@@ -55,10 +55,22 @@ export class MedicineRepository implements Imanageable<Medicine> {
     return result[0].length > 0 ? result[0][0] as Medicine : null; 
 }
 
-
   async remove(id: number): Promise<boolean> {
     const connection = getPoolConnection();
     const querySql = `DELETE FROM medicines WHERE id_medicine = ?`;
+    // const querySql = `UPDATE medicines SET quantity_stock = 0  WHERE id_medicine = ?`;
+    const values = [id];
+    const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
+      querySql,
+      values
+    );
+    return result[0].affectedRows == 1? true:false;
+  }
+
+  async removeStock(id: number): Promise<boolean> {
+    const connection = getPoolConnection();
+    // const querySql = `DELETE FROM medicines WHERE id_medicine = ?`;
+    const querySql = `UPDATE medicines SET quantity_stock = 0  WHERE id_medicine = ?`;
     const values = [id];
     const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
       querySql,

@@ -92,13 +92,33 @@ export class MedicineController implements Imanageable<Medicine> {
                 return true;
             } else {
                 console.log(`no se pudo eliminar el medicamento con id ${id}`)
+                console.log(result);
+                
                 return false;
             }
         }
         catch (error) {
-            console.log(`Ocurrio un error inesperado con el medicamento con ${id} `)
+            console.log(`Ocurrio un error inesperado con el medicamento con ${id} Debido a que ya tiene una venta relacionada`)
+            // console.log(error);
+            return false;
+        };
+    }
+    async removeStock(id: number): Promise<boolean> {
+        try {
+            const result = await this.repository.remove(id)
+            if (result === true) {  
+                console.log(`Stock eliminado`)
+                return true;
+            } else {
+                console.log(`no se pudo eliminar el stock del medicamento con id ${id}`)
+                console.log(result);
+                
+                return false;
+            }
+        }
+        catch (error) {
+            console.log(`Ocurrio un error inesperado con el medicamento con ${id}`)
             console.log(error);
-            
             return false;
         };
     }

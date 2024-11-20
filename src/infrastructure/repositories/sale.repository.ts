@@ -23,36 +23,50 @@ export class SaleRepository implements Imanageable<Sale> {
     async create(body: Sale): Promise<Sale | null> {
         const connection = getPoolConnection();
 
-
-        const salequerySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?, NULL)';
-        const salevalues: Array<string | Date> =
-            [body.id_patient,
-            body.date_time];
-        ;
-        const saleresult: [ResultSetHeader, FieldPacket[]] = await connection.query(salequerySql, salevalues);
-        body.id_sale = saleresult[0].insertId;
-
-        const saleItemRepository = new SaleItemRepository()
-        for (const item of body.items) {
-            item.id_sale = body.id_sale;
-            await saleItemRepository.create(item)
+        try {
+            await connection.beginTransaction();
 
 
-            /* const actualizarStockquery = `UPDATE medicines SET quantity_stock = quantity_stock - ? WHERE id_medicine = ? AND quantity_stock >= ?`;
-             const actualizarStockValues = [item.quantity, item.id_medicine, item.quantity]
- 
-             const [stockResult] = await connection.query<ResultSetHeader>(actualizarStockquery, actualizarStockValues)
- 
-             if (stockResult.affectedRows === 0) {
-                 throw new Error(
-                    `Stock insuficiente para la medicina con ID ${item.id_medicine}. No se pudo completar la venta.`
-               );
-              }*/
+            const salequerySql: string = 'INSERT INTO sales (id_patient, date_time, sale_total_cost) VALUES (?,?, NULL)';
+            const salevalues: Array<string | Date> = [body.id_patient, body.date_time];
+            const saleresult: [ResultSetHeader, FieldPacket[]] = await connection.query(salequerySql, salevalues);
+            body.id_sale = saleresult[0].insertId;
 
+            const saleItemRepository = new SaleItemRepository()
+
+            for (const item of body.items) {
+                item.id_sale = body.id_sale;
+
+                const stockQuery = `SELECT quantity_stock FROM medicines WHERE id_medicine = ?`;
+                const [stockResult] = await connection.query<RowDataPacket[]>(stockQuery, [item.id_medicine]);
+
+                if (!stockResult.length || stockResult[0].quantity_stock < item.quantity) {
+                    throw new Error(
+                        `Stock insuficiente para la medicina con id ${item.id_medicine}. No se pudo completar la venta.`
+                    );
+                }
+                const actualizarStockquery = `UPDATE medicines SET quantity_stock = quantity_stock - ? WHERE id_medicine = ?`;
+                const actualizarStockValues = [item.quantity, item.id_medicine];
+                await connection.query<ResultSetHeader>(actualizarStockquery, actualizarStockValues);
+
+
+                await saleItemRepository.create(item)
+
+            }
+
+            const totalCostQuery = `UPDATE  sales SET sale_total_cost = (SELECT SUM(total_cost_item) FROM sale_items WHERE id_sale = ?) WHERE id_sale = ?`;
+            await connection.query(totalCostQuery, [body.id_sale, body.id_sale]);
+
+            await connection.commit();
+            return saleresult[0].affectedRows === 1 ? body : null;
+
+        } catch (error: any) {
+
+            await connection.rollback(); // Revertir la transacción si ocurre un error
+            console.error("Error creando la venta:", error.message);
+            throw error;
         }
-        const totalCostQuery = `UPDATE  sales SET sale_total_cost = (SELECT SUM(total_cost_item) FROM sale_items WHERE id_sale = ?) WHERE id_sale = ?`;
-        await connection.query(totalCostQuery, [body.id_sale, body.id_sale]);
-        return saleresult[0].affectedRows == 1 ? body : null;
+
     }
 
     async read(): Promise<Sale[]> {

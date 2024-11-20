@@ -1,5 +1,5 @@
 import Express from "express";
-import { userRoutes } from "./doctor.routes";
+import { doctorsRoutes } from "./doctor.routes";
 
 export const routes = () => {
     const router = Express.Router();
@@ -7,6 +7,6 @@ export const routes = () => {
     router.get("/", (req, res) => {
         res.send("Hello world");
     })
-    router.use(d())
+    router.use(doctorsRoutes())
     return router;
 }

@@ -14,6 +14,7 @@ export class doctorController implements Imanageable<Doctor> {
   }
 
   async create(body:{
+    id_doctor: number;
     name:string;
     last_name:string;
 

@@ -24,7 +24,7 @@ export const userRoutes = () => {
     router.put("/users",(req,res) => {
         const payload = req.body;
 
-        userCrontroller.update(payload).then((result) =>{ // ESTE ES EL UPDATE
+        userCrontroller.update(payload).then((result) =>{ 
             const status = result !== null ? 200: 400;
             res.status(status).send(result)
         })
@@ -50,7 +50,7 @@ export const userRoutes = () => {
 
     router.delete("/users/:id", async (req,res) =>{
         try{
-            const idString = req.params.id; //respuesta recibida con parametros o cuerpo de la solicitud toma el id 
+            const idString = req.params.id; 
             const id = parseInt(idString)
             const result = await userCrontroller.remove(id);
             const status = result? 200:400;

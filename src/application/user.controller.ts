@@ -9,7 +9,7 @@ export class UserCtrl implements Imanageable<User> {
   constructor() {
     this.repository = new UserRepository();
   }
-   // pendiente vlaidar si esta ok
+   
   async create(body: {
     email: string;
     password: string;

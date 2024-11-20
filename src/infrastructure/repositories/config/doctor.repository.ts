@@ -44,7 +44,7 @@ export class doctorRepository implements Imanageable<Doctor> {
 
   async remove(id: number): Promise<boolean> {
     const connection = getPoolConnection();
-    const querySql = ` DELETE FROM doctors WHERE id = ?`;
+    const querySql = ` DELETE FROM doctors WHERE id_doctor = ?`;
     const values = [id];
     const result: [ResultSetHeader, FieldPacket[]] = await connection.query(
       querySql,

@@ -35,7 +35,7 @@ export class PrescriptionController implements Imanageable<Prescription> {
     async read(): Promise<Prescription[]> {
         try {
             const result = await this.repository.read();
-            if(result){
+            if (result) {
                 console.log("se encontro el registro");
                 return result;
             }
@@ -50,7 +50,7 @@ export class PrescriptionController implements Imanageable<Prescription> {
     }
 
 
-    async update( body: { id_prescription: number; id_patient: string; id_doctor: number; issue_date: Date; }): Promise<Prescription | null> {
+    async update(body: { id_prescription: number; id_patient: string; id_doctor: number; issue_date: Date; }): Promise<Prescription | null> {
         try {
             body.issue_date = new Date(body.issue_date);
             const updateDto = new updatePrescriptionDto(body);
@@ -60,7 +60,7 @@ export class PrescriptionController implements Imanageable<Prescription> {
                 throw new Error('Error al validar los datos');
             }
             const result = await this.repository.update(body);
-            if(result && result.id_prescription){
+            if (result && result.id_prescription) {
                 console.log("se actualizo el registro");
                 return result;
             }
@@ -77,7 +77,7 @@ export class PrescriptionController implements Imanageable<Prescription> {
     async remove(id: number): Promise<boolean> {
         try {
             const result = await this.repository.remove(id);
-            if(result){
+            if (result) {
                 console.log("se elimino el registro");
                 return true;
             }
@@ -91,10 +91,10 @@ export class PrescriptionController implements Imanageable<Prescription> {
         }
     }
 
-    async searcheById(id: number): Promise<Prescription | null> {
+    async searchById(id: number): Promise<Prescription | null> {
         try {
-            const result = await this.repository.searcheById(id);
-            if(result){
+            const result = await this.repository.searchById(id);
+            if (result) {
                 console.log("se encontro el registro");
                 return result;
             }

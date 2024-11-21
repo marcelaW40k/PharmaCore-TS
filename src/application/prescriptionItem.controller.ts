@@ -92,9 +92,9 @@ export class PrescriptionItemController implements Imanageable<PrescriptionItem>
             throw error;
         }
     }
-    async searcheById(id: number): Promise<PrescriptionItem | null> {
+    async searchById(id: number): Promise<PrescriptionItem | null> {
         try {
-            const result = await this.repository.searcheById(id);
+            const result = await this.repository.searchById(id);
             if (result) {
                 console.log("se encontro el registro");
                 return result;

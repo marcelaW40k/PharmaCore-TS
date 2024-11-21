@@ -1,14 +1,15 @@
 
 import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
-import { Imanageable } from "../../../domain/models/Imanager/Imanageable";
-import { Doctor } from "../../../domain/models/doctor";
-import { getPoolConnection } from "./data.source";
+import { Doctor } from "../../domain/models/doctor";
+import { getPoolConnection } from "./config/data.source";
+import { Imanageable } from "../../domain/models/Imanager/Imanageable";
+
 
 export class doctorRepository implements Imanageable<Doctor> {
-  
- 
 
-  async create(body: Doctor): Promise<Doctor|null> {
+
+
+  async create(body: Doctor): Promise<Doctor | null> {
     const connection = getPoolConnection();
     const querySql: string = `INSERT  INTO doctors (id_doctor,name,last_name) values (?,?,?)`;
     const values: Array<string | number> = [
@@ -20,8 +21,8 @@ export class doctorRepository implements Imanageable<Doctor> {
       querySql,
       values
     );
-     result[0].insertId;
-    return result[0].affectedRows == 1? body:null;
+    result[0].insertId;
+    return result[0].affectedRows == 1 ? body : null;
   }
 
   async read(): Promise<Doctor[]> {
@@ -37,10 +38,10 @@ export class doctorRepository implements Imanageable<Doctor> {
     const querySql: string = `SELECT   * FROM doctors WHERE id_doctor = ?`;
     const values = [id];
     const result: [RowDataPacket[], FieldPacket[]] = await connection.query(querySql, values);
-    return result[0].length > 0 ? result[0][0] as Doctor : null; 
+    return result[0].length > 0 ? result[0][0] as Doctor : null;
   }
 
-  
+
 
   async remove(id: number): Promise<boolean> {
     const connection = getPoolConnection();
@@ -51,21 +52,21 @@ export class doctorRepository implements Imanageable<Doctor> {
       values
     );
 
-    return result[0].affectedRows == 1? true:false;
+    return result[0].affectedRows == 1 ? true : false;
   }
 
-  async update(body: Doctor): Promise<Doctor|null> {
+  async update(body: Doctor): Promise<Doctor | null> {
     const connection = getPoolConnection();
     const querySql = `UPDATE doctors SET   name = ? , last_name = ? WHERE id_doctor = ? `;
-    const values = [ body.name, body.last_name, body.id_doctor];
+    const values = [body.name, body.last_name, body.id_doctor];
     const result = await connection.query<ResultSetHeader>(querySql, values);
 
     result[0].insertId;
-    return result[0].affectedRows == 1? body:null;
+    return result[0].affectedRows == 1 ? body : null;
 
-    
+
   }
 
- 
+
 }
 

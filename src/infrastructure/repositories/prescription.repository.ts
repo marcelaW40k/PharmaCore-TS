@@ -6,8 +6,8 @@ import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 
 
 export class PrescriptionRepository implements Imanageable<Prescription> {
-    
-    
+
+
     async create(body: Prescription): Promise<Prescription | null> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `INSERT INTO prescriptions (id_patient, id_doctor, issue_date) VALUES (?, ?, ?)`;
@@ -29,7 +29,7 @@ export class PrescriptionRepository implements Imanageable<Prescription> {
         return result[0] as Prescription[];
     }
 
-   async update(body: Prescription): Promise<Prescription | null> {
+    async update(body: Prescription): Promise<Prescription | null> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `UPDATE prescriptions SET id_patient = ?, id_doctor = ?, issue_date = ? WHERE id_prescription = ?`;
         const values = [
@@ -42,20 +42,20 @@ export class PrescriptionRepository implements Imanageable<Prescription> {
         return result[0].affectedRows > 0 ? body : null;
     }
 
-   async remove(id: number): Promise<boolean> {
+    async remove(id: number): Promise<boolean> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `DELETE FROM prescriptions WHERE id_prescription = ?`;
         const values = [id];
         const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
         return result[0].affectedRows === 1 ? true : false;
-   }
+    }
 
-   async searcheById(id: number): Promise<Prescription | null> {
+    async searchById(id: number): Promise<Prescription | null> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `SELECT * FROM prescriptions WHERE id_prescription = ?`;
         const values = [id];
         const result: [RowDataPacket[], FieldPacket[]] = await connection.query(querySql, values);
         return result[0].length > 0 ? result[0][0] as Prescription : null;
-   }
-     
+    }
+
 }

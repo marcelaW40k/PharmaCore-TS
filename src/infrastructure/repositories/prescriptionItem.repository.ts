@@ -1,4 +1,4 @@
-import { Pool, ResultSetHeader, FieldPacket, RowDataPacket} from "mysql2/promise";
+import { Pool, ResultSetHeader, FieldPacket, RowDataPacket } from "mysql2/promise";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 import { PrescriptionItem } from "../../domain/models/prescriptionItem";
 import { getPoolConnection } from "./config/data.source";
@@ -50,7 +50,7 @@ export class PrescriptionItemRepository implements Imanageable<PrescriptionItem>
         return result[0].affectedRows === 1 ? true : false;
     }
 
-    async searcheById(id: number): Promise<PrescriptionItem | null> {
+    async searchById(id: number): Promise<PrescriptionItem | null> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `SELECT * FROM prescription_items WHERE id_item = ?`;
         const values = [id];

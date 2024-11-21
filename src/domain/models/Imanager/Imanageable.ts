@@ -1,4 +1,3 @@
-
 export interface Imanageable<T> {
     create(body: T): Promise<T | null>;
     read(): Promise<T[]>;
@@ -6,6 +5,4 @@ export interface Imanageable<T> {
     remove(id: number): Promise<boolean>;
     update(body: Partial<T>): Promise<T | null>;
 }
-
-
 

@@ -3,6 +3,9 @@ import { Pool } from "mysql2/promise";
 import { Prescription } from "../../domain/models/prescription";
 import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
+import { PrescriptionItemRepository } from "./prescriptionItem.repository";
+import { error } from "console";
+import { PrescriptionItem } from "../../domain/models/prescriptionItem";
 
 
 export class PrescriptionRepository implements Imanageable<Prescription> {
@@ -11,13 +14,24 @@ export class PrescriptionRepository implements Imanageable<Prescription> {
     async create(body: Prescription): Promise<Prescription | null> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `INSERT INTO prescriptions (id_patient, id_doctor, issue_date) VALUES (?, ?, ?)`;
-        const values = [
+        const values:Array<string |number | Date> = [
             body.id_patient,
             body.id_doctor,
             body.issue_date,
         ]
         const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
         body.id_prescription = result[0].insertId;
+
+        const prescriptionItemRepository = new PrescriptionItemRepository()
+
+        for(const item of body.items){
+            item.id_prescription = body.id_prescription;
+            const itemResult = await prescriptionItemRepository.create(item);
+            if(!itemResult){
+                throw new Error('Error al crear los items de la receta');
+            }
+
+        }
         return result[0].affectedRows > 0 ? body : null;
     }
 
@@ -36,9 +50,19 @@ export class PrescriptionRepository implements Imanageable<Prescription> {
             body.id_patient,
             body.id_doctor,
             body.issue_date,
-            body.id_prescription
+            body.id_prescription,
+            body.items
         ]
         const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
+
+        const prescriptionItemRepository = new PrescriptionItemRepository()
+        for(const item of body.items){
+            const itemResult = await prescriptionItemRepository.update(item);
+            if(!itemResult){
+                throw new Error('Error al actualizar los items de la receta');
+            }
+        }
+
         return result[0].affectedRows > 0 ? body : null;
     }
 
@@ -54,8 +78,26 @@ export class PrescriptionRepository implements Imanageable<Prescription> {
         const connection: Pool = getPoolConnection();
         const querySql: string = `SELECT * FROM prescriptions WHERE id_prescription = ?`;
         const values = [id];
-        const result: [RowDataPacket[], FieldPacket[]] = await connection.query(querySql, values);
-        return result[0].length > 0 ? result[0][0] as Prescription : null;
+        const [result]: [RowDataPacket[], FieldPacket[]] = await connection.query(querySql, values);
+        if (result.length === 0) {
+            return null
+        }
+        const prescription: Prescription = {
+            id_prescription: result[0].id_prescription,
+            id_patient: result[0].id_patient,
+            id_doctor: result[0].id_doctor,
+            issue_date: result[0].issue_date,
+            items: result.map(row => ({
+                id_item: row.id_item,
+                id_prescription: row.id_prescription,
+                id_medicine: row.id_medicine,
+                quantity: row.quantity,
+                item_total_cost: row.total_cost_item,
+                usage_instructions: row.usage_instructions
+            }))
+
+        }
+        return prescription
     }
 
 }

@@ -1,12 +1,12 @@
 export class PrescriptionItem {
-    id_item?: number | null;
+    id_item?: number;
     id_prescription: number;
     id_medicine: number;
     quantity: number;
     usage_instructions: string;
     
     constructor(infoPrescriptionItem: {
-        id_item?: number | null;
+        id_item?: number;
         id_prescription: number;
         id_medicine: number;
         quantity: number;

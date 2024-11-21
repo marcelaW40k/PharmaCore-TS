@@ -1,11 +1,6 @@
 import Express from "express";
 import { SaleController } from "../../../application/sale.controller";
 
-
-
-
-
-
 export const saleRoutes = () => {
     const router = Express.Router();
 
@@ -71,8 +66,5 @@ export const saleRoutes = () => {
             });
 
     })
-
-
-
     return router;
 }

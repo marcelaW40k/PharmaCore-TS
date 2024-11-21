@@ -1,5 +1,5 @@
 import  Express  from "express";
-import { doctorController } from "../../../application/doctor.controllers";
+import { doctorController } from "../../../application/doctor.controller";
 
 export const doctorRoutes = () => {
     const router = Express.Router();

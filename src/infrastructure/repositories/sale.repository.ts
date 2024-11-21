@@ -4,9 +4,6 @@ import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 import { SaleItemRepository } from "./saleItem.repository";
 import { SaleItem } from "../../domain/models/saleItem";
-
-
-
 export class SaleRepository implements Imanageable<Sale> {
 
     async patientExists(id_patient: string): Promise<boolean> {

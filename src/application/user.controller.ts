@@ -1,7 +1,8 @@
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
 import { User } from "../domain/models/user";
 import { updateDto, userDto } from "../infrastructure/dto/user.dto";
-import { UserRepository } from "../infrastructure/repositories/config/user.repository";
+import { UserRepository } from "../infrastructure/repositories/user.repository";
+
 
 export class UserCtrl implements Imanageable<User> {
   private repository: UserRepository;

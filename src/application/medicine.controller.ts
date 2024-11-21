@@ -1,7 +1,7 @@
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
 import { Medicine } from "../domain/models/medicine";
 import { MedicineDto, updateMedicineDto } from "../infrastructure/dto/medicine.dto";
-import { MedicineRepository } from "../infrastructure/repositories/config/medicines.repository";
+import { MedicineRepository } from "../infrastructure/repositories/medicines.repository";
 
 export class MedicineController implements Imanageable<Medicine> {
     private repository: MedicineRepository;

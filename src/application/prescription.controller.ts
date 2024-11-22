@@ -1,5 +1,6 @@
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
 import { Prescription } from "../domain/models/prescription";
+import { PrescriptionItem } from "../domain/models/prescriptionItem";
 import { PrescriptionDto, updatePrescriptionDto } from "../infrastructure/dto/Prescription.dto";
 import { PrescriptionRepository } from "../infrastructure/repositories/prescription.repository";
 
@@ -8,7 +9,12 @@ export class PrescriptionController implements Imanageable<Prescription> {
     constructor() {
         this.repository = new PrescriptionRepository();
     }
-    async create(body: Prescription): Promise<Prescription | null> {
+    async create(body: {
+        id_patient: string;
+        id_doctor: number;
+        issue_date: Date;
+        items: Array<PrescriptionItem>;
+    }): Promise<Prescription | null> {
         try {
             body.issue_date = new Date(body.issue_date);
             const prescriptionDto: PrescriptionDto = new PrescriptionDto(body);
@@ -27,7 +33,7 @@ export class PrescriptionController implements Imanageable<Prescription> {
                 console.log("El receta no se creo", result);
             } return null;
         } catch (error: any) {
-            console.error("Ha ocurrido un error inesperado :", error.message);
+            console.error("Ha ocurrido un error inesperado :", error);
             return null;
         }
     }
@@ -50,7 +56,7 @@ export class PrescriptionController implements Imanageable<Prescription> {
     }
 
 
-    async update(body: { id_prescription: number; id_patient: string; id_doctor: number; issue_date: Date; }): Promise<Prescription | null> {
+    async update(body: { id_prescription: number; id_patient: string; id_doctor: number; issue_date: Date; items: Array<PrescriptionItem> }): Promise<Prescription | null> {
         try {
             body.issue_date = new Date(body.issue_date);
             const updateDto = new updatePrescriptionDto(body);
@@ -69,8 +75,9 @@ export class PrescriptionController implements Imanageable<Prescription> {
                 return null;
             }
         }
-        catch (error) {
-            throw error;
+        catch (error: any) {
+            console.error("Ha ocurrido un error inesperado :", error);
+            return null;
         }
     }
 

@@ -12,20 +12,20 @@ export const CreateSalePdf = (sale: SaleReceipt) => {
 
 
             const pdf = new PdfDocument({ margin: 50 });
-            const pathPdf = `./static/Factura de venta ${random(10)} - ${sale.id_sale}.pdf`
+            const pathPdf = `./static/Factura de venta ${random(10)} - venta${sale.id_sale}.pdf`
 
 
             const stream = fs.createWriteStream(pathPdf);
             pdf.pipe(stream);
 
 
-            pdf.image('./static/images/quickpharmalogo.png', pdf.page.width - pdf.page.margins.right - 100, pdf.page.margins.top, {
-                width: 50,
-                height: 50,
-            });
+            pdf.image(
+                './static/images/quickpharmalogo.png',
+                pdf.page.width - 100, 0, { width: 80, height: 60 }
+            );
 
 
-            pdf.fontSize(16).font("Helvetica-Bold").text("Factura de compra Quickpharma", { align: "center" }).moveDown();
+            pdf.fontSize(16).font("Helvetica-Bold").text("Factura de venta Quickpharma", { align: "center" }).moveDown();
 
 
             pdf.fontSize(12).font("Helvetica");
@@ -35,7 +35,7 @@ export const CreateSalePdf = (sale: SaleReceipt) => {
             pdf.text(`Valor total de la venta: $${sale.sale_total_cost.toFixed(2)}`).moveDown(1);
 
 
-            pdf.text("Desglose de artículos de la compra:").moveDown(0.5);
+            pdf.text("Desglose de artículos de la venta:").moveDown(0.5);
 
 
             const tableHeaders = ["Id del medicamento", "Unidades", "Costo unidad", "Costo total del artículo"];

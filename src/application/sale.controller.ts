@@ -3,7 +3,7 @@ import { Sale } from "../domain/models/sale";
 import { SaleItem } from "../domain/models/saleItem";
 import { SaleDto, UpdateSaleDto } from "../infrastructure/dto/sale.dto";
 import { SaleRepository } from "../infrastructure/repositories/sale.repository";
-import { SaleReceiptRepository } from "../infrastructure/repositories/saleReceipt.Repository";
+import { SaleReceiptRepository } from "../infrastructure/repositories/saleReceipt.repository";
 import { CreateSalePdf } from "../infrastructure/services/createPdf";
 
 

@@ -7,8 +7,8 @@ export class SaleReceiptRepository {
 
     async createReceipt(id: number): Promise<SaleReceipt> {
         const connection = getPoolConnection();
-        const querySql: string = ` SELECT s.id_sale, s.id_patient, s.date_time, s.sale_total_cost, 
-            si.id_medicine, si.quantity, si.total_cost_item, m.unit_cost FROM sales s LEFT JOIN sale_items si ON s.id_sale = si.id_sale
+        const querySql: string = `SELECT s.id_sale, s.id_patient, s.date_time, s.sale_total_cost, 
+        si.quantity, si.total_cost_item, m.name_medicine, m.unit_cost FROM sales s LEFT JOIN sale_items si ON s.id_sale = si.id_sale
         LEFT JOIN medicines m ON si.id_medicine = m.id_medicine WHERE s.id_sale = ?;`;
 
         const values = [id];
@@ -24,7 +24,7 @@ export class SaleReceiptRepository {
             date_time: result[0].date_time,
             sale_total_cost: result[0].sale_total_cost,
             items: result.map(row => ({
-                id_medicine: row.id_medicine,
+                name_medicine: row.name_medicine,
                 quantity: row.quantity,
                 unit_cost: row.unit_cost,
                 total_cost_item: row.total_cost_item

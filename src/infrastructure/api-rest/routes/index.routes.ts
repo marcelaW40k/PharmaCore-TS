@@ -6,6 +6,7 @@ import { doctorRoutes } from "./doctor.routes";
 import { patientRoutes } from "./patient.routes";
 import { prescriptionItemRoutes } from "./prescriptionItem.routes";
 import { prescriptionRoutes } from "./prescription.routes";
+import { notificacionesRoutes } from "./notificacione.routes";
 
 export const routes = () => {
     const router = Express.Router();
@@ -20,6 +21,7 @@ export const routes = () => {
     router.use(saleItemRoutes())
     router.use(doctorRoutes())
     router.use(patientRoutes())
+    router.use(notificacionesRoutes())
     return router;
 
 

@@ -58,7 +58,7 @@ export const CreateSalePdf = (sale: SaleReceipt) => {
 
             sale.items.forEach(item => {
                 const rowValues = [
-                    item.id_medicine,
+                    item.name_medicine,
                     item.quantity.toString(),
                     `$${item.unit_cost.toFixed(2)}`,
                     `$${item.total_cost_item.toFixed(2)}`

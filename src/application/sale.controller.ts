@@ -47,10 +47,6 @@ export class SaleController implements Imanageable<Sale> {
             const result = await this.repository.create(sale);
             if (result && result.id_sale) {
                 console.log(`la venta se creó con exito`)
-                const saleReceiptRepository = new SaleReceiptRepository()
-                const infoSaleReceipt = await saleReceiptRepository.createReceipt(result.id_sale)
-                await CreateSalePdf(infoSaleReceipt)
-
                 return result;
 
             } else {

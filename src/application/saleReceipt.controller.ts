@@ -22,10 +22,12 @@ export class saleReceiptController {
             const emailService = new NotificacionesService();
            const bufferPdf = readFileSync(pathPdf);
 
+           const html = readFileSync('./templates/sales_invoice.html');
+
            await emailService.sendReportByEmail({
             to: options.to ,
             subject: "Reporte de venta",
-            body: "Reporte de venta nueva prueba" ,
+            body: html.toString(),
             pdf: bufferPdf.toString('base64')
            })
         }

@@ -4,5 +4,8 @@
     "USER": "",
     "PASSWORD": "",
     "DATABASE": "",
-    "JWT_SECRET": ""
+    "JWT_SECRET": "",
+    "REPORT_SERVICE": {
+    "URL": "http://localhost:3001/api/v1/notificaciones/correo"
+  }
   }

@@ -2,19 +2,19 @@
 import { SaleItem } from "./saleItem";
 
 export class Sale {
-    id_sale?: number;
-    id_patient: number;
+    id_sale?: number | null;
+    id_patient: string;
     date_time: Date;
-    sale_total_cost: number;
+    sale_total_cost?: number;
     items: Array<SaleItem>
 
     constructor(infoSale:
 
         {
             id_sale?: number
-            id_patient: number,
+            id_patient: string,
             date_time: Date,
-            sale_total_cost: number,
+            sale_total_cost?: number;
             items: Array<SaleItem>
         }) {
         this.id_sale = infoSale.id_sale
@@ -24,4 +24,5 @@ export class Sale {
         this.items = infoSale.items
 
     }
+
 }

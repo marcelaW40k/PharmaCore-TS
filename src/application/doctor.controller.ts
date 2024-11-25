@@ -1,8 +1,8 @@
 
 import { Doctor } from "../domain/models/doctor";
-import { doctorRepository } from "../infrastructure/repositories/config/doctor.repository";
 import { Imanageable } from "../domain/models/Imanager/Imanageable";
 import { DoctorDto, updateDtoDoctor } from "../infrastructure/dto/doctor.dto";
+import { doctorRepository } from "../infrastructure/repositories/doctor.repository";
 
 
 export class doctorController implements Imanageable<Doctor> {

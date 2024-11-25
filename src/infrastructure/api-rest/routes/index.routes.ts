@@ -21,7 +21,6 @@ export const routes = () => {
 
     router.use("/medicine/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptions))
 
-
     router.use(MedicineRoutes())
     router.use(userRoutes())
     router.use(prescriptionRoutes())

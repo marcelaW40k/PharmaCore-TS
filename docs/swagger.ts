@@ -1,4 +1,4 @@
-import { medicineDoc } from "./medicine.docs";
+import { medicineDoc, medicineIdDoc, medicineNameDoc } from "./medicine.docs";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -21,7 +21,25 @@ export const swaggerOptions = {
         description: "Production server"
     }],
     paths:{
-        "/api/v1/medicine":medicineDoc
+        "/v1/medicine":medicineDoc,
+        "/v1/medicine/{id}":medicineIdDoc,
+        "/v1/medicine/name/{name}":medicineNameDoc,
+    },
+    components:{
+        schemas:{
+            Medicine:{
+                type: "object",
+                properties: {
+                    id_medicine: { type: "number" },
+                    name_medicine: { type: "string" },
+                    form: { type: "string" },
+                    prescription: { type: "boolean" },
+                    quantity_stock: { type: "number" },
+                    unit_cost: { type: "number" }
+                },
+                required: ["id_medicine", "name_medicine", "form", "prescription", "quantity_stock", "unit_cost"]
+            }
+        }
     }
     
 

@@ -1,7 +1,8 @@
 import  Express, { Router }  from "express";
 import { UserCtrl } from "../../../application/user.controller";
 import swaggerIu from "swagger-ui-express"
-import { swaggerOptionsUsers } from "../../../../docs/swagger.user.doctor";
+import { swaggerOptions } from "../../../../docs/swagger";
+
 
 
 export const userRoutes = () => {
@@ -9,7 +10,7 @@ export const userRoutes = () => {
     
     const userCrontroller = new UserCtrl();
 
-    router.use("/users/docs",swaggerIu.serve, swaggerIu.setup(swaggerOptionsUsers))
+    router.use("/users/docs",swaggerIu.serve, swaggerIu.setup(swaggerOptions))
    
     router.post("/users", (req,res) => {
         const payload = req.body

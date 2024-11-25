@@ -1,4 +1,4 @@
-import { medicineDoc } from "./medicine.docs";
+// import { medicineDoc } from "./medicine.docs";
 import { userDoctor } from "./user.docs";
 
 export const swaggerOptions = {
@@ -14,7 +14,7 @@ export const swaggerOptions = {
         }
     },
     servers:[{
-        url: "http://localhost:3000/api",
+        url: "http://localhost:3000",
         description: "Local development server"
     },
     {
@@ -22,7 +22,7 @@ export const swaggerOptions = {
         description: "Production server"
     }],
     paths:{
-        "/api/v1/medicine":medicineDoc,
+        // "/api/v1/medicine":medicineDoc,
         "/api/v1/users":userDoctor
     }
     

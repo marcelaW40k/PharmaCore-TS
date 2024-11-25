@@ -1,82 +1,289 @@
 export const saleDoc = {
-    get: {
-        tags: ["Ventas"],
-        summary: "Obtener lista de ventas",
-        description: "Obtiene una lista de todos las ventas generadas",
+
+    post: {
+        tags: ["Venta"],
+        summary: "Crear una venta",
+        description: "Crea una nueva venta en el sistema",
+        requestBody: {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            id_patient: {
+                                type: "string"
+                            },
+                            date_time: {
+                                type: "string",
+                                format: "date"
+                            },
+                            items: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        id_medicine: {
+                                            type: "integer"
+                                        },
+                                        quantity: {
+                                            type: "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         responses: {
             "200": {
-                description: "Medicamentos obtenidos correctamente",
+                description: "Venta creada"
+            },
+            "400": {
+                description: "Error en la creación"
+            },
+            "500": {
+                description: "Error de servidor"
+            },
+            "304": {
+                description: "La venta ya existe"
+            },
+            "409": {
+                description: "Error en la validación del payload"
+            }
+        }
+    },
+    get: {
+        summary: "Obtiene todos los registros de ventas",
+        tags: ["Venta"],
+        responses: {
+            "200": {
+                description: "Lista de ventas",
                 content: {
                     "application/json": {
                         schema: {
                             type: "array",
                             items: {
-                                $ref: "#/components/schemas/Medicine"
+                                type: "object",
+                                properties: {
+                                    id_patient: {
+                                        type: "string"
+                                    },
+                                    date_time: {
+                                        type: "string",
+                                        format: "date"
+                                    },
+                                    items: {
+                                        type: "array",
+                                        items: {
+                                            type: "object",
+                                            properties: {
+                                                id_medicine: {
+                                                    type: "integer"
+                                                },
+                                                quantity: {
+                                                    type: "integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    put: {
+        summary: "Actualiza una venta",
+        tags: ["Venta"],
+        requestBody: {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            id_sale: {
+                                type: "integer"
+                            },
+                            id_patient: {
+                                type: "string"
+                            },
+                            date_time: {
+                                type: "string",
+                                format: "date"
+                            },
+                            sale_total_cost: {
+                                type: "number",
+                                format: "float"
+                            },
+                            items: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        id_item: {
+                                            type: "integer"
+                                        },
+                                        id_sale: {
+                                            type: "number"
+                                        },
+                                        id_medicine: {
+                                            type: "integer"
+                                        },
+                                        quantity: {
+                                            type: "integer"
+                                        },
+                                        item_total_cost: {
+                                            type: "number",
+                                            format: "float"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        responses: {
+            "200": {
+                description: "Venta actualizada correctamente"
+            },
+            "400": {
+                description: "Error en la actualización"
+            }
+        }
+    }
+}
+
+export const saleIdDoc = {
+
+    get: {
+        summary: "Obtiene una venta por ID",
+        tags: ["Venta"],
+        parameters: [
+            {
+                in: "path",
+                name: "id",
+                required: true,
+                schema: {
+                    type: "integer"
+                },
+                description: "ID de la venta"
+            }
+        ],
+        responses: {
+            "200": {
+                description: "Información de la venta",
+                content: {
+                    "application/json": {
+                        schema: {
+                            type: "object",
+                            properties: {
+                                id: {
+                                    type: "integer"
+                                },
+                                id_patient: {
+                                    type: "string"
+                                },
+                                date_time: {
+                                    type: "string",
+                                    format: "date"
+                                },
+                                items: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            id_medicine: {
+                                                type: "integer"
+                                            },
+                                            quantity: {
+                                                type: "integer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "404": {
+                description: "Venta no encontrada"
+            }
+        }
+    },
+    delete: {
+        summary: "Elimina una venta por ID",
+        tags: ["Venta"],
+        parameters: [
+            {
+                in: "path",
+                name: "id",
+                required: true,
+                schema: {
+                    type: "integer"
+                },
+                description: "ID de la venta a eliminar"
+            }
+        ],
+        responses: {
+            "200": {
+                description: "Venta eliminada correctamente",
+                content: {
+                    "application/json": {
+                        schema: {
+                            type: "object",
+                            properties: {
+                                message: {
+                                    type: "string",
+                                    example: "Venta eliminada correctamente"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                description: "Error en la eliminación",
+                content: {
+                    "application/json": {
+                        schema: {
+                            type: "object",
+                            properties: {
+                                error: {
+                                    type: "string",
+                                    example: "Error en la eliminación de la venta"
+                                }
                             }
                         }
                     }
                 }
             },
             "500": {
-                description: "Error interno del servidor"
-            }
-        }
-    },
-    post: {
-        tags: ["Medicamentos"],
-        summary: "Crear un nuevo medicamento",
-        description: "Crea un nuevo medicamento en la base de datos",
-        requestBody: {
-            content: {
-                "application/json": {
-                    schema: {
-                        $ref: "#/components/schemas/Medicine"
-                    }
-                }
-            }
-        },
-        responses: {
-            "201": {
-                description: "Medicamento creado correctamente",
+                description: "Error de servidor",
                 content: {
                     "application/json": {
                         schema: {
-                            $ref: "#/components/schemas/Medicine"
+                            type: "object",
+                            properties: {
+                                error: {
+                                    type: "string",
+                                    example: "Error interno del servidor"
+                                }
+                            }
                         }
                     }
                 }
-            },
-            "400": {
-                description: "Error al validar los datos"
-            },
-            "500": {
-                description: "Error interno del servidor"
             }
         }
-    },
-    put: {
-        tags: ["Medicamentos"],
-        summary: "Actualizar un medicamento",
-        description: "Actualiza un medicamento en la base de datos",
-        parameters: [
-            {
-                name: "id",
-                in: "path",
-                required: true,
-                schema: {
-                    type: "string"
-                }
-            }
-        ],
-        requestBody: {
-            content: {
-                "application/json": {
-                    schema: {
-                        $ref: "#/components/schemas/Medicine"
-                    }
-                }
-            }
-        },
-    },
-
+    }
 }
+
+

@@ -1,4 +1,5 @@
 import { medicineDoc } from "./medicine.docs";
+import { saleDoc, saleIdDoc } from "./sale.docs";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -12,7 +13,7 @@ export const swaggerOptions = {
             url: "https://github.com/marcelaW40k/PharmaCore-TS/tree/main",
         }
     },
-    servers:[{
+    servers: [{
         url: "http://localhost:3000/api",
         description: "Local development server"
     },
@@ -20,9 +21,11 @@ export const swaggerOptions = {
         url: "https://api.pharmacore.com/api",
         description: "Production server"
     }],
-    paths:{
-        "/api/v1/medicine":medicineDoc
+    paths: {
+        "/api/v1/medicine": medicineDoc,
+        "/api/v1/sales/": saleDoc,
+        "/api/v1/sales/{id}": saleIdDoc
     }
-    
+
 
 }

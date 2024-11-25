@@ -1,7 +1,8 @@
 import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
-import { Imanageable } from "../../../domain/models/Imanager/Imanageable";
-import { getPoolConnection } from "../../../infrastructure/repositories/config/data.source";
-import { Medicine } from "../../../domain/models/medicine";
+import { Imanageable } from "../../domain/models/Imanager/Imanageable";
+import { Medicine } from "../../domain/models/medicine";
+import { getPoolConnection } from "./config/data.source";
+
 
 export class MedicineRepository implements Imanageable<Medicine> {
   

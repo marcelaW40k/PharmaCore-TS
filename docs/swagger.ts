@@ -23,4 +23,6 @@ export const swaggerOptions = {
     paths:{
         "/api/v1/medicine":medicineDoc
     }
+    
+
 }

@@ -1,10 +1,13 @@
 import Express from "express";
 import { MedicineController } from "../../../application/medicine.controller";
-
+import swaggerIu from "swagger-ui-express"
+import { swaggerOptions } from "../../../../docs/swagger";
 export const MedicineRoutes = () => {
     const router = Express.Router();
 
     const medicineCtrl = new MedicineController();
+
+    router.use("/medicine/docs",swaggerIu.serve, swaggerIu.setup(swaggerOptions))
 
     router.post("/medicine", (req,res) => {
         const payload = req.body

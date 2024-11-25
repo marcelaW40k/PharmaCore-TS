@@ -11,7 +11,7 @@ export const medicineDoc = {
                         schema:{
                             type:"array",
                             items:{
-                                $ref: "#/components/schemas/Medicine"
+                                $ref: "#/components/schemas/user"
                             }
                         }
                     }
@@ -23,25 +23,25 @@ export const medicineDoc = {
         }
     },
     post:{
-        tags:["Medicamentos"],
-        summary: "Crear un nuevo medicamento",
-        description: "Crea un nuevo medicamento en la base de datos",
+        tags:["User"],
+        summary: "Crear un nuevo User",
+        description: "Crea un nuevo User en la base de datos",
         requestBody:{
             content:{
                 "application/json":{
                     schema:{
-                        $ref: "#/components/schemas/Medicine"
+                        $ref: "#/components/schemas/User"
                     }
                 }
             }
         },
         responses:{
             "201":{
-                description: "Medicamento creado correctamente",
+                description: "User creado correctamente",
                 content:{
                     "application/json":{
                         schema:{
-                            $ref: "#/components/schemas/Medicine"
+                            $ref: "#/components/schemas/User"
                         }
                     }
                 }
@@ -55,9 +55,9 @@ export const medicineDoc = {
         }
     },
     put:{
-        tags:["Medicamentos"],
-        summary: "Actualizar un medicamento",
-        description: "Actualiza un medicamento en la base de datos",
+        tags:["Users"],
+        summary: "Actualizar un User",
+        description: "Actualiza un User en la base de datos",
         parameters:[
             {
                 name: "id",
@@ -72,11 +72,40 @@ export const medicineDoc = {
             content:{
                 "application/json":{
                     schema:{
-                        $ref: "#/components/schemas/Medicine"
+                        $ref: "#/components/schemas/User"
                     }
                 }
             }
         },
     },
+
+    "/users/{id}": {
+        get:{
+            tags:["Users"],
+            summary: "Actualizar un User",
+            description: "Actualiza un User en la base de datos",
+            parameters:[
+                {
+                    name: "id",
+                    in: "path",
+                    required: true,
+                    schema:{
+                        type:"string"
+                    }
+                }
+            ],
+            requestBody:{
+                content:{
+                    "application/json":{
+                        schema:{
+                            $ref: "#/components/schemas/User"
+                        }
+                    }
+                }
+            },
+        },
+
+    }
+    
     
 }

@@ -1,5 +1,7 @@
+import { doctorDoc, doctorIdDoc } from "./doctor.docs";
 import { medicineDoc } from "./medicine.docs";
 import { saleDoc, saleIdDoc } from "./sale.docs";
+import { saleItemDoc, saleItemIdDoc } from "./saleItem.docs";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -24,7 +26,11 @@ export const swaggerOptions = {
     paths: {
         "/api/v1/medicine": medicineDoc,
         "/api/v1/sales/": saleDoc,
-        "/api/v1/sales/{id}": saleIdDoc
+        "/api/v1/sales/{id}": saleIdDoc,
+        "/api/v1/sale_items/": saleItemDoc,
+        "/api/v1/sale_items/{id}": saleItemIdDoc,
+        "/api/v1/doctors/": doctorDoc,
+        "/api/v1/doctors/{id}": doctorIdDoc
     }
 
 

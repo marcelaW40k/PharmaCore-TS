@@ -8,7 +8,6 @@ import { prescriptionItemRoutes } from "./prescriptionItem.routes";
 import { prescriptionRoutes } from "./prescription.routes";
 import swaggerIU from "swagger-ui-express"
 import { swaggerOptions } from "../../../../docs/swagger";
-import { swaggerOptionsUsers } from "../../../../docs/swagger.user.doctor";
 import { notificacionesRoutes } from "./notificacione.routes";
 import { MedicineRoutes } from "./medicine.routes";
 
@@ -20,9 +19,9 @@ export const routes = () => {
         res.send("Hello world");
     })
 
-    router.use("/medicine/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptions))
-
-    router.use("/users/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptionsUsers))
+    router.use("/pharmacore/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptions))
+    
+   
 
     router.use(MedicineRoutes())
     router.use(userRoutes())

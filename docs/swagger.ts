@@ -1,4 +1,5 @@
 import { medicineDoc } from "./medicine.docs";
+import { userDoctor } from "./user.docs";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -21,7 +22,8 @@ export const swaggerOptions = {
         description: "Production server"
     }],
     paths:{
-        "/api/v1/medicine":medicineDoc
+        "/api/v1/medicine":medicineDoc,
+        "/api/v1/users":userDoctor
     }
     
 

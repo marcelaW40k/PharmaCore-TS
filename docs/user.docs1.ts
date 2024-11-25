@@ -1,4 +1,4 @@
-export const saleDoc = {
+export const Users = {
   post: {
     tags: ["User"],
     summary: "Crear una usuario",

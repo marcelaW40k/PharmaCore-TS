@@ -3,6 +3,9 @@ import { Sale } from "../domain/models/sale";
 import { SaleItem } from "../domain/models/saleItem";
 import { SaleDto, UpdateSaleDto } from "../infrastructure/dto/sale.dto";
 import { SaleRepository } from "../infrastructure/repositories/sale.repository";
+import { SaleReceiptRepository } from "../infrastructure/repositories/saleReceipt.repository";
+import { CreateSalePdf } from "../infrastructure/services/createPdf";
+
 
 
 export class SaleController implements Imanageable<Sale> {
@@ -45,6 +48,7 @@ export class SaleController implements Imanageable<Sale> {
             if (result && result.id_sale) {
                 console.log(`la venta se creó con exito`)
                 return result;
+
             } else {
                 console.log(`la venta no pudo ser creada`)
                 return null;

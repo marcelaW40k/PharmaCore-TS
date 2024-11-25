@@ -6,13 +6,22 @@ import { doctorRoutes } from "./doctor.routes";
 import { patientRoutes } from "./patient.routes";
 import { prescriptionItemRoutes } from "./prescriptionItem.routes";
 import { prescriptionRoutes } from "./prescription.routes";
+import { MedicineRoutes } from "./medicine.routes";
+import swaggerIU from "swagger-ui-express"
+import { swaggerOptions } from "../../../../docs/swagger";
 
 export const routes = () => {
     const router = Express.Router();
 
+
     router.get("/", (req, res) => {
         res.send("Hello world");
     })
+
+    router.use("/medicine/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptions))
+
+
+    router.use(MedicineRoutes())
     router.use(userRoutes())
     router.use(prescriptionRoutes())
     router.use(prescriptionItemRoutes())
@@ -20,6 +29,7 @@ export const routes = () => {
     router.use(saleItemRoutes())
     router.use(doctorRoutes())
     router.use(patientRoutes())
+
     return router;
 
 

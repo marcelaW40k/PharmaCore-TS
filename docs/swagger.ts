@@ -1,5 +1,6 @@
 // import { medicineDoc } from "./medicine.docs";
 import { userDoctor } from "./user.docs";
+import { userId } from "./user.docs1";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -23,7 +24,9 @@ export const swaggerOptions = {
     }],
     paths:{
         // "/api/v1/medicine":medicineDoc,
-        "/api/v1/users":userDoctor
+        "/api/v1/users":userDoctor,
+        "/api/v1/user{id}":userId,
+        "/api/v1/user":userDoctor
     }
     
 

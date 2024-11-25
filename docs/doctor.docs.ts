@@ -1,7 +1,7 @@
 export const doctorDoc = {
 
     post: {
-        tags: ["Doctor"],
+        tags: ["Doctores"],
         summary: "Registra un nuevo doctor",
         description: "Registra un nuevo doctor en el sistema",
         requestBody: {
@@ -77,7 +77,7 @@ export const doctorDoc = {
     },
     put: {
         summary: "Actualiza un Doctor",
-        tags: ["Doctor"],
+        tags: ["Doctores"],
         requestBody: {
             required: true,
             content: {
@@ -156,7 +156,7 @@ export const doctorIdDoc = {
     },
     delete: {
         summary: "Elimina un doctor por ID",
-        tags: ["Doctor"],
+        tags: ["Doctores"],
         parameters: [
             {
                 in: "path",

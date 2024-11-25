@@ -48,7 +48,7 @@ export const userDoctor = {
   put: {
     tags: ["User"],
     summary: "Actualizar un usuario",
-    description: "Actualiza un medicamento en la base de datos",
+    description: "Actualiza un usuario en la base de datos",
     parameters: [
       {
         name: "id",

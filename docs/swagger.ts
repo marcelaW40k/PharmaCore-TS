@@ -14,11 +14,11 @@ export const swaggerOptions = {
         }
     },
     servers: [{
-        url: "http://localhost:3000/api",
+        url: "http://localhost:3000",
         description: "Local development server"
     },
     {
-        url: "https://api.pharmacore.com/api",
+        url: "https://api.pharmacore.com",
         description: "Production server"
     }],
     paths: {

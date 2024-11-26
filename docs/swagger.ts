@@ -1,4 +1,6 @@
 import { medicineDoc } from "./medicine.docs";
+import { prescriptionDoc, prescriptionIdDoc } from "./prescription.docs";
+import { prescriptionItemDoc, prescriptionItemIdDoc } from "./prescriptionItem.docs";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -13,7 +15,7 @@ export const swaggerOptions = {
         }
     },
     servers:[{
-        url: "http://localhost:3000/api",
+        url: "http://localhost:3000/",
         description: "Local development server"
     },
     {
@@ -21,7 +23,11 @@ export const swaggerOptions = {
         description: "Production server"
     }],
     paths:{
-        "/api/v1/medicine":medicineDoc
+        "/api/v1/medicine":medicineDoc,
+       "/api/v1/prescriptions":prescriptionDoc,
+      "/api/v1/prescriptions/{id}":prescriptionIdDoc,
+      "/api/v1/prescriptionitems":prescriptionItemDoc,
+      "/api/v1/prescriptionitems/{id}":prescriptionItemIdDoc
     }
     
 

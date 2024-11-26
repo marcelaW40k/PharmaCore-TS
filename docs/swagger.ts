@@ -9,6 +9,7 @@ import { prescriptionItemDoc, prescriptionItemIdDoc } from "./prescriptionItem.d
 import { doctorDoc, doctorIdDoc } from "./doctor.docs";
 import { saleDoc, saleIdDoc } from "./sale.docs";
 import { saleItemDoc, saleItemIdDoc } from "./saleItem.docs";
+import { notificationDoc } from "./notification.docs";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -48,7 +49,8 @@ export const swaggerOptions = {
         "/api/v1/sale_items/": saleItemDoc,
         "/api/v1/sale_items/{id}": saleItemIdDoc,
         "/api/v1/doctors/": doctorDoc,
-        "/api/v1/doctors/{id}": doctorIdDoc
+        "/api/v1/doctors/{id}": doctorIdDoc,
+        "/api/v1/notificacion/correo/{id}": notificationDoc
     },
 
     components: {

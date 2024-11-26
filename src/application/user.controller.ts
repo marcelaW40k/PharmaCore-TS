@@ -93,20 +93,22 @@ export class UserCtrl implements Imanageable<User> {
     password: string;
     id_role: number;
   }): Promise<User | null> {
-    try {
-      const update = new updateDto(body);
-      const errores = await update.validateDto();
+    
+     
+    const update = new updateDto(body);
+  
+    const errores = await update.validateDto();
 
-      if (errores.length > 0) {
-        console.log("usuario actualizado");
-        throw new Error("Hubo un eror al validar los datos ");
-      }
-
-      const user = new User(body);
-      const result = await this.repository.update(user);
-      return result;
-    } catch (error) {
-      throw error;
+    if (errores.length > 0) {
+          
+      throw new Error(errores.join(', '));
     }
+          
+    const user = new User(body);
+          
+    const result = await this.repository.update(user);
+                
+    return result;
+   
   }
 }

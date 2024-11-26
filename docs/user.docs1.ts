@@ -92,7 +92,7 @@ export const Users = {
           schema: {
             type: "object",
             properties: {
-              id: {
+              id_user: {
                 type: "integer",
               },
               email: {

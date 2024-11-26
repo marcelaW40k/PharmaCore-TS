@@ -21,7 +21,7 @@ export const userRoutes = () => {
         })
 
         .catch((error) => {
-            res.status(500).send(error)
+            res.status(500).send(error.message)
         });
 
     })
@@ -34,8 +34,8 @@ export const userRoutes = () => {
             res.status(status).send(result)
         })
 
-        .catch((error) => {
-            res.status(500).send(error);
+        .catch((error) => {      
+            res.status(500).send(error.message);
           });
     })
 

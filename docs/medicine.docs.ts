@@ -22,25 +22,25 @@ export const medicineDoc = {
         }
     },
     post:{
-        tags:["User"],
-        summary: "Crear un nuevo User",
-        description: "Crea un nuevo User en la base de datos",
+        tags:["Medicamentos"],
+        summary: "Crear un nuevo medicamento",
+        description: "Crea un nuevo medicamento en la base de datos",
         requestBody:{
             content:{
                 "application/json":{
                     schema:{
-                        $ref: "#/components/schemas/User"
+                        $ref: "#/components/schemas/Medicine"
                     }
                 }
             }
         },
         responses:{
             "201":{
-                description: "User creado correctamente",
+                description: "Medicamento creado correctamente",
                 content:{
                     "application/json":{
                         schema:{
-                            $ref: "#/components/schemas/User"
+                            $ref: "#/components/schemas/Medicine"
                         }
                     }
                 }
@@ -54,9 +54,9 @@ export const medicineDoc = {
         }
     },
     put:{
-        tags:["Users"],
-        summary: "Actualizar un User",
-        description: "Actualiza un User en la base de datos",
+        tags:["Medicamentos"],
+        summary: "Actualizar un medicamento",
+        description: "Actualiza un medicamento en la base de datos",
         parameters:[
             {
                 name: "id",
@@ -71,7 +71,7 @@ export const medicineDoc = {
             content:{
                 "application/json":{
                     schema:{
-                        $ref: "#/components/schemas/User"
+                        $ref: "#/components/schemas/Medicine"
                     }
                 }
             }

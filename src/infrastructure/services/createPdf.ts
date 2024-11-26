@@ -24,11 +24,11 @@ export const CreateSalePdf = (sale: SaleReceipt) => {
             const saleDateTime = new Date(sale.date_time);
             const formattedDateTime = `${saleDateTime.getDate().toString().padStart(2, '0')}/${(saleDateTime.getMonth() + 1).toString().padStart(2, '0')}/${saleDateTime.getFullYear()} ${saleDateTime.getHours().toString().padStart(2, '0')}:${saleDateTime.getMinutes().toString().padStart(2, '0')}:${saleDateTime.getSeconds().toString().padStart(2, '0')}`;
         
-          // pdf.image('./images/logo.png', imageX, 0, { width: imageWidth, height: imageHeight });
+            pdf.image('./images/logo.png', imageX, 0, { width: imageWidth, height: imageHeight });
         
             pdf.moveDown(2); // Añadir espacio después de la imagen
         
-            pdf.fontSize(20).font("Helvetica-Bold").text("Factura de venta PharmaCore", { align: "center" }).moveDown(1);
+            pdf.fillColor("#007BFF").fontSize(20).font("Helvetica-Bold").text("Factura de venta Quickpharma", { align: "center" }).moveDown(1);
         
             pdf.fontSize(12).font("Helvetica");
             pdf.fillColor("#000000").font("Helvetica-Bold").text(`Número de la venta: `, { continued: true }).font("Helvetica").text(`${sale.id_sale}`).moveDown(0.5);
@@ -36,7 +36,7 @@ export const CreateSalePdf = (sale: SaleReceipt) => {
             pdf.fillColor("#000000").font("Helvetica-Bold").text(`Fecha y hora de la venta: `, { continued: true }).font("Helvetica").text(`${formattedDateTime}`).moveDown(0.5);
             pdf.fillColor("#000000").font("Helvetica-Bold").text(`Valor total de la venta: `, { continued: true }).font("Helvetica").text(`$${sale.sale_total_cost.toFixed(2)}`).moveDown(1);
         
-            pdf.fontSize(14).font("Helvetica-Bold").text("Detalle de la compra:").moveDown(0.5);
+            pdf.fillColor("#007BFF").fontSize(14).font("Helvetica-Bold").text("Detalle de la compra:").moveDown(0.5);
 
 
             const tableHeaders = ["Nombre del medicamento", "Unidades", "Costo unidad", "Costo total"];
@@ -44,6 +44,9 @@ export const CreateSalePdf = (sale: SaleReceipt) => {
             const startX = pdf.page.margins.left;
             let currentY = pdf.y;
 
+            
+            pdf.rect(startX, currentY, columnWidths.reduce((a, b) => a + b, 0), 20).fill("#007BFF").stroke();
+            pdf.font("Helvetica-Bold").fontSize(12).fillColor("#FFFFFF");
             
             tableHeaders.forEach((header, index) => {
                 const x = columnWidths.slice(0, index).reduce((a, b) => a + b, 0);
@@ -55,7 +58,7 @@ export const CreateSalePdf = (sale: SaleReceipt) => {
             });
 
             currentY += 20;
-            pdf.fontSize(10).fillColor("#000000");
+            pdf.font("Helvetica").fontSize(10).fillColor("#000000");
 
 
             sale.items.forEach((item, index) => {
@@ -66,10 +69,12 @@ export const CreateSalePdf = (sale: SaleReceipt) => {
                     `$${item.total_cost_item.toFixed(2)}`
                 ];
 
+                const rowColor = index % 2 === 0 ? "#F0F0F0" : "#FFFFFF";
+                pdf.rect(startX, currentY, columnWidths.reduce((a, b) => a + b, 0), 20).fill(rowColor).stroke();
 
                 rowValues.forEach((value, index) => {
                     const x = columnWidths.slice(0, index).reduce((a, b) => a + b, 0);
-                    pdf.text(value, startX + x, currentY, {
+                    pdf.fillColor("#000000").text(value, startX + x, currentY, {
                         width: columnWidths[index],
                         align: "left",
                         ellipsis: true

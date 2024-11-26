@@ -108,10 +108,13 @@ export const medicineIdDoc = {
             "404":{
                 description: "Medicamento no encontrado"
             },
-            "500":{
+            "400":{
+                description: "El medicamento no puede ser eliminado debido a que tiene una venta relacionada"
+            },
+            "500":{ 
                 description: "Error interno del servidor"
             }
-        }
+        }   
     },
     get:{
         tags:["Medicamentos"],

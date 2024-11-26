@@ -1,10 +1,13 @@
 import Express from "express";
 import { SaleController } from "../../../application/sale.controller";
-
+import swaggerIu from "swagger-ui-express"
+import { swaggerOptions } from "../../../../docs/swagger";
 export const saleRoutes = () => {
     const router = Express.Router();
 
     const salesCtrl = new SaleController();
+
+    router.use("/sales/docs", swaggerIu.serve, swaggerIu.setup(swaggerOptions))
 
     router.post("/sales", (request, response) => {
         const payload = request.body;

@@ -1,11 +1,16 @@
 import  Express, { Router }  from "express";
 import { UserCtrl } from "../../../application/user.controller";
+import swaggerIu from "swagger-ui-express"
+import { swaggerOptions } from "../../../../docs/swagger";
+
 
 
 export const userRoutes = () => {
     const router = Express.Router();
     
     const userCrontroller = new UserCtrl();
+
+    router.use("/users/docs",swaggerIu.serve, swaggerIu.setup(swaggerOptions))
    
     router.post("/users", (req,res) => {
         const payload = req.body
@@ -16,7 +21,7 @@ export const userRoutes = () => {
         })
 
         .catch((error) => {
-            res.status(500).send(error)
+            res.status(500).send(error.message)
         });
 
     })
@@ -29,8 +34,8 @@ export const userRoutes = () => {
             res.status(status).send(result)
         })
 
-        .catch((error) => {
-            res.status(500).send(error);
+        .catch((error) => {      
+            res.status(500).send(error.message);
           });
     })
 

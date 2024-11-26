@@ -18,7 +18,7 @@ export class UserRepository {
       querySql,
       values
     );
-    body.id_user = result[0].insertId;
+    
     return result[0].affectedRows == 1 ? body : null;
   }
 

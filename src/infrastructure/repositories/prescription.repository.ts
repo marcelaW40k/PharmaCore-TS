@@ -4,9 +4,6 @@ import { Prescription } from "../../domain/models/prescription";
 import { getPoolConnection } from "./config/data.source";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 import { PrescriptionItemRepository } from "./prescriptionItem.repository";
-import { error } from "console";
-import { PrescriptionItem } from "../../domain/models/prescriptionItem";
-
 
 export class PrescriptionRepository implements Imanageable<Prescription> {
 
@@ -68,10 +65,25 @@ export class PrescriptionRepository implements Imanageable<Prescription> {
 
     async remove(id: number): Promise<boolean> {
         const connection: Pool = getPoolConnection();
+        try {
+            const removeItemsquerySql = ` DELETE FROM prescription_items WHERE id_prescription = ?`;
+            const itemsValues = [id];
+            await connection.query(removeItemsquerySql, itemsValues);
+        } catch (error) {
+            console.error("Error al eliminar los items asociados a la receta:", error)
+            return false
+        }
+
+       try {
         const querySql: string = `DELETE FROM prescriptions WHERE id_prescription = ?`;
         const values = [id];
         const result: [ResultSetHeader, FieldPacket[]] = await connection.query(querySql, values);
         return result[0].affectedRows === 1 ? true : false;
+       }
+        catch (error: any) {
+            console.error("Error al eliminar la receta:", error);
+            return false;
+        }
     }
 
     async searchById(id: number): Promise<Prescription | null> {

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import config from 'config'
 
-export class ocrService {
+export class OcrService {
 
     async createImage(texto:string) {
         let urlImage = config.get<string>('REPORT_SERVICE.URL_OCR_IMAGE')

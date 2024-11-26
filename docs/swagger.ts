@@ -24,9 +24,8 @@ export const swaggerOptions = {
     }],
     paths:{
         // "/api/v1/medicine":medicineDoc,
-        "/api/v1/users":Users,
-        "/api/v1/user{id}":userId,
-        "/api/v1/user":Users
+        "/api/v1/users/":Users,
+        "/api/v1/users/{id}":userId,
     }
     
 

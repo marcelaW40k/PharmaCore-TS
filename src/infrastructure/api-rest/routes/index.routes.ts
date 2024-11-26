@@ -18,7 +18,8 @@ export const routes = () => {
         res.send("Hello world");
     })
 
-    router.use("/PharmaCore/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptions))
+    router.use("/phamarcore/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptions))
+    
 
     router.use(MedicineRoutes())
     router.use(userRoutes())

@@ -12,8 +12,9 @@ export const swaggerOptions = {
             url: "https://github.com/marcelaW40k/PharmaCore-TS/tree/main",
         }
     },
+
     servers:[{
-        url: "http://localhost:3000/api",
+        url: "http://localhost:3000",
         description: "Local development server"
     },
     {
@@ -21,9 +22,9 @@ export const swaggerOptions = {
         description: "Production server"
     }],
     paths:{
-        "/v1/medicine":medicineDoc,
-        "/v1/medicine/{id}":medicineIdDoc,
-        "/v1/medicine/name/{name}":medicineNameDoc,
+        "api/v1/medicine":medicineDoc,
+        "api/v1/medicine/{id}":medicineIdDoc,
+        "api/v1/medicine/name/{name}":medicineNameDoc,
     },
     components:{
         schemas:{
@@ -38,7 +39,8 @@ export const swaggerOptions = {
                     unit_cost: { type: "number" }
                 },
                 required: ["id_medicine", "name_medicine", "form", "prescription", "quantity_stock", "unit_cost"]
-            }
+            },
+
         }
     }
     

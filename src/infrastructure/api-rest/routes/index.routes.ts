@@ -14,12 +14,11 @@ import { MedicineRoutes } from "./medicine.routes";
 export const routes = () => {
     const router = Express.Router();
 
-
     router.get("/", (req, res) => {
         res.send("Hello world");
     })
 
-    router.use("/medicine/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptions))
+    router.use("/PharmaCore/docs",swaggerIU.serve, swaggerIU.setup(swaggerOptions))
 
     router.use(MedicineRoutes())
     router.use(userRoutes())

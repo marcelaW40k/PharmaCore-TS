@@ -5,21 +5,32 @@ export const patientRoutes = () => {
   const router = Router();
   const patientController = new PatientController();
 
-  router.post("/patient", (req,res) => {
-    const payload = req.body
-    console.log(payload);
-    
-    patientController.create(payload).then((result) => {
-        const status = result  ? 200 : 400; 
-        res.status(status).send(result);
- 
-    })
+  router.post("/patient", async (req, res) => {
+    try {
+        const payload = req.body;
+        console.log(payload);
 
-    .catch((error) => {
-        res.status(500).send(error)
-    });
+        const result = await patientController.create(payload);
 
-})
+        if (result) {
+            res.status(200).json({
+                message: "Paciente creado exitosamente.",
+                data: result
+            });
+        } else {
+            res.status(400).json({
+                message: "Error al crear el paciente. Verifique los datos enviados."
+            });
+        }
+    } catch (error) {
+        console.error("Error interno:", error);
+        res.status(500).json({
+            message: "Error interno del servidor."
+        });
+    }
+});
+
+
 
 
 router.get("/patient", async (_, response) => {

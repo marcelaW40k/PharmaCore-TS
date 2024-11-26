@@ -32,6 +32,6 @@ export const routes = () => {
     router.use(notificacionesRoutes())
     return router;
 
-
+    
 
 }

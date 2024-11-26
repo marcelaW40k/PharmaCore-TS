@@ -14,6 +14,7 @@ export class OcrService {
         let urlPdf = config.get<string>('REPORT_SERVICE.URL_OCR_PDF')
         const response = await axios.post(urlPdf, texto)
         const data = response.data
+        console.log(data)
         return data
     }
 

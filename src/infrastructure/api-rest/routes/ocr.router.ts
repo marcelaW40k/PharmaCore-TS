@@ -4,7 +4,7 @@ export const ocrRoutes = () => {
     const router = Express.Router();
     const ocrService = new OcrService();
     
-    router.post('/create-image', async (req, res) => {
+    router.post('/image', async (req, res) => {
         const { texto } = req.body;
         try {
             const data = await ocrService.createImage(texto);
@@ -15,7 +15,7 @@ export const ocrRoutes = () => {
         }
     });
      
-    router.post('/create-pdf', async (req, res) => {
+    router.post('/pdf', async (req, res) => {
         const { texto } = req.body;
         try {
             const data = await ocrService.createP(texto);

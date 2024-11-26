@@ -31,7 +31,88 @@ export const swaggerOptions = {
         "/api/v1/sale_items/{id}": saleItemIdDoc,
         "/api/v1/doctors/": doctorDoc,
         "/api/v1/doctors/{id}": doctorIdDoc
+    },
+
+
+    components: {
+
+        schemas: {
+            Sale: {
+                type: "object",
+                properties: {
+                    id_sale: {
+                        "type": "integer"
+                    },
+                    "id_patient": {
+                        "type": "string"
+                    },
+                    "date_time": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "sale_total_cost": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SaleItem"
+                        }
+                    }
+                },
+                "required": ["id_sale", "id_patient", "date_time", "sale_total_cost", "items"]
+            },
+            "SaleItem": {
+                "type": "object",
+                "properties": {
+                    "id_item": {
+                        "type": "integer"
+                    },
+                    "id_sale": {
+                        "type": "number"
+                    },
+                    "id_medicine": {
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "item_total_cost": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "required": ["id_item", "id_sale", "id_medicine", "quantity", "item_total_cost"]
+            }
+        }
+    },
+
+
+    schemas: {
+        SaleItem: {
+            "type": "object",
+            "properties": {
+                "id_item": {
+                    "type": "integer"
+                },
+                "id_sale": {
+                    "type": "number"
+                },
+                "id_medicine": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "item_total_cost": {
+                    "type": "number",
+                    "format": "float"
+                }
+            },
+            "required": ["id_item", "id_sale", "id_medicine", "quantity", "item_total_cost"]
+        }
     }
-
-
 }
+
+

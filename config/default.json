@@ -6,6 +6,10 @@
     "DATABASE": "",
     "JWT_SECRET": "",
     "REPORT_SERVICE": {
-    "URL": "http://localhost:3001/api/v1/notificaciones/correo"
+    "URL": "http://localhost:3001/api/v1/notificaciones/correo",
+    "URL_OCR_IMAGE": "http://localhost:3002/api/images",
+    "URL_OCR_PDF": "http://localhost:3002/api/pdf"
+
   }
+
   }

@@ -1,6 +1,40 @@
 # PharmaCore-TS 
 ## Descripción
-PharmaCore es una aplicación robusta diseñada para gestionar eficientemente recetas médicas, perfiles de pacientes, inventario de medicamentos y ventas, asegurando la integridad y la seguridad de los datos de salud.
+PharmaCore es una aplicación integral diseñada para gestionar de manera eficiente recetas médicas, perfiles de pacientes, inventario de medicamentos y ventas.
+Además, incorpora funcionalidades avanzadas como el envío automatizado de facturas por correo electrónico, el reconocimiento de texto a partir de archivos PDF o imágenes, y la integración con ChatGPT para realizar búsquedas avanzadas de información sobre medicamentos.
+
+## Tecnologias 
+- TypeScript (Entorno  Node.js)
+- MySQL
+
+## otras tecnologías y framework
+- Express 
+- Swagger (for API documentation)
+- tesseract (OCR)
+- Chat GPT
+- Git 
+
+## Uso
+- Para ejecutar: npm ruv dev 
+
+# Endpoints
+
+##  Operaciones relacionadas a ventas
+
+
+
+# Diagramas
+
+## Diagrama de Secuencia 
+
+
+## Diagrama UML 
+
+
+## Diagrama entidad - relación
+
+
+
 
 ## sprint 1
 

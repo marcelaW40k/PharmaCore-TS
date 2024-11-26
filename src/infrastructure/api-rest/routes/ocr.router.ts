@@ -25,5 +25,5 @@ export const ocrRoutes = () => {
             res.status(500).json({ message: 'Error creating PDF' });
         }
     });
-
+    return router
 }

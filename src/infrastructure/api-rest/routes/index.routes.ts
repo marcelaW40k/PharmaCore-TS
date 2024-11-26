@@ -10,6 +10,7 @@ import swaggerIU from "swagger-ui-express"
 import { swaggerOptions } from "../../../../docs/swagger";
 import { notificacionesRoutes } from "./notificacione.routes";
 import { MedicineRoutes } from "./medicine.routes";
+import { ocrRoutes } from "./ocr.router";
 
 export const routes = () => {
     const router = Express.Router();
@@ -30,6 +31,9 @@ export const routes = () => {
     router.use(doctorRoutes())
     router.use(patientRoutes())
     router.use(notificacionesRoutes())
+    router.use(ocrRoutes())
+
+
     return router;
 
     

@@ -11,6 +11,7 @@ import { saleDoc, saleIdDoc } from "./sale.docs";
 import { saleItemDoc, saleItemIdDoc } from "./saleItem.docs";
 import { notificationDoc } from "./notification.docs";
 import { ocrImgDocs, ocrPdfDocs } from "./ocr.docs";
+import { chatgptDocs } from "./chatgpt.docs";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -54,6 +55,7 @@ export const swaggerOptions = {
         "/api/v1/notificacion/correo/{id}": notificationDoc,
         "/api/v1/images": ocrImgDocs,
         "/api/v1/pdf": ocrPdfDocs,
+        "/api/v1/chatgpt": chatgptDocs
     },
 
     components: {

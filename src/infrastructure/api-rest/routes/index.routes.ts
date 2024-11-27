@@ -11,6 +11,8 @@ import { swaggerOptions } from "../../../../docs/swagger";
 import { notificacionesRoutes } from "./notificacione.routes";
 import { MedicineRoutes } from "./medicine.routes";
 import { ocrRoutes } from "./ocr.routes";
+import c from "config";
+import { chatgptRoutes } from "./chatgpt.routes";
 
 export const routes = () => {
     const router = Express.Router();
@@ -32,6 +34,7 @@ export const routes = () => {
     router.use(patientRoutes())
     router.use(notificacionesRoutes())
     router.use(ocrRoutes())
+    router.use(chatgptRoutes())
 
 
     return router;

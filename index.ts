@@ -2,7 +2,7 @@
 import express from 'express'
 import { routes } from './src/infrastructure/api-rest/routes/index.routes';
 import middleware404 from './src/infrastructure/api-rest/middlewares/middlewares';
-
+import cors from 'cors'
 
 const main = () => {
 
@@ -12,6 +12,8 @@ const main = () => {
     app.get("/", (_, res) => {
         res.send({ message: "Bienvenido a la API " });
     });
+ 
+    app.use(cors())
 
     app.use("/api/v1", routes())
     app.use(middleware404);

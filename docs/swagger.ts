@@ -31,7 +31,7 @@ export const swaggerOptions = {
         description: "Local development server"
     },
     {
-        url: "https://api.pharmacore.com",
+        url: "https://pharmacore-ts-production.up.railway.app",
         description: "Production server"
     }],
     paths:{

@@ -1,7 +1,12 @@
 {
-    "HOST": "DB_HOST",
+    "DB_HOST": "DB_HOST",
     "DB_PORT": "DB_PORT",
-    "USER": "DB_USER",
-    "PASSWORD": "DB_PASSWORD",
-    "JWT_SECRET": "JWT_SECRET"
+    "DB_USER": "DB_USER",
+    "DB_PASSWORD": "DB_PASSWORD",
+    "REPORT_SERVICE": {
+      "URL": "URL",
+      "URL_OCR_IMAGE": "URL_OCR_IMAGE",
+      "URL_OCR_PDF": "URL_OCR_PDF",
+      "URL_CHATGPT": "URL_CHATGPT"
+    }
   }

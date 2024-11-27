@@ -1,16 +1,15 @@
 {
-    "HOST": "",
+    "DB_HOST": "",
     "DB_PORT": 43649,
-    "USER": "",
-    "PASSWORD": "",
+    "DB_USER": "",
+    "DB_PASSWORD": "",
     "DATABASE": "",
-    "JWT_SECRET": "",
     "REPORT_SERVICE": {
-    "URL": "http://localhost:3001/api/v1/notificaciones/correo",
-    "URL_OCR_IMAGE": "http://localhost:3002/api/v1/images",
-    "URL_OCR_PDF": "http://localhost:3002/api/v1/pdf",
-    "URL_CHATGPT": "http://localhost:3003/api/chat/ask/"
-    
+      "URL": "",
+      "URL_OCR_IMAGE": "",
+      "URL_OCR_PDF": "",
+      "URL_CHATGPT": ""
+    }
   }
 
-  }
+ 

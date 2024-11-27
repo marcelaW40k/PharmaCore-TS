@@ -33,7 +33,25 @@ export const saleDoc = {
                                 }
                             }
                         }
+                    },
+                    "examples": {
+                    "ejemplo venta": {
+                        "value": {
+                            "id_patient": "1",
+                            "date_time": "2021-10-10",
+                            "items": [
+                                {
+                                    "id_medicine": 1,
+                                    "quantity": 2
+                                },
+                                {
+                                    "id_medicine": 2,
+                                    "quantity": 1
+                                }
+                            ]
+                        }
                     }
+            }
                 }
             }
         },

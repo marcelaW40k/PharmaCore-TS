@@ -1,6 +1,6 @@
 export const Users = {
   post: {
-    tags: ["Users"],
+    tags: ["Usuarios"],
     summary: "Crear una usuario",
     description: "Crea una nuevo usuario en el sistema",
     requestBody: {
@@ -47,7 +47,7 @@ export const Users = {
   },
   get: {
     summary: "Obtiene todos los registros de usuarios",
-    tags: ["Users"],
+    tags: ["Usuarios"],
     responses: {
       "200": {
         description: "Lista de usuarios",
@@ -84,7 +84,7 @@ export const Users = {
   },
   put: {
     summary: "Actualiza una usuario",
-    tags: ["Users"],
+    tags: ["Usuarios"],
     requestBody: {
       required: true,
       content: {
@@ -127,7 +127,7 @@ export const Users = {
 export const userId = {
   get: {
     summary: "Obtiene una usuario por ID",
-    tags: ["Users"],
+    tags: ["Usuarios"],
     parameters: [
       {
         in: "path",
@@ -170,7 +170,7 @@ export const userId = {
   },
   delete: {
     summary: "Elimina una usuario por ID",
-    tags: ["Users"],
+    tags: ["Usuarios"],
     parameters: [
       {
         in: "path",

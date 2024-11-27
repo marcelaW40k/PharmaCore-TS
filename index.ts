@@ -14,7 +14,7 @@ const main = () => {
         res.send({ message: "Bienvenido a la API " });
     });
  
-  
+  console.log("hostttttt",process.env.DB_HOST)
 
     app.use("/api/v1", routes())
     app.use(middleware404);

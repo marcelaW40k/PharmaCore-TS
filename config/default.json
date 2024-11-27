@@ -1,8 +1,15 @@
 {
-    "HOST": "",
-    "DB_PORT": 3306,
-    "USER": "",
-    "PASSWORD": "",
+    "DB_HOST": "",
+    "DB_PORT": 43649,
+    "DB_USER": "",
+    "DB_PASSWORD": "",
     "DATABASE": "",
-    "JWT_SECRET": ""
+    "REPORT_SERVICE": {
+      "URL": "",
+      "URL_OCR_IMAGE": "",
+      "URL_OCR_PDF": "",
+      "URL_CHATGPT": ""
+    }
   }
+
+ 

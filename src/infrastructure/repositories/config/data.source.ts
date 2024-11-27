@@ -1,19 +1,11 @@
-// Librería de conexión a la base de datos
-// Libraría externa: https://sidorares.github.io/node-mysql2/docs/documentation/typescript-examples
-import mysql from "mysql2/promise";
 
-// Configuración de la conexión a la base de datos
+import mysql from "mysql2/promise";
 import config from "config";
 
-/**
- * Crear una conexión a la base de datos
- * @returns Conexión a la base de datos
- */
-
 const configOptions = {
-  host: config.get<string>("HOST"),
-  user: config.get<string>("USER"),
-  password: config.get<string>("PASSWORD"),
+  host: config.get<string>("DB_HOST"),
+  user: config.get<string>("DB_USER"),
+  password: config.get<string>("DB_PASSWORD"),
   database: config.get<string>("DATABASE"),
   port: config.get<number>("DB_PORT"),
 };

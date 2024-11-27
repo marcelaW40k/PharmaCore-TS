@@ -1,40 +1,41 @@
-import axios from 'axios'
-import config from 'config'
-import FormData from "form-data";
-import fs from "fs";
+import axios from 'axios';
+import FormData from 'form-data';
+import config from 'config';
 
 export class OcrService {
+    async createImage(buffer: Buffer) {
+        const urlImage = config.get<string>('REPORT_SERVICE.URL_OCR_IMAGE');
+        const form = new FormData();
+        form.append('image', buffer, 'archivo.png'); // Cambiado a createReadStream
 
-    async obteinImage(filePath: string) {
-        let urlImage = config.get<string>('REPORT_SERVICE.URL_OCR_IMAGE')
-
-        const formData = new FormData();
-        formData.append('image', fs.createReadStream(filePath))
-
-        const response = await axios.post(urlImage, formData, {
-            headers: {
-                ...formData.getHeaders(),
-            },
-        })
-        return response.data
-
-            
-      
+        try {
+            const response = await axios.post(urlImage, form, {
+                headers: {
+                    ...form.getHeaders(),
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error calling OCR service:', error);
+            throw new Error('Failed to create image');
+        }
     }
 
-    async obteinPdf(filePath: string) {
-        let urlPdf = config.get<string>('REPORT_SERVICE.URL_OCR_PDF')
+    async createPdf(buffer: Buffer) {
+        const urlPdf = config.get<string>('REPORT_SERVICE.URL_OCR_PDF');
+        const form = new FormData();
+        form.append('pdf', buffer, 'archivo.pdf'); // Cambiado a createReadStream
 
-        const formData = new FormData();
-        formData.append('image', fs.createReadStream(filePath))
-
-        const response = await axios.post(urlPdf,formData, {
-            headers: {
-               ...formData.getHeaders(),
-            },
-        })
-        
-        return response.data
+        try {
+            const response = await axios.post(urlPdf, form, {
+                headers: {
+                    ...form.getHeaders(),
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error calling OCR service:', error);
+            throw new Error('Failed to create PDF');
+        }
     }
-
 }

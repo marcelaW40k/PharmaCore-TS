@@ -10,7 +10,7 @@ import swaggerIU from "swagger-ui-express"
 import { swaggerOptions } from "../../../../docs/swagger";
 import { notificacionesRoutes } from "./notificacione.routes";
 import { MedicineRoutes } from "./medicine.routes";
-import { ocrRoutes } from "./ocr.router";
+import { ocrRoutes } from "./ocr.routes";
 
 export const routes = () => {
     const router = Express.Router();

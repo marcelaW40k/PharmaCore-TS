@@ -28,9 +28,14 @@ export class MedicineRepository implements Imanageable<Medicine> {
   async read(): Promise<Medicine[]> {
     const connection = getPoolConnection();
     const querySql = `SELECT * FROM medicines`;
-    const result = await connection.query<RowDataPacket[]>(querySql);
-    console.log(result);
-    return result[0] as Medicine[];
+    try {
+      const result = await connection.query<RowDataPacket[]>(querySql);
+      return result[0] as Medicine[];
+    } catch (error: any) {
+      console.log(error);
+      return error;
+    }
+
   }
   
   async getOne(id_medicine: string): Promise<Medicine[]> {

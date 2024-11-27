@@ -7,9 +7,10 @@ const configOptions = {
   user: config.get<string>("DB_USER"),
   password: config.get<string>("DB_PASSWORD"),
   database: config.get<string>("DATABASE"),
-  port: config.get<number>("DB_PORT"),
+  port: Number(config.get<string>("DB_PORT")),
 };
 export const getPoolConnection = () => {
   const connection = mysql.createPool(configOptions);
+  
   return connection;
 };

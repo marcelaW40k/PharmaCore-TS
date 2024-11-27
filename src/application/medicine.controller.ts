@@ -45,9 +45,11 @@ export class MedicineController implements Imanageable<Medicine> {
         }
 
     }
+    
 
     async read(): Promise<Medicine[]> {
         const result: Medicine[] = await this.repository.read()
+
         if (result.length > 0) {
             console.log("medicamentos obtenidos")
         } else {

@@ -7,11 +7,7 @@ import cors from 'cors'
 const main = () => {
 
     const app = express()
-    app.use(cors({
-        origin: '*', // Allow all origins (use specific domains in production for security)
-        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-        allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-      }))
+    app.use(cors())
     app.use(express.json())
     
     app.get("/", (_, res) => {

@@ -2,6 +2,7 @@ import { FieldPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 import { Imanageable } from "../../domain/models/Imanager/Imanageable";
 import { Medicine } from "../../domain/models/medicine";
 import { getPoolConnection } from "./config/data.source";
+import c from "config";
 
 
 export class MedicineRepository implements Imanageable<Medicine> {
@@ -28,6 +29,7 @@ export class MedicineRepository implements Imanageable<Medicine> {
     const connection = getPoolConnection();
     const querySql = `SELECT * FROM medicines`;
     const result = await connection.query<RowDataPacket[]>(querySql);
+    console.log(result);
     return result[0] as Medicine[];
   }
   

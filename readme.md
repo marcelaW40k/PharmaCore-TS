@@ -19,8 +19,671 @@ Además, incorpora funcionalidades avanzadas como el envío automatizado de fact
 
 # Endpoints
 
-##  Operaciones relacionadas a ventas
+##  Operaciones relacionadas a Ventas
 
+
+### POST: /api/v1/sales
+Genera una nueva venta
+
+### Ejemplo del request body:
+
+{
+  "id_patient": "263637",
+  "date_time": "2024-11-27",
+  "items": [
+    {
+      "id_medicine": 2 ,
+      "quantity": 10
+    },
+    {"id_medicine": 4 ,
+      "quantity": 20
+    }
+  ]
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_sale": 29,
+  "id_patient": "263637",
+  "date_time": "2024-11-27T00:00:00.000Z",
+  "items": [
+    {
+      "id_medicine": 2,
+      "quantity": 10,
+      "id_sale": 29,
+      "id_item": 42
+    },
+    {
+      "id_medicine": 4,
+      "quantity": 20,
+      "id_sale": 29,
+      "id_item": 43
+    }
+  ]
+}
+
+### GET: /api/v1/sales
+Obtiene una lista de las ventas actuales
+
+### No requiere request body
+
+### Ejemplo de la respuesta:
+[
+  {
+    "id_sale": 2,
+    "id_patient": "1",
+    "date_time": "2024-11-18T05:00:00.000Z",
+    "sale_total_cost": 10000
+  },
+  {
+    "id_sale": 3,
+    "id_patient": "53556",
+    "date_time": "2024-11-19T05:00:00.000Z",
+    "sale_total_cost": 38000
+  },...
+]
+
+### PUT: /api/v1/sales/
+Actualiza la información de una venta existente.  
+
+### Ejemplo del request body:
+{
+  "id_sale": 6,
+  "id_patient": "746464",
+  "date_time": "2024-11-27",
+  "sale_total_cost": 35000,
+  "items": [
+    {
+      "id_item": 26,
+      "id_sale": 6,
+      "id_medicine": 2,
+      "quantity": 1,
+      "item_total_cost": 15000
+    },
+ {
+      "id_item": 27,
+      "id_sale": 6,
+      "id_medicine": 4,
+      "quantity": 1,
+      "item_total_cost": 10000
+    }
+  ]
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_sale": 6,
+  "id_patient": "746464",
+  "date_time": "2024-11-27T00:00:00.000Z",
+  "sale_total_cost": 35000,
+  "items": [
+    {
+      "id_item": 44,
+      "id_sale": 6,
+      "id_medicine": 2,
+      "quantity": 1,
+      "item_total_cost": 15000
+    },
+    {
+      "id_item": 45,
+      "id_sale": 6,
+      "id_medicine": 4,
+      "quantity": 1,
+      "item_total_cost": 10000
+    }
+  ]
+}
+
+### GET: /api/v1/sales/{id}
+obtiene una venta con un id de venta proporsionado 
+
+### Request:  
+/api/v1/sales/id
+
+### Ejemplo de la respuesta:
+
+  {
+  "id_sale": 18,
+  "id_patient": "263637",
+  "date_time": "2024-11-20T05:00:00.000Z",
+  "sale_total_cost": 50000,
+  "items": [
+    {
+      "id_item": 23,
+      "id_sale": 18,
+      "id_medicine": 1,
+      "quantity": 30,
+      "item_total_cost": 15000
+    }
+    ]
+  }
+  
+### DELETE: /api/v1/sales/{id}
+Elimina una venta con un id de venta proporsionado 
+
+### Request:  
+/api/v1/sales/id
+
+### Ejemplo de la respuesta:
+true
+
+## Operaciones relacionadas a Medicamentos
+
+### POST: /api/v1/medicine  
+Crea un nuevo medicamento en el sistema.  
+
+### Ejemplo del request body:
+{
+  "name_medicine": "Paracetamol",
+  "form": "Tableta",
+  "prescription": true,
+  "quantity_stock": 500,
+  "unit_cost": 50
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_medicine": 1,
+  "name_medicine": "Paracetamol",
+  "form": "Tableta",
+  "prescription": true,
+  "quantity_stock": 500,
+  "unit_cost": 50
+}
+
+### GET: /api/v1/medicine  
+Obtiene una lista de los medicamentos disponibles en el inventario.  
+
+### No requiere request body  
+
+### Ejemplo de la respuesta:
+[
+  {
+    "id_medicine": 1,
+    "name_medicine": "Paracetamol",
+    "form": "Tableta",
+    "prescription": true,
+    "quantity_stock": 500,
+    "unit_cost": 50
+  },
+  {
+    "id_medicine": 2,
+    "name_medicine": "Ibuprofeno",
+    "form": "Cápsula",
+    "prescription": false,
+    "quantity_stock": 300,
+    "unit_cost": 80
+  }
+]
+
+### GET: /api/v1/medicine/{id}  
+Obtiene la información de un medicamento específico, identificado por su ID.  
+
+### Request:  
+/api/v1/medicine/{id}  
+
+### Ejemplo de la respuesta:
+{
+  "id_medicine": 1,
+  "name_medicine": "Paracetamol",
+  "form": "Tableta",
+  "prescription": true,
+  "quantity_stock": 500,
+  "unit_cost": 50
+}
+
+### GET: /api/v1/medicine/{name}  
+Obtiene la información de un medicamento específico, identificado por su nombre.  
+
+### Request:  
+/api/v1/medicine/{name}  
+
+### Ejemplo de la respuesta:
+{
+  "id_medicine": 1,
+  "name_medicine": "Paracetamol",
+  "form": "Tableta",
+  "prescription": true,
+  "quantity_stock": 500,
+  "unit_cost": 50
+}
+
+### PUT: /api/v1/medicine/  
+Actualiza la información de un medicamento existente.  
+
+### Ejemplo del request body:
+{
+  "id_medicine": 1,
+  "name_medicine": "Paracetamol 500mg",
+  "form": "Tableta",
+  "prescription": true,
+  "quantity_stock": 450,
+  "unit_cost": 55
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_medicine": 1,
+  "name_medicine": "Paracetamol 500mg",
+  "form": "Tableta",
+  "prescription": true,
+  "quantity_stock": 450,
+  "unit_cost": 55
+}
+
+### DELETE: /api/v1/medicine/{id}  
+Elimina un medicamento del inventario, identificado por su ID.  
+
+### Request:  
+/api/v1/medicine/{id}  
+
+### Ejemplo de la respuesta:
+true
+
+## Operaciones relacionadas a Pacientes
+
+### POST: /api/v1/patients  
+Crea un nuevo paciente en el sistema.  
+
+### Ejemplo del request body:
+{
+  "id_patient": "70054896",
+  "name": "Juan",
+  "last_name": "Pérez",
+  "birth_date": "1990-01-01",
+  "known_allergies": "Penicilina",
+  "insurance_number": "123456789"
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_patient": "70054896",
+  "name": "Juan",
+  "last_name": "Pérez",
+  "birth_date": "1990-01-01",
+  "known_allergies": "Penicilina",
+  "insurance_number": "123456789"
+}
+
+### GET: /api/v1/patients  
+Obtiene una lista de los pacientes registrados en el sistema.  
+
+### No requiere request body  
+
+### Ejemplo de la respuesta:
+[
+  {
+    "id_patient": "70054896",
+    "name": "Juan",
+    "last_name": "Perez",
+    "birth_date": "1990-01-01",
+    "known_allergies": "Penicilina",
+    "insurance_number": "123456789"
+  },
+  {
+    "id_patient": "5964823",
+    "name": "Maria",
+    "last_name": "López",
+    "birth_date": "1985-05-15",
+    "known_allergies": "Aspirina",
+    "insurance_number": "987654321"
+  }
+]
+
+### GET: /api/v1/patients/{id}  
+Obtiene la información de un paciente específico, identificado por su ID.  
+
+### Request:  
+/api/v1/patients/{id}  
+
+### Ejemplo de la respuesta:
+{
+  "id_patient": "70054896",
+  "name": "Juan",
+  "last_name": "Perez",
+  "birth_date": "1990-01-01",
+  "known_allergies": "Penicilina",
+  "insurance_number": "123456789"
+}
+
+### PUT: /api/v1/patients/
+Actualiza la información de un paciente existente.  
+
+### Ejemplo del request body:
+{
+  "id_patient": "70054896",
+  "name": "Juan Carlos",
+  "last_name": "Perez",
+  "birth_date": "1990-01-01",
+  "known_allergies": "Penicilina, Ibuprofeno",
+  "insurance_number": "123456789"
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_patient": "70054896",
+  "name": "Juan Carlos",
+  "last_name": "Pérez",
+  "birth_date": "1990-01-01",
+  "known_allergies": "Penicilina, Ibuprofeno",
+  "insurance_number": "123456789"
+}
+
+### DELETE: /api/v1/patients/{id}  
+Elimina un paciente del sistema, identificado por su ID.  
+
+### Request:  
+/api/v1/patients/{id}  
+
+### Ejemplo de la respuesta:
+true
+
+## Operaciones relacionadas a Usuarios
+
+### POST: /api/v1/users  
+Crea un nuevo usuario en el sistema.  
+
+### Ejemplo del request body:
+{
+  "email": "usuario@example.com",
+  "password": "password123",
+  "id_role": 1
+}
+
+### Ejemplo de la respuesta:
+{
+  "email": "correo@correo.com",
+  "password": "clavecorreo1",
+  "id_role": 2
+}
+
+### GET: /api/v1/users  
+Obtiene una lista de los usuarios registrados en el sistema.  
+
+### No requiere request body  
+
+### Ejemplo de la respuesta:
+[
+  {
+    "id_user": 1,
+    "email": "nose",
+    "password": "nose",
+    "id_role": 1
+  },
+  {
+    "id_user": 4,
+    "email": "facilito1@gmail.com",
+    "password": "privado23",
+    "id_role": 1
+  }...
+]
+
+### GET: /api/v1/users/{id}  
+Obtiene la información de un usuario específico, identificado por su ID.  
+
+### Request:  
+/api/v1/users/{id}  
+
+### Ejemplo de la respuesta:
+{
+  "id_user": 4,
+    "email": "facilito1@gmail.com",
+    "password": "privado23",
+    "id_role": 1
+}
+
+### PUT: /api/v1/users/ 
+Actualiza la información de un usuario existente.  
+
+### Ejemplo del request body:
+{
+  "id_user": 4,
+  "email": "usuario_actualizado@example.com",
+  "password": "nuevoPassword123",
+  "id_role": 2
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_user": 4,
+  "email": "usuario_actualizado@example.com",
+  "password": "nuevoPassword123",
+  "id_role": 2
+}
+
+### DELETE: /api/v1/users/{id}  
+Elimina un usuario del sistema, identificado por su ID.  
+
+### Request:  
+/api/v1/users/{id}  
+
+### Ejemplo de la respuesta:
+true
+
+## Operaciones relacionadas a Recetas
+
+### POST: /api/v1/prescriptions  
+Crea una nueva receta médica en el sistema.  
+
+### Ejemplo del request body:
+{
+  "id_patient": "12345",
+  "id_doctor": "67890",
+  "issue_date": "2024-11-27",
+  "items": [
+    {
+      "id_medicine": 1,
+      "quantity": 2,
+      "usage_instructions": "Tomar una tableta cada 8 horas."
+    },
+    {
+      "id_medicine": 2,
+      "quantity": 1,
+      "usage_instructions": "Aplicar una vez al día."
+    }
+  ]
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_prescription": 1,
+  "id_patient": "12345",
+  "id_doctor": "67890",
+  "issue_date": "2024-11-27",
+  "items": [
+    {
+      "id_item": 1,
+      "id_prescription": 1,
+      "id_medicine": 1,
+      "quantity": 2,
+      "usage_instructions": "Tomar una tableta cada 8 horas."
+    },
+    {
+      "id_item": 2,
+      "id_prescription": 1,
+      "id_medicine": 2,
+      "quantity": 1,
+      "usage_instructions": "Aplicar una vez al día."
+    }
+  ]
+}
+
+### GET: /api/v1/prescriptions  
+Obtiene una lista de las recetas registradas en el sistema.  
+
+### No requiere request body  
+
+### Ejemplo de la respuesta:
+[
+  {
+    "id_prescription": 1,
+    "id_patient": "12345",
+    "id_doctor": "67890",
+    "issue_date": "2024-11-27",
+    "items": [
+      {
+        "id_item": 1,
+        "id_medicine": 1,
+        "quantity": 2,
+        "usage_instructions": "Tomar una tableta cada 8 horas."
+      },
+      {
+        "id_item": 2,
+        "id_medicine": 2,
+        "quantity": 1,
+        "usage_instructions": "Aplicar una vez al día."
+      }
+    ]
+  }
+]
+
+### GET: /api/v1/prescriptions/{id}  
+Obtiene la información de una receta específica, identificada por su ID.  
+
+### Request:  
+/api/v1/prescriptions/{id}  
+
+### Ejemplo de la respuesta:
+{
+  "id_prescription": 1,
+  "id_patient": "12345",
+  "id_doctor": "67890",
+  "issue_date": "2024-11-27",
+  "items": [
+    {
+      "id_item": 1,
+      "id_medicine": 1,
+      "quantity": 2,
+      "usage_instructions": "Tomar una tableta cada 8 horas."
+    },
+    {
+      "id_item": 2,
+      "id_medicine": 2,
+      "quantity": 1,
+      "usage_instructions": "Aplicar una vez al día."
+    }
+  ]
+}
+
+### PUT: /api/v1/prescriptions/  
+Actualiza la información de una receta médica existente.  
+
+### Ejemplo del request body:
+{
+  "id_prescription": 1,
+  "id_patient": "12345",
+  "id_doctor": "67890",
+  "issue_date": "2024-11-27",
+  "items": [
+    {
+      "id_item": 1,
+      "id_medicine": 1,
+      "quantity": 2,
+      "usage_instructions": "Tomar una tableta cada 6 horas."
+    },
+  ]
+}
+### Ejemplo de la respuesta:
+{
+  "id_prescription": 1,
+  "id_patient": "12345",
+  "id_doctor": "67890",
+  "issue_date": "2024-11-28",
+  "items": [
+    {
+      "id_item": 1,
+      "id_medicine": 1,
+      "quantity": 2,
+      "usage_instructions": "Tomar una tableta cada 6 horas."
+    }
+  ]
+}
+
+### DELETE: /api/v1/prescriptions/{id}  
+Elimina una receta del sistema, identificada por su ID.  
+
+### Request:  
+/api/v1/prescriptions/{id}  
+
+### Ejemplo de la respuesta:
+true
+
+## Operaciones relacionadas a Doctores
+
+### POST: /api/v1/doctors  
+Crea un nuevo doctor en el sistema.  
+
+### Ejemplo del request body:
+{
+  "id_doctor": 1,
+  "name": "Carlos",
+  "last_name": "Gomez"
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_doctor": 1,
+  "name": "Carlos",
+  "last_name": "Gomez"
+}
+
+### GET: /api/v1/doctors  
+Obtiene una lista de los doctores registrados en el sistema.  
+
+### No requiere request body  
+
+### Ejemplo de la respuesta:
+[
+  {
+    "id_doctor": 1,
+    "name": "Carlos",
+    "last_name": "Gómez"
+  },
+  {
+    "id_doctor": 2,
+    "name": "Maria",
+    "last_name": "Lopez"
+  }
+]
+
+### GET: /api/v1/doctors/{id}  
+Obtiene la información de un doctor específico, identificado por su ID.  
+
+### Request:  
+/api/v1/doctors/{id}  
+
+### Ejemplo de la respuesta:
+{
+  "id_doctor": 1,
+  "name": "Carlos",
+  "last_name": "Gomez"
+}
+
+### PUT: /api/v1/doctors/
+Actualiza la información de un doctor existente.  
+
+### Ejemplo del request body:
+{
+  "id_doctor": 1,
+  "name": "Carlos Alberto",
+  "last_name": "Gómez Pérez"
+}
+
+### Ejemplo de la respuesta:
+{
+  "id_doctor": 1,
+  "name": "Carlos Alberto",
+  "last_name": "Gómez Pérez"
+}
+
+### DELETE: /api/v1/doctors/{id}  
+Elimina un doctor del sistema, identificado por su ID.  
+
+### Request:  
+/api/v1/doctors/{id}  
+
+### Ejemplo de la respuesta:
+true
 
 
 # Diagramas

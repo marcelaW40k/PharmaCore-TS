@@ -25,9 +25,15 @@ export const MedicineRoutes = () => {
     router.get("/medicine", async (_, response) => {
         try {
             const result = await medicineCtrl.read();
-            response.send(result);
-        } catch (error) {
-            response.status(500).send(error)
+            if (result) {
+                response.status(200).json({ message: "lista de medicamentos encontrada", data: result });
+            } else {
+                response.status(404).json({ message: "Lista de medicamentos no encontrada", data: [] });
+            }
+
+        } catch (error: any) {
+            response.status(500).send(error.stack)
+
         }
     })
 

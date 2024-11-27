@@ -685,6 +685,57 @@ Elimina un doctor del sistema, identificado por su ID.
 ### Ejemplo de la respuesta:
 true
 
+# Endpoints de microservicios
+ 
+## Notificaciones
+
+
+### Request:  
+POST: /api/v1/notificacion/correo/{id}
+
+### Body:
+{
+  "to": "user@correo.com"
+}
+
+### Ejemplo de la respuesta:
+{
+  "ok": true,
+  "message": "string"
+}
+
+## Reconocimiento Óptico de Caracteres (OCR)
+
+### Caso de cargue de imagen:
+
+### Request:   
+POST:  /api/v1/images
+
+- Se carga el archivo de imagen 
+
+### Ejemplo de la respuesta:
+{
+  "data": [
+    "Texto de la receta médica"
+  ]  
+}
+
+### Caso de cargue de PDF:
+
+### Request:   
+POST:  /api/v1/pdf
+
+- Se carga el archivo de pdf 
+
+### Ejemplo de la respuesta:
+{
+  "data": [
+    "Texto de la receta médica"
+  ]  
+}
+
+## Chat GPT
+
 
 # Diagramas
 

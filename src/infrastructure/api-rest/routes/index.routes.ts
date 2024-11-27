@@ -11,7 +11,6 @@ import { swaggerOptions } from "../../../../docs/swagger";
 import { notificacionesRoutes } from "./notificacione.routes";
 import { MedicineRoutes } from "./medicine.routes";
 import { ocrRoutes } from "./ocr.routes";
-import c from "config";
 import { chatgptRoutes } from "./chatgpt.routes";
 
 export const routes = () => {

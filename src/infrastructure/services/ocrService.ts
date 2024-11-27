@@ -1,21 +1,40 @@
 import axios from 'axios'
 import config from 'config'
+import FormData from "form-data";
+import fs from "fs";
 
 export class OcrService {
 
-    async createImage(texto:string) {
+    async obteinImage(filePath: string) {
         let urlImage = config.get<string>('REPORT_SERVICE.URL_OCR_IMAGE')
-        const response = await axios.post(urlImage, texto)
-        const data = response.data
-        return data
+
+        const formData = new FormData();
+        formData.append('image', fs.createReadStream(filePath))
+
+        const response = await axios.post(urlImage, formData, {
+            headers: {
+                ...formData.getHeaders(),
+            },
+        })
+        return response.data
+
+            
+      
     }
 
-    async createP(texto:string) {
+    async obteinPdf(filePath: string) {
         let urlPdf = config.get<string>('REPORT_SERVICE.URL_OCR_PDF')
-        const response = await axios.post(urlPdf, texto)
-        const data = response.data
-        console.log(data)
-        return data
+
+        const formData = new FormData();
+        formData.append('image', fs.createReadStream(filePath))
+
+        const response = await axios.post(urlPdf,formData, {
+            headers: {
+               ...formData.getHeaders(),
+            },
+        })
+        
+        return response.data
     }
 
 }

@@ -30,7 +30,14 @@ export const notificationDoc = {
                             }
                         },
                         required: ["to"]
+                    },
+                    "examples": {
+                    "correo": {
+                    "value": {
+                        "to": "ardilamarcela42@gmail.com"
                     }
+                    }
+              }
                 }
             }
         },

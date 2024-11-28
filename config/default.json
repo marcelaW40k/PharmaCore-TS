@@ -6,8 +6,7 @@
   "DATABASE": "",
   "REPORT_SERVICE": {
     "URL": "http://localhost:3001/api/v1/notificaciones/correo",
-    "URL_OCR_IMAGE": "http://localhost:3002/api/v1/images",
-    "URL_OCR_PDF": "http://localhost:3002/api/v1/pdf",
+    "URL_OCR": "http://localhost:3002/api/v1/ocr",
     "URL_CHATGPT": "http://localhost:3003/api/chat/ask/"
   }
 }

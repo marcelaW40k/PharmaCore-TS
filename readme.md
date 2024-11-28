@@ -761,7 +761,7 @@ POST:  /api/v1/chatgpt
 
 ## Diagrama Entidad Relacion
 
-![Texto alternativo](./images/Diagrama_Entidad_Relacion.jpeg)
+![Texto alternativo](./images/Diagrama_Entidad_Relacion_Pharmacore.png)
 
 # Creacion de bases de datos (mysql o postgresql)
 

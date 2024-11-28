@@ -4,7 +4,7 @@ import config from 'config';
 
 export class OcrService {
     async createImage(buffer: Buffer) {
-        const urlImage = config.get<string>('REPORT_SERVICE.URL_OCR_IMAGE');
+        const urlImage = config.get<string>('REPORT_SERVICE.URL_OCR');
         const form = new FormData();
         form.append('image', buffer, 'archivo.png'); // Cambiado a createReadStream
 
@@ -22,7 +22,7 @@ export class OcrService {
     }
 
     async createPdf(buffer: Buffer) {
-        const urlPdf = config.get<string>('REPORT_SERVICE.URL_OCR_PDF');
+        const urlPdf = config.get<string>('REPORT_SERVICE.URL_OCR');
         const form = new FormData();
         form.append('pdf', buffer, 'archivo.pdf'); // Cambiado a createReadStream
 

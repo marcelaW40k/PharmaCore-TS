@@ -40,8 +40,10 @@ Genera una nueva venta
     }
   ]
 }
+```
 
 ### Ejemplo de la respuesta:
+```json
 {
   "id_sale": 29,
   "id_patient": "263637",
@@ -61,13 +63,14 @@ Genera una nueva venta
     }
   ]
 }
-
+```
 ### GET: /api/v1/sales
 Obtiene una lista de las ventas actuales
 
 ### No requiere request body
 
 ### Ejemplo de la respuesta:
+```json
 [
   {
     "id_sale": 2,
@@ -82,11 +85,12 @@ Obtiene una lista de las ventas actuales
     "sale_total_cost": 38000
   }
 ]
-
+```
 ### PUT: /api/v1/sales/
 Actualiza la información de una venta existente.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_sale": 6,
   "id_patient": "746464",
@@ -109,8 +113,9 @@ Actualiza la información de una venta existente.
     }
   ]
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_sale": 6,
   "id_patient": "746464",
@@ -133,7 +138,7 @@ Actualiza la información de una venta existente.
     }
   ]
 }
-
+```
 ### GET: /api/v1/sales/{id}
 obtiene una venta con un id de venta proporsionado 
 
@@ -141,7 +146,7 @@ obtiene una venta con un id de venta proporsionado
 /api/v1/sales/id
 
 ### Ejemplo de la respuesta:
-
+```json
   {
   "id_sale": 18,
   "id_patient": "263637",
@@ -157,7 +162,7 @@ obtiene una venta con un id de venta proporsionado
     }
     ]
   }
-  
+  ```
 ### DELETE: /api/v1/sales/{id}
 Elimina una venta con un id de venta proporsionado 
 
@@ -182,6 +187,7 @@ Crea un nuevo medicamento en el sistema.
 }
 
 ### Ejemplo de la respuesta:
+```json
 {
   "id_medicine": 1,
   "name_medicine": "Paracetamol",
@@ -190,13 +196,14 @@ Crea un nuevo medicamento en el sistema.
   "quantity_stock": 500,
   "unit_cost": 50
 }
-
+```
 ### GET: /api/v1/medicine  
 Obtiene una lista de los medicamentos disponibles en el inventario.  
 
 ### No requiere request body  
 
 ### Ejemplo de la respuesta:
+```json
 [
   {
     "id_medicine": 1,
@@ -215,7 +222,7 @@ Obtiene una lista de los medicamentos disponibles en el inventario.
     "unit_cost": 80
   }
 ]
-
+```
 ### GET: /api/v1/medicine/{id}  
 Obtiene la información de un medicamento específico, identificado por su ID.  
 
@@ -223,6 +230,7 @@ Obtiene la información de un medicamento específico, identificado por su ID.
 /api/v1/medicine/{id}  
 
 ### Ejemplo de la respuesta:
+```json
 {
   "id_medicine": 1,
   "name_medicine": "Paracetamol",
@@ -231,7 +239,7 @@ Obtiene la información de un medicamento específico, identificado por su ID.
   "quantity_stock": 500,
   "unit_cost": 50
 }
-
+```
 ### GET: /api/v1/medicine/{name}  
 Obtiene la información de un medicamento específico, identificado por su nombre.  
 
@@ -239,6 +247,7 @@ Obtiene la información de un medicamento específico, identificado por su nombr
 /api/v1/medicine/{name}  
 
 ### Ejemplo de la respuesta:
+```json
 {
   "id_medicine": 1,
   "name_medicine": "Paracetamol",
@@ -247,11 +256,12 @@ Obtiene la información de un medicamento específico, identificado por su nombr
   "quantity_stock": 500,
   "unit_cost": 50
 }
-
+```
 ### PUT: /api/v1/medicine/  
 Actualiza la información de un medicamento existente.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_medicine": 1,
   "name_medicine": "Paracetamol 500mg",
@@ -260,8 +270,9 @@ Actualiza la información de un medicamento existente.
   "quantity_stock": 450,
   "unit_cost": 55
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_medicine": 1,
   "name_medicine": "Paracetamol 500mg",
@@ -270,7 +281,7 @@ Actualiza la información de un medicamento existente.
   "quantity_stock": 450,
   "unit_cost": 55
 }
-
+```
 ### DELETE: /api/v1/medicine/{id}  
 Elimina un medicamento del inventario, identificado por su ID.  
 
@@ -286,6 +297,7 @@ true
 Crea un nuevo paciente en el sistema.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_patient": "70054896",
   "name": "Juan",
@@ -304,13 +316,14 @@ Crea un nuevo paciente en el sistema.
   "known_allergies": "Penicilina",
   "insurance_number": "123456789"
 }
-
+```
 ### GET: /api/v1/patients  
 Obtiene una lista de los pacientes registrados en el sistema.  
 
 ### No requiere request body  
 
 ### Ejemplo de la respuesta:
+```json
 [
   {
     "id_patient": "70054896",
@@ -329,7 +342,7 @@ Obtiene una lista de los pacientes registrados en el sistema.
     "insurance_number": "987654321"
   }
 ]
-
+```
 ### GET: /api/v1/patients/{id}  
 Obtiene la información de un paciente específico, identificado por su ID.  
 
@@ -337,6 +350,7 @@ Obtiene la información de un paciente específico, identificado por su ID.
 /api/v1/patients/{id}  
 
 ### Ejemplo de la respuesta:
+```json
 {
   "id_patient": "70054896",
   "name": "Juan",
@@ -345,11 +359,12 @@ Obtiene la información de un paciente específico, identificado por su ID.
   "known_allergies": "Penicilina",
   "insurance_number": "123456789"
 }
-
+```
 ### PUT: /api/v1/patients/
 Actualiza la información de un paciente existente.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_patient": "70054896",
   "name": "Juan Carlos",
@@ -368,7 +383,7 @@ Actualiza la información de un paciente existente.
   "known_allergies": "Penicilina, Ibuprofeno",
   "insurance_number": "123456789"
 }
-
+```
 ### DELETE: /api/v1/patients/{id}  
 Elimina un paciente del sistema, identificado por su ID.  
 
@@ -384,6 +399,7 @@ true
 Crea un nuevo usuario en el sistema.  
 
 ### Ejemplo del request body:
+```json
 {
   "email": "usuario@example.com",
   "password": "password123",
@@ -396,13 +412,14 @@ Crea un nuevo usuario en el sistema.
   "password": "clavecorreo1",
   "id_role": 2
 }
-
+```
 ### GET: /api/v1/users  
 Obtiene una lista de los usuarios registrados en el sistema.  
 
 ### No requiere request body  
 
 ### Ejemplo de la respuesta:
+```json
 [
   {
     "id_user": 1,
@@ -417,7 +434,7 @@ Obtiene una lista de los usuarios registrados en el sistema.
     "id_role": 1
   }...
 ]
-
+```
 ### GET: /api/v1/users/{id}  
 Obtiene la información de un usuario específico, identificado por su ID.  
 
@@ -425,17 +442,19 @@ Obtiene la información de un usuario específico, identificado por su ID.
 /api/v1/users/{id}  
 
 ### Ejemplo de la respuesta:
+```json
 {
   "id_user": 4,
     "email": "facilito1@gmail.com",
     "password": "privado23",
     "id_role": 1
 }
-
+```
 ### PUT: /api/v1/users/ 
 Actualiza la información de un usuario existente.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_user": 4,
   "email": "usuario_actualizado@example.com",
@@ -450,7 +469,7 @@ Actualiza la información de un usuario existente.
   "password": "nuevoPassword123",
   "id_role": 2
 }
-
+```
 ### DELETE: /api/v1/users/{id}  
 Elimina un usuario del sistema, identificado por su ID.  
 
@@ -466,6 +485,7 @@ true
 Crea una nueva receta médica en el sistema.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_patient": "12345",
   "id_doctor": "67890",
@@ -483,8 +503,9 @@ Crea una nueva receta médica en el sistema.
     }
   ]
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_prescription": 1,
   "id_patient": "12345",
@@ -507,13 +528,14 @@ Crea una nueva receta médica en el sistema.
     }
   ]
 }
-
+```
 ### GET: /api/v1/prescriptions  
 Obtiene una lista de las recetas registradas en el sistema.  
 
 ### No requiere request body  
 
 ### Ejemplo de la respuesta:
+```json
 [
   {
     "id_prescription": 1,
@@ -536,7 +558,7 @@ Obtiene una lista de las recetas registradas en el sistema.
     ]
   }
 ]
-
+```
 ### GET: /api/v1/prescriptions/{id}  
 Obtiene la información de una receta específica, identificada por su ID.  
 
@@ -544,6 +566,7 @@ Obtiene la información de una receta específica, identificada por su ID.
 /api/v1/prescriptions/{id}  
 
 ### Ejemplo de la respuesta:
+```json
 {
   "id_prescription": 1,
   "id_patient": "12345",
@@ -564,11 +587,12 @@ Obtiene la información de una receta específica, identificada por su ID.
     }
   ]
 }
-
+```
 ### PUT: /api/v1/prescriptions/  
 Actualiza la información de una receta médica existente.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_prescription": 1,
   "id_patient": "12345",
@@ -583,7 +607,9 @@ Actualiza la información de una receta médica existente.
     },
   ]
 }
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_prescription": 1,
   "id_patient": "12345",
@@ -598,7 +624,7 @@ Actualiza la información de una receta médica existente.
     }
   ]
 }
-
+```
 ### DELETE: /api/v1/prescriptions/{id}  
 Elimina una receta del sistema, identificada por su ID.  
 
@@ -614,6 +640,7 @@ true
 Crea un nuevo doctor en el sistema.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_doctor": 1,
   "name": "Carlos",
@@ -626,13 +653,14 @@ Crea un nuevo doctor en el sistema.
   "name": "Carlos",
   "last_name": "Gomez"
 }
-
+```
 ### GET: /api/v1/doctors  
 Obtiene una lista de los doctores registrados en el sistema.  
 
 ### No requiere request body  
 
 ### Ejemplo de la respuesta:
+```json
 [
   {
     "id_doctor": 1,
@@ -645,7 +673,7 @@ Obtiene una lista de los doctores registrados en el sistema.
     "last_name": "Lopez"
   }
 ]
-
+```
 ### GET: /api/v1/doctors/{id}  
 Obtiene la información de un doctor específico, identificado por su ID.  
 
@@ -653,29 +681,32 @@ Obtiene la información de un doctor específico, identificado por su ID.
 /api/v1/doctors/{id}  
 
 ### Ejemplo de la respuesta:
+```json
 {
   "id_doctor": 1,
   "name": "Carlos",
   "last_name": "Gomez"
 }
-
+```
 ### PUT: /api/v1/doctors/
 Actualiza la información de un doctor existente.  
 
 ### Ejemplo del request body:
+```json
 {
   "id_doctor": 1,
   "name": "Carlos Alberto",
   "last_name": "Gómez Pérez"
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_doctor": 1,
   "name": "Carlos Alberto",
   "last_name": "Gómez Pérez"
 }
-
+```
 ### DELETE: /api/v1/doctors/{id}  
 Elimina un doctor del sistema, identificado por su ID.  
 
@@ -694,16 +725,18 @@ true
 POST: /api/v1/notificacion/correo/{id}
 
 ### Body:
+```json
 {
   "to": "user@correo.com"
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "ok": true,
   "message": "string"
 }
-
+```
 ## Reconocimiento Óptico de Caracteres (OCR)
 
 ### Caso de cargue de imagen:
@@ -714,12 +747,13 @@ POST:  /api/v1/images
 - Se carga el archivo de imagen 
 
 ### Ejemplo de la respuesta:
+```json
 {
   "data": [
     "Texto de la receta médica"
   ]  
 }
-
+```
 ### Caso de cargue de PDF:
 
 ### Request:   
@@ -728,27 +762,29 @@ POST:  /api/v1/pdf
 - Se carga el archivo de pdf 
 
 ### Ejemplo de la respuesta:
+```json
 {
   "data": [
     "Texto de la receta médica"
   ]  
 }
-
+```
 ## Chat GPT
 
 ### Request:   
 POST:  /api/v1/chatgpt
-
+```json
 {
   "question": "¿Cuáles son los efectos secundarios del uso del paracetamol?",
   "productContext": "El Paracetamol es un medicamento que se utiliza para tratar enfermedades relacionadas con el sistema nervioso."
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "answer": "El paracetamol puede causar efectos secundarios como náuseas, vómitos, dolor de cabeza, mareos y somnolencia."
 }
-
+```
 # Diagramas
 
 ## Diagrama de Secuencia 

@@ -306,8 +306,9 @@ Crea un nuevo paciente en el sistema.
   "known_allergies": "Penicilina",
   "insurance_number": "123456789"
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_patient": "70054896",
   "name": "Juan",
@@ -373,8 +374,9 @@ Actualiza la información de un paciente existente.
   "known_allergies": "Penicilina, Ibuprofeno",
   "insurance_number": "123456789"
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_patient": "70054896",
   "name": "Juan Carlos",
@@ -405,8 +407,9 @@ Crea un nuevo usuario en el sistema.
   "password": "password123",
   "id_role": 1
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "email": "correo@correo.com",
   "password": "clavecorreo1",
@@ -432,7 +435,7 @@ Obtiene una lista de los usuarios registrados en el sistema.
     "email": "facilito1@gmail.com",
     "password": "privado23",
     "id_role": 1
-  }...
+  }
 ]
 ```
 ### GET: /api/v1/users/{id}  
@@ -461,8 +464,9 @@ Actualiza la información de un usuario existente.
   "password": "nuevoPassword123",
   "id_role": 2
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_user": 4,
   "email": "usuario_actualizado@example.com",
@@ -646,8 +650,9 @@ Crea un nuevo doctor en el sistema.
   "name": "Carlos",
   "last_name": "Gomez"
 }
-
+```
 ### Ejemplo de la respuesta:
+```json
 {
   "id_doctor": 1,
   "name": "Carlos",

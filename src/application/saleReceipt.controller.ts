@@ -24,7 +24,7 @@ export class saleReceiptController {
 
            const html = readFileSync('./templates/sales_invoice.html');
 
-           await emailService.sendReportByEmail(id, {
+           await emailService.sendReportByEmail({
             to: options.to ,
             subject: "Reporte de venta",
             body: html.toString(),

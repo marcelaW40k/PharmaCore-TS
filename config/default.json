@@ -5,8 +5,8 @@
   "DB_PASSWORD": "",
   "DATABASE": "",
   "REPORT_SERVICE": {
-    "URL": "http://localhost:3001/api/v1/notificaciones/correo",
-    "URL_OCR": "http://localhost:3002/api/v1/ocr",
-    "URL_CHATGPT": "http://localhost:3003/api/chat/ask/"
+    "URL": "https://api-notificaciones.up.railway.app/api/v1/notificaciones/correo",
+    "URL_OCR": "https://microservicioocr-production.up.railway.app/api/v1/ocr",
+    "URL_CHATGPT": "https://microservicio-openai-production.up.railway.app/api/chat/ask/"
   }
 }

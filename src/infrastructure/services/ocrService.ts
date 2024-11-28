@@ -9,7 +9,7 @@ export class OcrService {
         form.append('image', buffer, 'archivo.png'); // Cambiado a createReadStream
 
         try {
-            const response = await axios.post(urlImage, form, {
+            const response = await axios.post(`${urlImage}/images`, form, {
                 headers: {
                     ...form.getHeaders(),
                 },
@@ -27,7 +27,7 @@ export class OcrService {
         form.append('pdf', buffer, 'archivo.pdf'); // Cambiado a createReadStream
 
         try {
-            const response = await axios.post(urlPdf, form, {
+            const response = await axios.post(`${urlPdf}/pdf`, form, {
                 headers: {
                     ...form.getHeaders(),
                 },

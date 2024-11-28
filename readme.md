@@ -753,11 +753,11 @@ POST:  /api/v1/chatgpt
 
 ## Diagrama de Secuencia 
 
-
+![Texto alternativo](./images/DiagramaDeSecuencia.jpg)
 
 ## Diagrama UML 
 
-![Texto alternativo](./images/Diagrama_UML.jpg)
+![Texto alternativo](./images/DiagramaUMLPharmaCore.jpg)
 
 ## Diagrama Entidad Relacion
 

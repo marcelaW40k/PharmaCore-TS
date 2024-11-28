@@ -5,9 +5,9 @@ import config from 'config'
 
 export class NotificacionesService {
 
-    async sendReportByEmail(id: number, payload: EmailOptions) {
+    async sendReportByEmail( payload: EmailOptions) {
         let url = config.get<string>('REPORT_SERVICE.URL')
-        const response = await axios.post(`${url}/${id}`, payload)
+        const response = await axios.post(url, payload)
         const data = response.data
         return data
     }

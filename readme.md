@@ -26,7 +26,7 @@ Además, incorpora funcionalidades avanzadas como el envío automatizado de fact
 Genera una nueva venta
 
 ### Ejemplo del request body:
-
+```json
 {
   "id_patient": "263637",
   "date_time": "2024-11-27",
@@ -80,7 +80,7 @@ Obtiene una lista de las ventas actuales
     "id_patient": "53556",
     "date_time": "2024-11-19T05:00:00.000Z",
     "sale_total_cost": 38000
-  },...
+  }
 ]
 
 ### PUT: /api/v1/sales/
@@ -736,31 +736,35 @@ POST:  /api/v1/pdf
 
 ## Chat GPT
 
+### Request:   
+POST:  /api/v1/chatgpt
+
+{
+  "question": "¿Cuáles son los efectos secundarios del uso del paracetamol?",
+  "productContext": "El Paracetamol es un medicamento que se utiliza para tratar enfermedades relacionadas con el sistema nervioso."
+}
+
+### Ejemplo de la respuesta:
+{
+  "answer": "El paracetamol puede causar efectos secundarios como náuseas, vómitos, dolor de cabeza, mareos y somnolencia."
+}
 
 # Diagramas
 
 ## Diagrama de Secuencia 
 
 
+
 ## Diagrama UML 
-
-
-## Diagrama entidad - relación
-
-
-
-
-## sprint 1
-
-1. Diagrama UML
 
 ![Texto alternativo](./images/Diagrama_UML.jpg)
 
-2. Diagrama Entidad Relacion
+## Diagrama Entidad Relacion
 
 ![Texto alternativo](./images/Diagrama_Entidad_Relacion.jpeg)
 
-3. Creacion de bases de datos (mysql o postgresql)
+# Creacion de bases de datos (mysql o postgresql)
+
 ```sql
 CREATE DATABASE `railway` 
 
@@ -891,18 +895,8 @@ CREATE TABLE `sale_items` (
   CONSTRAINT `item_sales_medicines_FK` FOREIGN KEY (`id_medicine`) REFERENCES `medicines` (`id_medicine`),
   CONSTRAINT `item_sales_sales_FK` FOREIGN KEY (`id_sale`) REFERENCES `sales` (`id_sale`)
 ) 
-```
-4. Bases de datos desplegada en render.com 
 
-   ![Texto alternativo](./images/Base_de_datos_desplegada.png)
 
-5. Proyecto de node creado en github
-[Link Repositorio](https://github.com/marcelaW40k/PharmaCore-TS)
 
-6. Colección de Postman creada con los endpoints a usar
-
-```json
-	
-```
 
 
